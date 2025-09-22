@@ -1,0 +1,271 @@
+Biogalactic – Final Polished Blueprint
+
+General Requirements
+
+Build a full-stack web app named Biogalactic.
+
+The main dashboard is the core focus – clean, professional, with a NASA-grade vibe.
+
+No emojis. Use icons and motion graphics tastefully.
+
+Cosmic theme: dark purple/blue tones, galaxy gradients, soft glows.
+
+Responsive design for all devices.
+
+Logo/header at the top: "Biogalactic".
+
+Footer: "© Biogalactic Team — NASA Data Used With Permission".
+
+
+
+---
+
+Flow Overview
+
+1. Landing Page → Sign-in/Sign-up modal
+
+
+2. Interests Page → User selects interests (optional)
+
+
+3. Main Dashboard → Central place for dataset exploration, visualizations, chatbot, filters
+
+
+
+
+---
+
+1. Landing Page
+
+Fullscreen blurred space background.
+
+Centered sign-in/sign-up modal with smooth entrance animation.
+
+Sign-Up Form:
+
+Username (must be unique)
+
+Password (≥8 chars)
+
+Confirm Password (must match)
+
+Email (valid format)
+
+Submit button → creates account, triggers slide-left animation.
+
+
+Sign-In Form:
+
+Username or Email
+
+Password
+
+Submit button → logs user in, triggers same animation.
+
+
+
+
+---
+
+2. Interests Page
+
+Fullscreen card sliding in from right.
+
+Title: "Choose Your Space Biology Interests"
+
+Grid of selectable topic cards (Plant Biology, Human Health, Microgravity Effects, Radiation, etc.).
+
+Skip button available.
+
+Store chosen topics in user profile.
+
+On completion → animate out, reveal dashboard.
+
+
+
+---
+
+3. Main Dashboard (Focus Area)
+
+This is the heart of Biogalactic. The layout should feel like a data command center.
+
+Top Section (Header + Search)
+
+Logo (Biogalactic) top-left.
+
+User profile dropdown (top-right) → change chatbot name, logout.
+
+Search bar prominently at the top-center with placeholder “Search NASA Bioscience Database…”
+
+Filters row below search bar:
+
+Year range picker
+
+Organism dropdown (humans, plants, microbes)
+
+Experiment type dropdown
+
+Clear filters button
+
+
+
+Main Content Area (Two-Column Layout)
+
+Left (Primary Content, 70% width):
+
+Results Section:
+
+List of results as cards:
+
+Title (clickable)
+
+Summary (AI-generated, cached)
+
+Metadata (Year, Tags, Source link)
+
+Expandable section to show full abstract and experiment details.
+
+
+
+Infinite scroll or pagination for results.
+
+
+Right (Sidebar, 30% width):
+
+Visualization Widgets:
+
+Timeline of experiments (interactive, zoomable)
+
+Pie/Bar chart showing distribution by category
+
+Quick stats (e.g., total papers found, top studied organisms)
+
+
+Personalized Section (if interests selected):
+
+"Recommended Studies" carousel or list based on chosen topics
+
+
+
+
+---
+
+Bottom Section
+
+Instructions panel (dismissible):
+
+Short guide on using search, filters, chatbot, and charts.
+
+
+Footer with copyright.
+
+
+
+---
+
+Chatbot (Ria)
+
+Persistent chat widget floating at bottom-right.
+
+Clicking opens a panel or modal chat interface.
+
+AI answers must use data context from the search database.
+
+Allow users to rename Ria (saved in profile).
+
+
+
+---
+
+Backend Requirements
+
+Authentication: Accounts with username, email, password (hashed).
+
+Profile: Store chosen interests + chatbot name.
+
+Dataset Search API:
+
+Input: query + filters
+
+Output: ranked list of papers with metadata
+
+Use vector search with embeddings
+
+
+Summarization API:
+
+Input: abstract/full text
+
+Output: 3–4 line summary
+
+Cache results for speed
+
+
+Chatbot API:
+
+Input: question + user context
+
+Performs vector search for context + calls AI model
+
+Returns well-structured answer
+
+
+
+
+---
+
+Animations & Interactions
+
+Landing to Interests transition: sliding animation left/right.
+
+Interests to Dashboard transition: fade + zoom reveal.
+
+Smooth hover effects for result cards.
+
+Animated loading states for search + chatbot.
+
+Filters and search bar should update results dynamically (no full page reload).
+
+
+
+---
+
+Security & Validation
+
+Validate all form inputs.
+
+Email format check.
+
+Unique username check.
+
+Protect dashboard route (only logged-in users).
+
+
+
+---
+
+Extra Features (Optional but Nice)
+
+Theme switcher (dark, light, minimal black-white).
+
+Data export (CSV of selected results).
+
+Save searches or favorite papers.
+
+Share result link feature.
+
+
+
+---
+
+Deliverable
+
+Fully functional, visually polished dashboard.
+
+Smooth onboarding (sign-up → interests → main page).
+
+Core focus on clean data exploration, powerful search, and insightful visualizations.
+
+Chatbot that feels like a built-in NASA space biology expert.
+
+Maintainable, modular code structure.
