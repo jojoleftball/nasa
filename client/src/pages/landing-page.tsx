@@ -1,3 +1,4 @@
+
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
@@ -9,11 +10,23 @@ export default function LandingPage() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      setLocation("/");
+      setLocation("/dashboard");
     }
   }, [user, isLoading, setLocation]);
 
-  if (isLoading || user) {
+  if (isLoading) {
+    return (
+      <div className="cosmic-bg min-h-screen flex items-center justify-center relative">
+        <div className="stars"></div>
+        <div className="glass rounded-2xl p-8 animate-fade-in-scale">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto"></div>
+          <p className="text-center mt-4 text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user) {
     return null;
   }
 
