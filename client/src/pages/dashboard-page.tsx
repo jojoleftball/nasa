@@ -14,6 +14,7 @@ import { ChevronDown, User, Bot, LogOut, X } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default function DashboardPage() {
   const { user, logoutMutation } = useAuth();
@@ -75,6 +76,7 @@ export default function DashboardPage() {
             </div>
             
             <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center space-x-2" data-testid="button-user-menu">

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import {
   useQuery,
   useMutation,
@@ -32,7 +32,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-  
+
   const {
     data: user,
     error,
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Welcome back!",
         description: "Successfully signed in to Biogalactic.",
       });
-      
+
       if (!user.interests || user.interests.length === 0) {
         setLocation("/interests");
       } else {

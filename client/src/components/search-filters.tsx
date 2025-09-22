@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,7 +44,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
               />
             </div>
           </div>
-          
+
           <div className="flex flex-col md:flex-row gap-4">
             <Select value={filters.yearRange} onValueChange={(value) => setFilters({ ...filters, yearRange: value })}>
               <SelectTrigger className="w-40">
@@ -65,21 +64,27 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All Organisms">All Organisms</SelectItem>
-                <SelectItem value="Plants">Plants</SelectItem>
-                <SelectItem value="Humans">Humans</SelectItem>
-                <SelectItem value="Microbes">Microbes</SelectItem>
+                <SelectItem value="Human">Human</SelectItem>
+                <SelectItem value="Arabidopsis">Arabidopsis</SelectItem>
+                <SelectItem value="Mammalian">Mammalian</SelectItem>
+                <SelectItem value="Microbial">Microbial</SelectItem>
+                <SelectItem value="Cell Culture">Cell Culture</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={filters.experimentType} onValueChange={(value) => setFilters({ ...filters, experimentType: value })}>
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="Type" />
+                <SelectValue placeholder="Research Type" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All Types">All Types</SelectItem>
-                <SelectItem value="Microgravity">Microgravity</SelectItem>
-                <SelectItem value="Radiation">Radiation</SelectItem>
-                <SelectItem value="Growth">Growth</SelectItem>
+                <SelectItem value="Transcriptomics">Transcriptomics</SelectItem>
+                <SelectItem value="Cardiovascular">Cardiovascular</SelectItem>
+                <SelectItem value="Radiation Biology">Radiation Biology</SelectItem>
+                <SelectItem value="Bone Health">Bone Health</SelectItem>
+                <SelectItem value="Neuroscience">Neuroscience</SelectItem>
+                <SelectItem value="Microbiology">Microbiology</SelectItem>
+                <SelectItem value="Food Systems">Food Systems</SelectItem>
               </SelectContent>
             </Select>
 
