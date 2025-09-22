@@ -72,13 +72,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateUser(id: string, updates: UpdateUser): Promise<User> {
+    const updateData: any = { updatedAt: new Date() };
+    if (updates.interests !== undefined) {
+      updateData.interests = updates.interests;
+    }
+    if (updates.chatbotName !== undefined) {
+      updateData.chatbotName = updates.chatbotName;
+    }
+    
     const [user] = await db
       .update(users)
-      .set({ 
-        interests: updates.interests,
-        chatbotName: updates.chatbotName,
-        updatedAt: new Date() 
-      })
+      .set(updateData)
       .where(eq(users.id, id))
       .returning();
     return user;
