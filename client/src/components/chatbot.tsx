@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Bot, Send, X, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -32,7 +32,8 @@ export function Chatbot() {
     },
     onSuccess: (data) => {
       setMessage("");
-      // The chat history will be refetched automatically due to query invalidation
+      // Invalidate and refetch chat history
+      queryClient.invalidateQueries({ queryKey: ["/api/chat/history"] });
     },
   });
 

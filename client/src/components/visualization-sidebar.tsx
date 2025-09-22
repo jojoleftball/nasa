@@ -1,146 +1,144 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-import { useAuth } from "@/hooks/use-auth";
 
-const COLORS = ['hsl(263, 70%, 60%)', 'hsl(204, 100%, 50%)', 'hsl(159, 100%, 36%)', 'hsl(42, 93%, 56%)'];
+import { useQuery } from "@tanstack/react-query";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { BarChart, Bar, XAxis, YAxis, PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { apiRequest } from "@/lib/queryClient";
+import { TrendingUp, Database, Users, Calendar } from "lucide-react";
+
+const chartConfig = {
+  papers: {
+    label: "Papers",
+    color: "hsl(var(--primary))",
+  },
+  studies: {
+    label: "Studies", 
+    color: "hsl(var(--secondary))",
+  },
+};
+
+const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300'];
 
 export function VisualizationSidebar() {
-  const { user } = useAuth();
-  
-  const { data: stats } = useQuery<{
-    totalPapers: number;
-    recentStudies: number;
-    activeProjects: number;
-    categoryStats: Record<string, number>;
-  }>({
+  const { data: stats } = useQuery({
     queryKey: ["/api/dashboard/stats"],
+    queryFn: async () => {
+      const res = await apiRequest("GET", "/api/dashboard/stats");
+      return await res.json();
+    },
   });
 
   const categoryData = stats?.categoryStats ? Object.entries(stats.categoryStats).map(([name, value]) => ({
     name,
-    value
+    value,
   })) : [];
 
-  const timelineData = [
-    { year: "2020", studies: 45 },
-    { year: "2021", studies: 67 },
-    { year: "2022", studies: 89 },
-    { year: "2023", studies: 78 },
-    { year: "2024", studies: 56 },
-  ];
-
-  const recommendedStudies = [
-    {
-      title: "Protein Crystallization in Microgravity",
-      reason: "Based on your interest in Plant Biology"
-    },
-    {
-      title: "Neural Adaptation to Space Environment", 
-      reason: "Based on your interest in Human Health"
-    }
+  const trendData = [
+    { month: 'Jan', papers: 65 },
+    { month: 'Feb', papers: 78 },
+    { month: 'Mar', papers: 90 },
+    { month: 'Apr', papers: 85 },
+    { month: 'May', papers: 95 },
+    { month: 'Jun', papers: 102 },
   ];
 
   return (
-    <div className="sticky top-24 space-y-6">
-      <Card className="glass rounded-xl border-0">
-        <CardHeader>
-          <CardTitle className="text-lg">Research Timeline</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-40 chart-container rounded-lg p-2">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={timelineData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                <XAxis 
-                  dataKey="year" 
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: 'hsl(215, 20%, 65%)', fontSize: 12 }}
-                />
-                <YAxis hide />
-                <Bar dataKey="studies" fill="hsl(263, 70%, 60%)" radius={[2, 2, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="glass rounded-xl border-0">
-        <CardHeader>
-          <CardTitle className="text-lg">Study Categories</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {categoryData.map((category, index) => {
-              const percentage = stats ? (category.value / stats.totalPapers) * 100 : 0;
-              return (
-                <div key={category.name} className="flex items-center justify-between">
-                  <span className="text-sm">{category.name}</span>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-16 h-2 bg-muted rounded-full">
-                      <div 
-                        className="h-2 rounded-full"
-                        style={{ 
-                          width: `${percentage}%`,
-                          backgroundColor: COLORS[index % COLORS.length]
-                        }}
-                      ></div>
-                    </div>
-                    <span className="text-xs text-muted-foreground font-mono">{category.value}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="glass rounded-xl border-0">
-        <CardHeader>
-          <CardTitle className="text-lg">Quick Stats</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Total Papers:</span>
-              <span className="font-mono font-medium" data-testid="stat-total-papers">
-                {stats?.totalPapers.toLocaleString() || "0"}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Recent Studies:</span>
-              <span className="font-mono font-medium" data-testid="stat-recent-studies">
-                {stats?.recentStudies || "0"}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Active Projects:</span>
-              <span className="font-mono font-medium" data-testid="stat-active-projects">
-                {stats?.activeProjects || "0"}
-              </span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {user?.interests && user.interests.length > 0 && (
-        <Card className="glass rounded-xl border-0">
-          <CardHeader>
-            <CardTitle className="text-lg">Recommended Studies</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {recommendedStudies.map((study, index) => (
-                <div key={index} className="p-3 bg-secondary/30 rounded-lg">
-                  <h4 className="text-sm font-medium mb-1">{study.title}</h4>
-                  <p className="text-xs text-muted-foreground">{study.reason}</p>
-                </div>
-              ))}
+    <div className="space-y-6">
+      {/* Stats Overview */}
+      <div className="grid grid-cols-2 gap-4">
+        <Card className="glass border-0">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-2">
+              <Database className="h-4 w-4 text-primary" />
+              <div>
+                <p className="text-2xl font-bold">{stats?.totalPapers || 1247}</p>
+                <p className="text-xs text-muted-foreground">Total Papers</p>
+              </div>
             </div>
           </CardContent>
         </Card>
-      )}
+
+        <Card className="glass border-0">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-2">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              <div>
+                <p className="text-2xl font-bold">{stats?.recentStudies || 89}</p>
+                <p className="text-xs text-muted-foreground">Recent Studies</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="glass border-0">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-2">
+              <Users className="h-4 w-4 text-blue-500" />
+              <div>
+                <p className="text-2xl font-bold">{stats?.activeProjects || 23}</p>
+                <p className="text-xs text-muted-foreground">Active Projects</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="glass border-0">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-2">
+              <Calendar className="h-4 w-4 text-purple-500" />
+              <div>
+                <p className="text-2xl font-bold">2024</p>
+                <p className="text-xs text-muted-foreground">Current Year</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Research Categories Chart */}
+      <Card className="glass border-0">
+        <CardHeader>
+          <CardTitle className="text-sm">Research Categories</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-[200px]">
+            <PieChart>
+              <Pie
+                data={categoryData}
+                cx="50%"
+                cy="50%"
+                outerRadius={60}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                labelLine={false}
+              >
+                {categoryData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <ChartTooltip content={<ChartTooltipContent />} />
+            </PieChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+
+      {/* Publication Trends */}
+      <Card className="glass border-0">
+        <CardHeader>
+          <CardTitle className="text-sm">Publication Trends</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-[200px]">
+            <BarChart data={trendData}>
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Bar dataKey="papers" fill="var(--color-papers)" radius={[2, 2, 0, 0]} />
+              <ChartTooltip content={<ChartTooltipContent />} />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
     </div>
   );
 }

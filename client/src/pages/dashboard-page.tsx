@@ -3,14 +3,21 @@ import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Chatbot } from "@/components/chatbot";
 import { SearchFilters } from "@/components/search-filters";
 import { VisualizationSidebar } from "@/components/visualization-sidebar";
 import { ResearchResults } from "@/components/research-results";
 import { ChevronDown, User, Bot, LogOut, X } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function DashboardPage() {
   const { user, logoutMutation } = useAuth();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     yearRange: "All Years",
@@ -18,6 +25,36 @@ export default function DashboardPage() {
     experimentType: "All Types",
   });
   const [showGuide, setShowGuide] = useState(true);
+  const [showRenameDialog, setShowRenameDialog] = useState(false);
+  const [newChatbotName, setNewChatbotName] = useState(user?.chatbotName || "Ria");
+
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data: { chatbotName: string }) => {
+      const res = await apiRequest("PUT", "/api/user/profile", data);
+      return await res.json();
+    },
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData(["/api/user"], updatedUser);
+      setShowRenameDialog(false);
+      toast({
+        title: "Profile updated",
+        description: "Your chatbot name has been updated successfully.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Update failed",
+        description: "Failed to update your profile. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleRenameChatbot = () => {
+    if (newChatbotName.trim()) {
+      updateProfileMutation.mutate({ chatbotName: newChatbotName.trim() });
+    }
+  };
 
   const handleSearch = (query: string, newFilters: any) => {
     setSearchQuery(query);
@@ -47,7 +84,10 @@ export default function DashboardPage() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="glass border-border">
-                  <DropdownMenuItem data-testid="button-rename-chatbot">
+                  <DropdownMenuItem 
+                    onClick={() => setShowRenameDialog(true)}
+                    data-testid="button-rename-chatbot"
+                  >
                     <Bot className="mr-2 h-4 w-4" />
                     Rename Chatbot
                   </DropdownMenuItem>
@@ -149,6 +189,42 @@ export default function DashboardPage() {
       </footer>
 
       <Chatbot />
+
+      {/* Rename Chatbot Dialog */}
+      <Dialog open={showRenameDialog} onOpenChange={setShowRenameDialog}>
+        <DialogContent className="glass border-border">
+          <DialogHeader>
+            <DialogTitle>Rename Your AI Assistant</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="chatbot-name">Assistant Name</Label>
+              <Input
+                id="chatbot-name"
+                value={newChatbotName}
+                onChange={(e) => setNewChatbotName(e.target.value)}
+                placeholder="Enter a name for your AI assistant"
+                className="mt-1"
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowRenameDialog(false)}
+                disabled={updateProfileMutation.isPending}
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleRenameChatbot}
+                disabled={updateProfileMutation.isPending || !newChatbotName.trim()}
+              >
+                {updateProfileMutation.isPending ? "Updating..." : "Update"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
