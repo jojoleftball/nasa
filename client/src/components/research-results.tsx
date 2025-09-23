@@ -9,19 +9,28 @@ import { motion } from "framer-motion";
 interface ResearchResultsProps {
   query: string;
   filters: any;
+  showInterestBased?: boolean;
+  userInterests?: string[];
 }
 
-export function ResearchResults({ query, filters }: ResearchResultsProps) {
+export function ResearchResults({ query, filters, showInterestBased = false, userInterests = [] }: ResearchResultsProps) {
   const { data: searchResults, isLoading } = useQuery({
-    queryKey: ["/api/search", query, filters],
+    queryKey: ["/api/search", query, filters, showInterestBased, userInterests],
     queryFn: async () => {
-      if (!query && Object.values(filters).every(f => f.startsWith("All"))) {
+      if (showInterestBased && userInterests.length > 0) {
+        // Fetch research based on user interests
+        const res = await apiRequest("POST", "/api/search", { 
+          interests: userInterests, 
+          filters: { ...filters, limit: 20 } 
+        });
+        return await res.json();
+      } else if (!query && Object.values(filters).every(f => f.startsWith("All"))) {
         return { results: [], totalCount: 0 };
       }
       const res = await apiRequest("POST", "/api/search", { query, filters });
       return await res.json();
     },
-    enabled: !!(query || !Object.values(filters).every(f => f.startsWith("All"))),
+    enabled: !!(showInterestBased && userInterests.length > 0) || !!(query || !Object.values(filters).every(f => f.startsWith("All"))),
   });
 
   if (isLoading) {
@@ -52,9 +61,14 @@ export function ResearchResults({ query, filters }: ResearchResultsProps) {
       <Card className="glass border-0">
         <CardContent className="p-8 text-center">
           <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-medium mb-2">No Results Found</h3>
+          <h3 className="text-lg font-medium mb-2">
+            {showInterestBased ? "No Recommendations Available" : "No Results Found"}
+          </h3>
           <p className="text-muted-foreground">
-            Try adjusting your search terms or filters to find relevant studies.
+            {showInterestBased 
+              ? "Update your interests in your profile to get personalized research recommendations."
+              : "Try adjusting your search terms or filters to find relevant studies."
+            }
           </p>
         </CardContent>
       </Card>
@@ -65,8 +79,13 @@ export function ResearchResults({ query, filters }: ResearchResultsProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">
-          Research Results ({searchResults?.totalCount || 0})
+          {showInterestBased ? "Recommended Research" : "Search Results"} ({searchResults?.totalCount || 0})
         </h2>
+        {showInterestBased && (
+          <p className="text-sm text-muted-foreground">
+            Based on your interests
+          </p>
+        )}
       </div>
 
       <div className="space-y-4">

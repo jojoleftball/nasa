@@ -33,13 +33,13 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 placeholder="Search NASA space biology research..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
-                className="pl-10"
+                className="pl-12 h-12 text-base font-medium"
                 data-testid="search-input"
               />
             </div>

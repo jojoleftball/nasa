@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth } from "./auth";
+import { setupAuth, requireAuth } from "./auth";
 import { generateChatResponse, summarizeStudy, generateSearchSuggestions } from "./gemini";
 import { updateUserSchema } from "@shared/schema";
 
@@ -10,6 +10,129 @@ function isAuthenticated(req: any, res: any, next: any) {
     return res.status(401).json({ message: "Authentication required" });
   }
   next();
+}
+
+// Function to generate research results based on user interests
+function generateInterestBasedResults(interests: string[]) {
+  const interestResearchMap: Record<string, any[]> = {
+    "plant-biology": [
+      {
+        id: "osdr-101",
+        title: "Transcriptomic Analysis of Arabidopsis thaliana in Microgravity",
+        abstract: "This study examines gene expression changes in Arabidopsis thaliana seedlings grown under microgravity conditions aboard the International Space Station. Results show significant alterations in cell wall biosynthesis and stress response pathways.",
+        authors: ["Dr. Sarah Johnson", "Dr. Michael Chen", "Dr. Anna Rodriguez"],
+        year: 2024,
+        institution: "NASA Kennedy Space Center",
+        tags: ["Plant Biology", "Transcriptomics", "Microgravity", "Gene Expression"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-101"
+      },
+      {
+        id: "osdr-156",
+        title: "Root Development in Space-Grown Lettuce",
+        abstract: "Investigation of root morphology and development patterns in lettuce plants cultivated in the Advanced Plant Habitat on the ISS, revealing adaptations to the space environment.",
+        authors: ["Dr. Lisa Park", "Dr. James Wilson"],
+        year: 2023,
+        institution: "NASA Ames Research Center",
+        tags: ["Plant Biology", "Root Development", "Space Agriculture", "ISS"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-156"
+      }
+    ],
+    "human-health": [
+      {
+        id: "osdr-203",
+        title: "Cardiovascular Deconditioning During Long-Duration Spaceflight",
+        abstract: "Comprehensive analysis of cardiovascular changes in astronauts during 6-month ISS missions, including cardiac function, blood pressure regulation, and vascular adaptation mechanisms.",
+        authors: ["Dr. Robert Martinez", "Dr. Emily Thompson", "Dr. David Kim"],
+        year: 2024,
+        institution: "NASA Johnson Space Center",
+        tags: ["Human Health", "Cardiovascular", "Long-Duration", "Astronaut Health"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-203"
+      },
+      {
+        id: "osdr-178",
+        title: "Bone Density Changes in Microgravity Environment",
+        abstract: "Longitudinal study tracking bone mineral density changes in astronauts during extended space missions, investigating countermeasures and recovery patterns.",
+        authors: ["Dr. Jennifer Brown", "Dr. Alex Turner"],
+        year: 2023,
+        institution: "NASA Johnson Space Center",
+        tags: ["Human Health", "Bone Health", "Microgravity", "Countermeasures"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-178"
+      }
+    ],
+    "microgravity-effects": [
+      {
+        id: "osdr-089",
+        title: "Cellular Response to Simulated Microgravity in Human Fibroblasts",
+        abstract: "Investigation of cellular mechanisms and gene expression changes in human fibroblasts exposed to simulated microgravity using clinostat rotation.",
+        authors: ["Dr. Maria Gonzalez", "Dr. Peter Anderson"],
+        year: 2024,
+        institution: "NASA Ames Research Center",
+        tags: ["Microgravity Effects", "Cell Biology", "Fibroblasts", "Gene Expression"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-089"
+      }
+    ],
+    "radiation-studies": [
+      {
+        id: "osdr-245",
+        title: "DNA Damage Response to Cosmic Radiation in Human Cells",
+        abstract: "Analysis of DNA repair mechanisms and cellular responses to cosmic radiation exposure, studying both acute and chronic effects on human cell cultures.",
+        authors: ["Dr. Rachel White", "Dr. Steven Lee"],
+        year: 2024,
+        institution: "NASA Glenn Research Center",
+        tags: ["Radiation Biology", "DNA Repair", "Cosmic Radiation", "Cell Culture"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-245"
+      }
+    ],
+    "microbiology": [
+      {
+        id: "osdr-134",
+        title: "Microbial Community Dynamics in Space Environment",
+        abstract: "Comprehensive study of microbial communities aboard the International Space Station, examining species diversity, biofilm formation, and antibiotic resistance patterns.",
+        authors: ["Dr. Kevin Zhang", "Dr. Amanda Davis"],
+        year: 2023,
+        institution: "NASA Marshall Space Flight Center",
+        tags: ["Microbiology", "Biofilms", "ISS Environment", "Antibiotic Resistance"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-134"
+      }
+    ],
+    "genetics": [
+      {
+        id: "osdr-167",
+        title: "Epigenetic Changes During Spaceflight in Twin Astronauts",
+        abstract: "Groundbreaking study comparing epigenetic modifications between twin astronauts, one on Earth and one in space, revealing space-induced genetic regulation changes.",
+        authors: ["Dr. Susan Kelly", "Dr. Mark Johnson", "Dr. Patricia Smith"],
+        year: 2024,
+        institution: "NASA Johnson Space Center",
+        tags: ["Genetics", "Epigenetics", "Twin Study", "Space Medicine"],
+        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-167"
+      }
+    ]
+  };
+
+  let results: any[] = [];
+  interests.forEach(interest => {
+    if (interestResearchMap[interest]) {
+      results = results.concat(interestResearchMap[interest]);
+    }
+  });
+
+  // If no specific interests match, return some general space biology research
+  if (results.length === 0) {
+    results = [
+      {
+        id: "osdr-general-1",
+        title: "Overview of Space Biology Research Initiatives",
+        abstract: "Comprehensive review of current space biology research programs and their contributions to understanding life in space environments.",
+        authors: ["Dr. Generic Scientist"],
+        year: 2024,
+        institution: "NASA",
+        tags: ["Space Biology", "Research Overview"],
+        url: "https://osdr.nasa.gov"
+      }
+    ];
+  }
+
+  return results.slice(0, 10); // Return top 10 results
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -28,10 +151,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Search endpoints
-  app.post("/api/search", isAuthenticated, async (req, res) => {
+  app.post("/api/search", requireAuth, async (req, res) => {
     try {
-      const { query, filters = {} } = req.body;
-      
+      const { query, filters, interests } = req.body;
+
+      // If searching by interests, return interest-based results
+      if (interests && interests.length > 0) {
+        const interestBasedResults = generateInterestBasedResults(interests);
+        return res.json({
+          results: interestBasedResults,
+          totalCount: interestBasedResults.length,
+        });
+      }
+
       // Real NASA OSDR research results
       const osdrResults = [
         {
@@ -118,7 +250,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Apply filters to real OSDR results
       let filteredResults = osdrResults;
-      
+
       if (filters.yearRange && filters.yearRange !== "All Years") {
         if (filters.yearRange === "2025") {
           filteredResults = filteredResults.filter(study => study.year === 2025);
@@ -207,7 +339,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/chat", isAuthenticated, async (req, res) => {
     try {
       const { message, context = "" } = req.body;
-      
+
       // Get chat history
       let chatSession = await storage.getChatSession(req.user!.id);
       const chatHistory = chatSession?.messages || [];

@@ -28,6 +28,7 @@ export default function DashboardPage() {
   const [showGuide, setShowGuide] = useState(true);
   const [showRenameDialog, setShowRenameDialog] = useState(false);
   const [newChatbotName, setNewChatbotName] = useState(user?.chatbotName || "Ria");
+  const [showInterestBased, setShowInterestBased] = useState(true);
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: { chatbotName: string }) => {
@@ -60,6 +61,7 @@ export default function DashboardPage() {
   const handleSearch = (query: string, newFilters: any) => {
     setSearchQuery(query);
     setFilters(newFilters);
+    setShowInterestBased(false); // Switch to search results when user searches
   };
 
   return (
@@ -113,7 +115,12 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 mt-8">
           <div className="lg:col-span-7">
-            <ResearchResults query={searchQuery} filters={filters} />
+            <ResearchResults 
+              query={searchQuery} 
+              filters={filters} 
+              showInterestBased={showInterestBased}
+              userInterests={user?.interests || []}
+            />
           </div>
           
           <div className="lg:col-span-3">
