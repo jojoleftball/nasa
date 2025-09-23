@@ -36,7 +36,12 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      setLocation("/");
+      // Check if user has set interests, if not redirect to interests page
+      if (!user.interests || user.interests.length === 0) {
+        setLocation("/interests");
+      } else {
+        setLocation("/dashboard");
+      }
     }
   }, [user, isLoading, setLocation]);
 

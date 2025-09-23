@@ -1,12 +1,11 @@
-
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
 
 export default function LandingPage() {
-  const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
     if (!isLoading && user) {
@@ -33,7 +32,7 @@ export default function LandingPage() {
   return (
     <div className="cosmic-bg min-h-screen relative">
       <div className="stars"></div>
-      
+
       <div className="min-h-screen flex items-center justify-center relative z-10">
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
