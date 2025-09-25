@@ -4,6 +4,20 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
 import { Rocket, Brain, Search, BarChart3, MessageCircle, Globe, Database, Sparkles } from "lucide-react";
+import { 
+  CosmicPageWrapper, 
+  AnimatedDiv, 
+  AnimatedCard, 
+  StaggeredContainer,
+  FloatingElement,
+  GlowingElement,
+  RevealText,
+  LoadingSkeleton,
+  fadeInUp,
+  slideInLeft,
+  slideInRight,
+  scaleIn
+} from "@/components/ui/animated-components";
 
 export default function LandingPage() {
   const [, setLocation] = useLocation();
@@ -17,13 +31,18 @@ export default function LandingPage() {
 
   if (isLoading) {
     return (
-      <div className="cosmic-bg min-h-screen flex items-center justify-center relative">
-        <div className="stars"></div>
-        <div className="glass rounded-2xl p-8 animate-fade-in-scale">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto"></div>
-          <p className="text-center mt-4 text-muted-foreground">Loading...</p>
+      <CosmicPageWrapper>
+        <div className="min-h-screen flex items-center justify-center">
+          <AnimatedDiv variants={scaleIn} className="glass rounded-2xl p-8">
+            <GlowingElement>
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto"></div>
+            </GlowingElement>
+            <p className="text-center mt-4 text-muted-foreground">
+              <RevealText delay={0.5}>Loading cosmic experience...</RevealText>
+            </p>
+          </AnimatedDiv>
         </div>
-      </div>
+      </CosmicPageWrapper>
     );
   }
 
@@ -32,33 +51,40 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="cosmic-bg min-h-screen relative">
-      <div className="stars"></div>
-
+    <CosmicPageWrapper>
       <div className="min-h-screen relative z-10">
         {/* Hero Section */}
         <div className="container mx-auto px-6 py-16">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="p-3 rounded-xl bg-primary/20 backdrop-blur-sm border border-primary/30">
-                <Rocket className="h-10 w-10 text-primary" />
-              </div>
-              <h1 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                Biogalactic
+          <StaggeredContainer className="text-center mb-16">
+            <AnimatedDiv variants={fadeInUp} delay={0.2} className="flex items-center justify-center gap-3 mb-6">
+              <FloatingElement>
+                <GlowingElement className="p-3 rounded-xl bg-primary/20 backdrop-blur-sm border border-primary/30">
+                  <Rocket className="h-10 w-10 text-primary" />
+                </GlowingElement>
+              </FloatingElement>
+              <h1 className="text-6xl font-bold cosmic-text-gradient">
+                <RevealText delay={0.5}>Biogalactic</RevealText>
               </h1>
-            </div>
-            <p className="text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              The Ultimate Space Biology Research Platform
-            </p>
-            <p className="text-lg text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
-              Unlock the mysteries of life in space with our comprehensive AI-powered platform. Access real NASA research data, 
-              discover groundbreaking studies, and gain insights that advance our understanding of space biology through 
-              cutting-edge technology and intelligent analysis.
-            </p>
-            <div className="flex gap-4 justify-center">
+            </AnimatedDiv>
+            
+            <AnimatedDiv variants={fadeInUp} delay={0.4}>
+              <p className="text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+                <RevealText delay={0.8}>The Ultimate Space Biology Research Platform</RevealText>
+              </p>
+            </AnimatedDiv>
+            
+            <AnimatedDiv variants={fadeInUp} delay={0.6}>
+              <p className="text-lg text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
+                Unlock the mysteries of life in space with our comprehensive AI-powered platform. Access real NASA research data, 
+                discover groundbreaking studies, and gain insights that advance our understanding of space biology through 
+                cutting-edge technology and intelligent analysis.
+              </p>
+            </AnimatedDiv>
+            
+            <AnimatedDiv variants={fadeInUp} delay={0.8} className="flex gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="glow-hover px-8 py-3 text-lg" 
+                className="glow-hover cosmic-glow px-8 py-3 text-lg" 
                 onClick={() => setLocation("/auth")}
                 data-testid="button-sign-in"
               >
@@ -68,14 +94,14 @@ export default function LandingPage() {
               <Button 
                 size="lg" 
                 variant="secondary" 
-                className="glow-hover px-8 py-3 text-lg"
+                className="glow-hover shimmer-effect px-8 py-3 text-lg"
                 onClick={() => setLocation("/auth")}
                 data-testid="button-sign-up"
               >
                 Join the Mission
               </Button>
-            </div>
-          </div>
+            </AnimatedDiv>
+          </StaggeredContainer>
 
           {/* About Section */}
           <div className="mb-16">
@@ -132,11 +158,11 @@ export default function LandingPage() {
           </div>
 
           {/* Features Grid */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-              Platform Features
+          <AnimatedDiv variants={fadeInUp} delay={0.2} className="mb-16">
+            <h2 className="text-3xl font-bold text-center mb-12 cosmic-text-gradient">
+              <RevealText delay={0.3}>Platform Features</RevealText>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StaggeredContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
                   icon: Brain,
@@ -169,73 +195,93 @@ export default function LandingPage() {
                   description: "Web-based platform accessible from anywhere, making space research globally available"
                 }
               ].map((feature, index) => (
-                <Card key={index} className="glass border-0 hover:bg-primary/5 transition-all duration-300">
+                <AnimatedCard 
+                  key={index} 
+                  delay={index * 0.1}
+                  className="glass border-0 cosmic-border shimmer-effect group"
+                >
                   <CardContent className="p-6 text-center">
-                    <div className="p-3 rounded-lg bg-primary/10 mx-auto w-fit mb-4">
-                      <feature.icon className="h-8 w-8 text-primary" />
-                    </div>
-                    <h3 className="font-semibold mb-2 text-foreground">{feature.title}</h3>
+                    <FloatingElement>
+                      <div className="p-3 rounded-lg bg-primary/10 mx-auto w-fit mb-4 cosmic-glow">
+                        <feature.icon className="h-8 w-8 text-primary group-hover:text-galaxy-core transition-colors duration-300" />
+                      </div>
+                    </FloatingElement>
+                    <h3 className="font-semibold mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                      {feature.title}
+                    </h3>
                     <p className="text-sm text-muted-foreground">{feature.description}</p>
                   </CardContent>
-                </Card>
+                </AnimatedCard>
               ))}
-            </div>
-          </div>
+            </StaggeredContainer>
+          </AnimatedDiv>
 
           {/* Stats Section */}
-          <div className="mb-16">
-            <Card className="glass border-0 max-w-4xl mx-auto">
+          <AnimatedDiv variants={slideInLeft} delay={0.3} className="mb-16">
+            <AnimatedCard className="glass border-0 max-w-4xl mx-auto cosmic-border">
               <CardContent className="p-8">
-                <h2 className="text-2xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                  Research Database Statistics
+                <h2 className="text-2xl font-bold text-center mb-8 cosmic-text-gradient">
+                  <RevealText delay={0.5}>Research Database Statistics</RevealText>
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-primary mb-2">2,847+</div>
+                <StaggeredContainer className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                  <AnimatedDiv variants={scaleIn} delay={0.1} className="text-center">
+                    <GlowingElement>
+                      <div className="text-4xl font-bold text-primary mb-2 cosmic-glow">2,847+</div>
+                    </GlowingElement>
                     <div className="text-muted-foreground">Research Studies</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-primary mb-2">15+</div>
+                  </AnimatedDiv>
+                  <AnimatedDiv variants={scaleIn} delay={0.2} className="text-center">
+                    <GlowingElement>
+                      <div className="text-4xl font-bold text-primary mb-2 cosmic-glow">15+</div>
+                    </GlowingElement>
                     <div className="text-muted-foreground">Research Categories</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-primary mb-2">25+</div>
+                  </AnimatedDiv>
+                  <AnimatedDiv variants={scaleIn} delay={0.3} className="text-center">
+                    <GlowingElement>
+                      <div className="text-4xl font-bold text-primary mb-2 cosmic-glow">25+</div>
+                    </GlowingElement>
                     <div className="text-muted-foreground">Years of Data</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-primary mb-2">2025</div>
+                  </AnimatedDiv>
+                  <AnimatedDiv variants={scaleIn} delay={0.4} className="text-center">
+                    <GlowingElement>
+                      <div className="text-4xl font-bold text-primary mb-2 cosmic-glow">2025</div>
+                    </GlowingElement>
                     <div className="text-muted-foreground">Latest Studies</div>
-                  </div>
-                </div>
+                  </AnimatedDiv>
+                </StaggeredContainer>
               </CardContent>
-            </Card>
-          </div>
+            </AnimatedCard>
+          </AnimatedDiv>
 
           {/* Mission Statement */}
-          <div className="text-center">
-            <Card className="glass border-0 max-w-4xl mx-auto">
+          <AnimatedDiv variants={slideInRight} delay={0.4} className="text-center">
+            <AnimatedCard className="glass border-0 max-w-4xl mx-auto cosmic-border shimmer-effect">
               <CardContent className="p-8">
-                <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                  Our Mission
+                <h2 className="text-2xl font-bold mb-6 cosmic-text-gradient">
+                  <RevealText delay={0.6}>Our Mission</RevealText>
                 </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  To advance space biology research by making NASA's scientific data accessible, understandable, 
-                  and actionable for researchers, educators, and space enthusiasts worldwide. We believe that 
-                  by democratizing access to space biology research, we can accelerate discoveries that will 
-                  enable sustainable human presence in space and advance life sciences on Earth.
-                </p>
-                <div className="flex gap-4 justify-center">
-                  <Button 
-                    size="lg" 
-                    className="glow-hover" 
-                    onClick={() => setLocation("/auth")}
-                  >
-                    Join Our Mission
-                  </Button>
-                </div>
+                <AnimatedDiv variants={fadeInUp} delay={0.8}>
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                    To advance space biology research by making NASA's scientific data accessible, understandable, 
+                    and actionable for researchers, educators, and space enthusiasts worldwide. We believe that 
+                    by democratizing access to space biology research, we can accelerate discoveries that will 
+                    enable sustainable human presence in space and advance life sciences on Earth.
+                  </p>
+                </AnimatedDiv>
+                <AnimatedDiv variants={scaleIn} delay={1.0} className="flex gap-4 justify-center">
+                  <FloatingElement>
+                    <Button 
+                      size="lg" 
+                      className="glow-hover cosmic-glow shimmer-effect" 
+                      onClick={() => setLocation("/auth")}
+                    >
+                      Join Our Mission
+                    </Button>
+                  </FloatingElement>
+                </AnimatedDiv>
               </CardContent>
-            </Card>
-          </div>
+            </AnimatedCard>
+          </AnimatedDiv>
         </div>
 
         {/* Footer */}
@@ -252,6 +298,6 @@ export default function LandingPage() {
           </div>
         </footer>
       </div>
-    </div>
+    </CosmicPageWrapper>
   );
 }

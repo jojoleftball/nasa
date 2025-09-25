@@ -468,6 +468,32 @@ html[class*="light"] {
   color-scheme: light;
 }
 
+/* Accessibility: Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .stars::before,
+  .stars::after,
+  .cosmic-bg::before,
+  .cosmic-bg::after {
+    animation: none !important;
+  }
+  
+  .cosmic-glow,
+  .galaxy-rotate,
+  .cosmic-float,
+  .shimmer-effect::before {
+    animation: none !important;
+  }
+}
+
 /* Enhanced Cosmic Utility Classes */
 .cosmic-glow {
   animation: cosmic-pulse 3s ease-in-out infinite;
