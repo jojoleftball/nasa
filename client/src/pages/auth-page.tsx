@@ -70,8 +70,13 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      // Always redirect to dashboard after successful authentication
-      setLocation("/dashboard");
+      // Redirect new users to interests page if they haven't set any interests
+      // Otherwise redirect to dashboard for existing users
+      if (!user.interests || user.interests.length === 0) {
+        setLocation("/interests");
+      } else {
+        setLocation("/dashboard");
+      }
     }
   }, [user, isLoading, setLocation]);
 

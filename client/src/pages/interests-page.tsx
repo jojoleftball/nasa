@@ -29,12 +29,13 @@ export default function InterestsPage() {
       return await res.json();
     },
     onSuccess: (updatedUser) => {
-      queryClient.setQueryData(["/api/user"], updatedUser);
+      queryClient.setQueryData(["user"], updatedUser);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       toast({
         title: "Interests saved!",
         description: "Your preferences have been updated successfully.",
       });
-      setLocation("/");
+      setLocation("/dashboard");
     },
     onError: (error: Error) => {
       toast({
@@ -58,7 +59,7 @@ export default function InterestsPage() {
   };
 
   const handleSkip = () => {
-    setLocation("/");
+    setLocation("/dashboard");
   };
 
   return (

@@ -6,10 +6,10 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import type { InsertUser, SelectUser } from "@/shared/schema";
+import type { InsertUser, User } from "@shared/schema";
 
 interface AuthContextType {
-  user: SelectUser | null;
+  user: User | null;
   isLoading: boolean;
   loginMutation: any;
   registerMutation: any;
@@ -26,7 +26,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: user, isLoading } = useQuery<SelectUser>({
+  const { data: user, isLoading } = useQuery<User>({
     queryKey: ["user"],
     queryFn: async () => {
       const res = await fetch("/api/user", {
@@ -63,7 +63,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return res.json();
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(["user"], data.user);
+      queryClient.setQueryData(["user"], data);
       toast({
         title: "Success",
         description: "Logged in successfully!",
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return res.json();
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(["user"], data.user);
+      queryClient.setQueryData(["user"], data);
       toast({
         title: "Success",
         description: "Account created successfully!",
