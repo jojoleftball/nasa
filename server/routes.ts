@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, requireAuth } from "./auth";
-import { generateChatResponse, summarizeStudy, generateSearchSuggestions } from "./gemini";
+import { generateChatResponse, summarizeStudy, generateSearchSuggestions, ConversationMode, type ChatContext, analyzeStudyComparison, generateResearchPathway } from "./gemini";
 import { updateUserSchema } from "@shared/schema";
 import { nasaOSDRService } from "./nasa-osdr";
 
@@ -180,17 +180,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Chat endpoints
+  // Enhanced Chat endpoints with advanced context awareness
   app.post("/api/chat", isAuthenticated, async (req, res) => {
     try {
-      const { message, context = "" } = req.body;
+      const { 
+        message, 
+        context = {}, 
+        mode = ConversationMode.RESEARCH_ASSISTANT,
+        currentStudy,
+        currentPage 
+      } = req.body;
+
+      // Get user data for context
+      const user = await storage.getUser(req.user!.id);
+      const favorites = await storage.getUserFavorites(req.user!.id);
+      const recentSearches = await storage.getUserSearchHistory(req.user!.id, 5);
+
+      // Build enhanced context
+      const enhancedContext: ChatContext = {
+        currentStudy,
+        userInterests: user.interests || [],
+        recentSearches: recentSearches.map(s => s.query).filter(Boolean),
+        currentPage,
+        favoriteStudies: favorites,
+        researchGoals: user.researchGoals || [],
+        ...context
+      };
 
       // Get chat history
       let chatSession = await storage.getChatSession(req.user!.id);
       const chatHistory = chatSession?.messages || [];
 
-      // Generate response
-      const response = await generateChatResponse(message, context, chatHistory);
+      // Generate response with enhanced context
+      const response = await generateChatResponse(message, enhancedContext, chatHistory, mode);
 
       // Update chat session
       const newMessages = [
@@ -203,7 +225,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({
         response,
-        chatHistory: newMessages
+        chatHistory: newMessages,
+        context: enhancedContext
       });
     } catch (error) {
       console.error("Chat error:", error);
@@ -228,6 +251,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ summary });
     } catch (error) {
       res.status(500).json({ message: "Failed to generate summary" });
+    }
+  });
+
+  // Study comparison analysis endpoint
+  app.post("/api/studies/compare", isAuthenticated, async (req, res) => {
+    try {
+      const { studies } = req.body;
+      if (!studies || !Array.isArray(studies) || studies.length < 2) {
+        return res.status(400).json({ message: "At least 2 studies required for comparison" });
+      }
+      
+      const analysis = await analyzeStudyComparison(studies);
+      res.json({ analysis });
+    } catch (error) {
+      console.error("Study comparison error:", error);
+      res.status(500).json({ message: "Failed to generate study comparison" });
+    }
+  });
+
+  // Research pathway generation endpoint
+  app.post("/api/research/pathway", isAuthenticated, async (req, res) => {
+    try {
+      const { interests, currentKnowledge = "Beginner" } = req.body;
+      if (!interests || !Array.isArray(interests) || interests.length === 0) {
+        return res.status(400).json({ message: "Research interests are required" });
+      }
+      
+      const pathway = await generateResearchPathway(interests, currentKnowledge);
+      res.json({ pathway });
+    } catch (error) {
+      console.error("Research pathway error:", error);
+      res.status(500).json({ message: "Failed to generate research pathway" });
+    }
+  });
+
+  // Advanced search suggestions with context
+  app.post("/api/search/advanced-suggestions", isAuthenticated, async (req, res) => {
+    try {
+      const { query, context = {} } = req.body;
+      if (!query) {
+        return res.json([]);
+      }
+
+      // Get user context for better suggestions
+      const user = await storage.getUser(req.user!.id);
+      const enhancedQuery = `${query} (User interests: ${user.interests?.join(', ') || 'general space biology'})`;
+      
+      const suggestions = await generateSearchSuggestions(enhancedQuery);
+      res.json(suggestions);
+    } catch (error) {
+      console.error("Advanced suggestions error:", error);
+      res.json([]);
     }
   });
 
