@@ -38,7 +38,7 @@ export default function LandingPage() {
               <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto"></div>
             </GlowingElement>
             <p className="text-center mt-4 text-muted-foreground">
-              <RevealText delay={0.5}>Loading cosmic experience...</RevealText>
+              Loading cosmic experience...
             </p>
           </AnimatedDiv>
         </div>
@@ -63,13 +63,13 @@ export default function LandingPage() {
                 </GlowingElement>
               </FloatingElement>
               <h1 className="text-6xl font-bold cosmic-text-gradient">
-                <RevealText delay={0.5}>Biogalactic</RevealText>
+                Biogalactic
               </h1>
             </AnimatedDiv>
             
             <AnimatedDiv variants={fadeInUp} delay={0.4}>
               <p className="text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-                <RevealText delay={0.8}>The Ultimate Space Biology Research Platform</RevealText>
+                The Ultimate Space Biology Research Platform
               </p>
             </AnimatedDiv>
             
@@ -107,7 +107,7 @@ export default function LandingPage() {
           {/* Features Grid */}
           <AnimatedDiv variants={fadeInUp} delay={0.2} className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-12 cosmic-text-gradient">
-              <RevealText delay={0.3}>Platform Features</RevealText>
+              Platform Features
             </h2>
             <StaggeredContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
@@ -168,7 +168,7 @@ export default function LandingPage() {
             <AnimatedCard className="glass border-0 max-w-4xl mx-auto cosmic-border">
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold text-center mb-8 cosmic-text-gradient">
-                  <RevealText delay={0.5}>Research Database Statistics</RevealText>
+                  Research Database Statistics
                 </h2>
                 <StaggeredContainer className="grid grid-cols-1 md:grid-cols-4 gap-8">
                   <AnimatedDiv variants={scaleIn} delay={0.1} className="text-center">
@@ -205,7 +205,7 @@ export default function LandingPage() {
             <AnimatedCard className="glass border-0 max-w-4xl mx-auto cosmic-border shimmer-effect">
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold mb-6 cosmic-text-gradient">
-                  <RevealText delay={0.6}>Our Mission</RevealText>
+                  Our Mission
                 </h2>
                 <AnimatedDiv variants={fadeInUp} delay={0.8}>
                   <p className="text-lg text-muted-foreground leading-relaxed mb-6">
