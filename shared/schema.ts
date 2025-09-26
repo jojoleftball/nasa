@@ -8,6 +8,12 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  displayName: text("display_name"),
+  profilePicture: text("profile_picture"),
+  coverImage: text("cover_image"),
+  bio: text("bio"),
   interests: jsonb("interests").$type<string[]>().default([]),
   chatbotName: text("chatbot_name").default("Ria"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -82,12 +88,34 @@ export const insertUserSchema = createInsertSchema(users).pick({
 });
 
 export const updateUserSchema = createInsertSchema(users).pick({
+  firstName: true,
+  lastName: true,
+  displayName: true,
+  profilePicture: true,
+  coverImage: true,
+  bio: true,
   interests: true,
   chatbotName: true,
 }).partial();
 
+export const updatePasswordSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z.string().min(6, "New password must be at least 6 characters"),
+  confirmPassword: z.string().min(1, "Please confirm your new password")
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"]
+});
+
+export const updateUsernameSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters").max(20, "Username must be less than 20 characters"),
+  password: z.string().min(1, "Password is required for security")
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type UpdateUser = z.infer<typeof updateUserSchema>;
+export type UpdatePassword = z.infer<typeof updatePasswordSchema>;
+export type UpdateUsername = z.infer<typeof updateUsernameSchema>;
 export type User = typeof users.$inferSelect;
 export type Search = typeof searches.$inferSelect;
 export type Favorite = typeof favorites.$inferSelect;

@@ -6,6 +6,8 @@ import {
   type User, 
   type InsertUser, 
   type UpdateUser,
+  type UpdatePassword,
+  type UpdateUsername,
   type Search,
   type Favorite,
   type ChatSession
@@ -15,6 +17,23 @@ import { eq, and } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
+
+const scryptAsync = promisify(scrypt);
+
+async function hashPassword(password: string) {
+  const salt = randomBytes(16).toString("hex");
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString("hex")}.${salt}`;
+}
+
+async function comparePasswords(supplied: string, stored: string) {
+  const [hashed, salt] = stored.split(".");
+  const hashedBuf = Buffer.from(hashed, "hex");
+  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+  return timingSafeEqual(hashedBuf, suppliedBuf);
+}
 
 const PostgresSessionStore = connectPg(session);
 
@@ -24,6 +43,8 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: string, updates: UpdateUser): Promise<User>;
+  updateUserPassword(id: string, currentPassword: string, newPassword: string): Promise<User>;
+  updateUserUsername(id: string, newUsername: string, password: string): Promise<User>;
   
   createSearch(userId: string, query: string, filters: any, results: any[]): Promise<Search>;
   getUserSearches(userId: string): Promise<Search[]>;
@@ -73,6 +94,26 @@ export class DatabaseStorage implements IStorage {
 
   async updateUser(id: string, updates: UpdateUser): Promise<User> {
     const updateData: any = { updatedAt: new Date() };
+    
+    // Handle all profile fields
+    if (updates.firstName !== undefined) {
+      updateData.firstName = updates.firstName;
+    }
+    if (updates.lastName !== undefined) {
+      updateData.lastName = updates.lastName;
+    }
+    if (updates.displayName !== undefined) {
+      updateData.displayName = updates.displayName;
+    }
+    if (updates.profilePicture !== undefined) {
+      updateData.profilePicture = updates.profilePicture;
+    }
+    if (updates.coverImage !== undefined) {
+      updateData.coverImage = updates.coverImage;
+    }
+    if (updates.bio !== undefined) {
+      updateData.bio = updates.bio;
+    }
     if (updates.interests !== undefined) {
       updateData.interests = updates.interests;
     }
@@ -86,6 +127,63 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, id))
       .returning();
     return user;
+  }
+
+  async updateUserPassword(id: string, currentPassword: string, newPassword: string): Promise<User> {
+    // First verify the current password
+    const user = await this.getUser(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    const isCurrentPasswordValid = await comparePasswords(currentPassword, user.password);
+    if (!isCurrentPasswordValid) {
+      throw new Error('Current password is incorrect');
+    }
+    
+    // Hash the new password using the same method as auth.ts
+    const hashedNewPassword = await hashPassword(newPassword);
+    
+    const [updatedUser] = await db
+      .update(users)
+      .set({ 
+        password: hashedNewPassword,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, id))
+      .returning();
+    
+    return updatedUser;
+  }
+
+  async updateUserUsername(id: string, newUsername: string, password: string): Promise<User> {
+    // First verify the password for security
+    const user = await this.getUser(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    const isPasswordValid = await comparePasswords(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error('Password is incorrect');
+    }
+    
+    // Check if username is already taken
+    const existingUser = await this.getUserByUsername(newUsername);
+    if (existingUser && existingUser.id !== id) {
+      throw new Error('Username is already taken');
+    }
+    
+    const [updatedUser] = await db
+      .update(users)
+      .set({ 
+        username: newUsername,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, id))
+      .returning();
+    
+    return updatedUser;
   }
 
   async createSearch(userId: string, query: string, filters: any, results: any[]): Promise<Search> {
