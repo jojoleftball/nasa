@@ -218,7 +218,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (filters.mission && Array.isArray(filters.mission) && filters.mission.length > 0) {
         filteredResults = filteredResults.filter(study =>
           filters.mission.some((mission: string) =>
-            study.mission?.toLowerCase().includes(mission.toLowerCase()) ||
+            study.missionName?.toLowerCase().includes(mission.toLowerCase()) ||
             study.title?.toLowerCase().includes(mission.toLowerCase()) ||
             study.abstract?.toLowerCase().includes(mission.toLowerCase())
           )
@@ -228,18 +228,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (filters.tissueType && Array.isArray(filters.tissueType) && filters.tissueType.length > 0) {
         filteredResults = filteredResults.filter(study =>
           filters.tissueType.some((tissue: string) =>
-            study.tissue?.toLowerCase().includes(tissue.toLowerCase()) ||
+            study.tissueType?.toLowerCase().includes(tissue.toLowerCase()) ||
             study.tags?.some((tag: string) => tag.toLowerCase().includes(tissue.toLowerCase()))
           )
         );
       }
 
-      if (filters.publicationStatus && filters.publicationStatus !== "All Status") {
-        filteredResults = filteredResults.filter(study => {
-          const status = study.publicationStatus || study.status || "Published";
-          return status.toLowerCase().includes(filters.publicationStatus.toLowerCase());
-        });
-      }
 
       if (filters.keywords && Array.isArray(filters.keywords) && filters.keywords.length > 0) {
         filteredResults = filteredResults.filter(study =>
@@ -268,7 +262,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               comparison = aAuthor.localeCompare(bAuthor);
               break;
             case "citations":
-              comparison = (a.citations || 0) - (b.citations || 0);
+              comparison = 0;
               break;
             case "relevance":
             default:

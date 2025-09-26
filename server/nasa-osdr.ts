@@ -50,6 +50,11 @@ interface OSDRStudyResponse {
 }
 
 export class NASAOSDRService {
+  private statsCache: {
+    data: any;
+    timestamp: number;
+  } | null = null;
+  private readonly cacheTimeout = 6 * 60 * 60 * 1000;
   
   async searchStudies(searchTerm: string, limit: number = 20): Promise<NASAStudy[]> {
     try {
@@ -169,6 +174,10 @@ export class NASAOSDRService {
     yearlyTrends: Record<string, number>;
     recentStudiesCount: number;
   }> {
+    if (this.statsCache && (Date.now() - this.statsCache.timestamp) < this.cacheTimeout) {
+      return this.statsCache.data;
+    }
+
     try {
       const categoryTerms = {
         "Plant Biology": "plant",
@@ -209,12 +218,19 @@ export class NASAOSDRService {
       const currentYear = new Date().getFullYear();
       const recentStudiesCount = yearlyTrends[currentYear.toString()] || 0;
 
-      return {
+      const stats = {
         totalStudies,
         categoryStats,
         yearlyTrends,
         recentStudiesCount
       };
+
+      this.statsCache = {
+        data: stats,
+        timestamp: Date.now()
+      };
+
+      return stats;
     } catch (error) {
       console.error('Error fetching OSDR statistics:', error);
       return {
