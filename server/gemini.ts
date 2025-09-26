@@ -3,7 +3,6 @@ import { nasaOSDRService } from "./nasa-osdr";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
-// Enhanced conversation modes
 export enum ConversationMode {
   RESEARCH_ASSISTANT = "research_assistant",
   STUDY_ANALYZER = "study_analyzer", 
@@ -11,7 +10,6 @@ export enum ConversationMode {
   METHODOLOGY_EXPERT = "methodology_expert"
 }
 
-// Context types for advanced awareness
 export interface ChatContext {
   currentStudy?: any;
   userInterests?: string[];
@@ -21,7 +19,6 @@ export interface ChatContext {
   researchGoals?: string[];
 }
 
-// Generate sophisticated system prompts based on mode and context
 function generateAdvancedSystemPrompt(mode: ConversationMode, context: ChatContext): string {
   const baseIdentity = `You are Ria, an advanced NASA space biology research AI assistant with deep expertise in space life sciences, microgravity research, and astrobiology.`;
   
@@ -130,21 +127,19 @@ function buildContextualPrompt(context: ChatContext): string {
 function getTemperatureForMode(mode: ConversationMode): number {
   switch (mode) {
     case ConversationMode.RESEARCH_ASSISTANT:
-      return 0.7; // Balanced creativity and accuracy
+      return 0.7;
     case ConversationMode.STUDY_ANALYZER:
-      return 0.5; // More focused and analytical
+      return 0.5;
     case ConversationMode.DATA_EXPLORER:
-      return 0.6; // Slightly creative for pattern recognition
+      return 0.6;
     case ConversationMode.METHODOLOGY_EXPERT:
-      return 0.4; // Very precise and methodical
+      return 0.4;
     default:
       return 0.7;
   }
 }
 
-// Enhance user messages with real NASA OSDR data
 async function enhanceMessageWithNASAData(message: string, context: ChatContext): Promise<string> {
-  // Check if user is asking for specific studies or data
   const dataQueryPatterns = [
     /find studies about|search for studies|what studies|research on|papers about/i,
     /recent research|latest studies|new findings/i,
@@ -156,7 +151,6 @@ async function enhanceMessageWithNASAData(message: string, context: ChatContext)
   
   if (isDataQuery) {
     try {
-      // Extract search terms from the message
       const searchTerms = extractSearchTerms(message);
       if (searchTerms) {
         const relevantStudies = await nasaOSDRService.searchStudies(searchTerms, 5);
@@ -177,7 +171,6 @@ async function enhanceMessageWithNASAData(message: string, context: ChatContext)
 }
 
 function extractSearchTerms(message: string): string | null {
-  // Extract meaningful search terms from user message
   const terms = message
     .toLowerCase()
     .replace(/find studies about|search for studies|what studies|research on|papers about|recent research|latest studies|new findings|data on/gi, '')
@@ -190,15 +183,12 @@ function extractSearchTerms(message: string): string | null {
   return terms.trim() || null;
 }
 
-// Add citations and enhance responses
 async function enhanceResponseWithCitations(response: string, context: ChatContext): Promise<string> {
-  // Add relevant study links if discussing specific topics
   if (context.currentStudy) {
     const currentStudyRef = `\n\n📖 **Current Study Reference:**\n[${context.currentStudy.title}](${context.currentStudy.url})`;
     response += currentStudyRef;
   }
   
-  // Add personalized recommendations based on user interests
   if (context.userInterests && context.userInterests.length > 0) {
     try {
       const recommendations = await generatePersonalizedRecommendations(context.userInterests);
@@ -242,7 +232,6 @@ export async function generateChatResponse(
       parts: [{ text: msg.content }]
     }));
 
-    // Check if user is asking for specific NASA data
     const enhancedMessage = await enhanceMessageWithNASAData(userMessage, context);
     
     const response = await ai.models.generateContent({
@@ -263,7 +252,6 @@ export async function generateChatResponse(
 
     let responseText = response.text || "I'm sorry, I couldn't generate a response. Please try again.";
     
-    // Post-process response for enhanced features
     responseText = await enhanceResponseWithCitations(responseText, context);
     
     return responseText;
@@ -332,7 +320,6 @@ Return only the search terms, one per line, without numbers or bullets.`;
   }
 }
 
-// New advanced AI functions
 export async function analyzeStudyComparison(studies: any[]): Promise<string> {
   try {
     const studyData = studies.map(study => 

@@ -73,7 +73,7 @@ export default function DashboardPage() {
     setSearchQuery(query);
     setFilters(newFilters);
     setSortOptions(newSortOptions);
-    setShowInterestBased(false); // Switch to search results when user searches
+    setShowInterestBased(false);
   };
 
   return (

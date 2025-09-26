@@ -70,7 +70,6 @@ export function Chatbot() {
     },
     onSuccess: (data) => {
       setMessage("");
-      // Invalidate and refetch chat history
       queryClient.invalidateQueries({ queryKey: ["/api/chat/history"] });
     },
   });

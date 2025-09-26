@@ -15,14 +15,11 @@ interface ResearchResultsProps {
 }
 
 export function ResearchResults({ query, filters, sortOptions, showInterestBased = false, userInterests = [] }: ResearchResultsProps) {
-  // Helper function to check if filters are empty
   const areFiltersEmpty = () => {
     if (!filters) return true;
     
-    // Check year range
     if (filters.yearRange && filters.yearRange !== "All Years") return false;
     
-    // Check array filters
     const arrayFilters = ['organism', 'experimentType', 'mission', 'tissueType', 'researchArea', 'keywords'];
     for (const filterKey of arrayFilters) {
       if (filters[filterKey] && Array.isArray(filters[filterKey]) && filters[filterKey].length > 0) {
@@ -30,10 +27,8 @@ export function ResearchResults({ query, filters, sortOptions, showInterestBased
       }
     }
     
-    // Check publication status
     if (filters.publicationStatus && filters.publicationStatus !== "All Status") return false;
     
-    // Check custom date range
     if (filters.customDateRange && (filters.customDateRange.start || filters.customDateRange.end)) {
       return false;
     }
@@ -45,7 +40,6 @@ export function ResearchResults({ query, filters, sortOptions, showInterestBased
     queryKey: ["/api/search", query, filters, sortOptions, showInterestBased, userInterests],
     queryFn: async () => {
       if (showInterestBased && userInterests.length > 0) {
-        // Fetch research based on user interests
         const res = await apiRequest("POST", "/api/search", { 
           interests: userInterests, 
           filters: { ...filters, limit: 20 },
