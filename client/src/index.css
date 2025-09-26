@@ -160,7 +160,6 @@
     radial-gradient(1px 1px at 780px 90px, hsl(var(--stardust)), transparent);
   background-repeat: repeat;
   background-size: 800px 300px;
-  animation: sparkle-fast 25s linear infinite;
 }
 
 /* Secondary star layer - distant stars */
@@ -174,7 +173,6 @@
     radial-gradient(1px 1px at 660px 110px, hsl(var(--nebula-3) / 0.3), transparent);
   background-repeat: repeat;
   background-size: 720px 200px;
-  animation: sparkle-slow 45s linear infinite;
 }
 
 /* Light theme star adjustments */
@@ -214,7 +212,6 @@
     radial-gradient(ellipse 600px 1000px at 10% 70%, hsl(var(--nebula-3) / 0.25) 0%, transparent 45%),
     radial-gradient(ellipse 1200px 600px at 90% 30%, hsl(var(--galaxy-core) / 0.2) 0%, transparent 40%);
   pointer-events: none;
-  animation: nebula-flow 60s ease-in-out infinite;
 }
 
 .cosmic-bg::after {
@@ -228,7 +225,6 @@
     radial-gradient(ellipse 400px 600px at 60% 40%, hsl(var(--galaxy-core) / 0.15) 0%, transparent 70%),
     radial-gradient(ellipse 700px 400px at 30% 90%, hsl(var(--nebula-1) / 0.1) 0%, transparent 60%);
   pointer-events: none;
-  animation: nebula-drift 80s ease-in-out infinite reverse;
 }
 
 .light .cosmic-bg::before {
