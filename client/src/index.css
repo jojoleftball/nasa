@@ -589,7 +589,6 @@ html[class*="light"] {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: galaxy-spin 8s ease-in-out infinite;
 }
 
 .loading-cosmic {
