@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, requireAuth } from "./auth";
 import { generateChatResponse, summarizeStudy, generateSearchSuggestions, ConversationMode, type ChatContext, analyzeStudyComparison, generateResearchPathway } from "./gemini";
-import { updateUserSchema } from "@shared/schema";
+import { updateUserSchema, updatePasswordSchema, updateUsernameSchema } from "@shared/schema";
 import { nasaOSDRService } from "./nasa-osdr";
 import { z } from "zod";
 
@@ -86,14 +86,81 @@ async function generateInterestBasedResults(interests: string[]) {
 export async function registerRoutes(app: Express): Promise<Server> {
   setupAuth(app);
 
-  app.put("/api/user/profile", isAuthenticated, async (req, res) => {
+  app.put("/api/user/profile", requireAuth, async (req, res) => {
     try {
       const validatedData = updateUserSchema.parse(req.body);
       const updatedUser = await storage.updateUser(req.user!.id, validatedData);
       const { password, ...userWithoutPassword } = updatedUser;
       res.json(userWithoutPassword);
     } catch (error) {
-      res.status(400).json({ message: "Invalid data provided" });
+      console.error('Profile update error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid profile data", 
+          errors: error.errors 
+        });
+      }
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
+  // Update user password
+  app.put("/api/user/password", requireAuth, async (req, res) => {
+    try {
+      const validatedData = updatePasswordSchema.parse(req.body);
+      const { currentPassword, newPassword } = validatedData;
+      
+      await storage.updateUserPassword(req.user!.id, currentPassword, newPassword);
+      res.json({ message: "Password updated successfully" });
+    } catch (error) {
+      console.error('Password update error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid password data", 
+          errors: error.errors 
+        });
+      }
+      if (error instanceof Error) {
+        if (error.message === 'Current password is incorrect') {
+          return res.status(400).json({ message: "Current password is incorrect" });
+        }
+        if (error.message === 'User not found') {
+          return res.status(404).json({ message: "User not found" });
+        }
+      }
+      res.status(500).json({ message: "Failed to update password" });
+    }
+  });
+
+  // Update username
+  app.put("/api/user/username", requireAuth, async (req, res) => {
+    try {
+      const validatedData = updateUsernameSchema.parse(req.body);
+      const { username: newUsername, password } = validatedData;
+      
+      const updatedUser = await storage.updateUserUsername(req.user!.id, newUsername, password);
+      const { password: _, ...userWithoutPassword } = updatedUser;
+      res.json({ message: "Username updated successfully", user: userWithoutPassword });
+    } catch (error) {
+      console.error('Username update error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid username data", 
+          errors: error.errors 
+        });
+      }
+      if (error instanceof Error) {
+        if (error.message === 'Password is incorrect') {
+          return res.status(400).json({ message: "Password is incorrect" });
+        }
+        if (error.message === 'Username is already taken') {
+          return res.status(409).json({ message: "Username is already taken" });
+        }
+        if (error.message === 'User not found') {
+          return res.status(404).json({ message: "User not found" });
+        }
+      }
+      res.status(500).json({ message: "Failed to update username" });
     }
   });
 
