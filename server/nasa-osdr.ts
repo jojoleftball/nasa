@@ -297,7 +297,7 @@ export class NASAOSDRService {
     // Add default space biology tags
     tags.push('Space Biology', 'NASA Research');
     
-    return [...new Set(tags)]; // Remove duplicates
+    return Array.from(new Set(tags)); // Remove duplicates
   }
 
   /**
@@ -314,7 +314,7 @@ export class NASAOSDRService {
     
     tags.push('Space Biology', 'NASA Research');
     
-    return [...new Set(tags)];
+    return Array.from(new Set(tags));
   }
 
   /**

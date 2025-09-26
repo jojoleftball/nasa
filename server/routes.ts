@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { setupAuth, requireAuth } from "./auth";
 import { generateChatResponse, summarizeStudy, generateSearchSuggestions } from "./gemini";
 import { updateUserSchema } from "@shared/schema";
+import { nasaOSDRService } from "./nasa-osdr";
 
 function isAuthenticated(req: any, res: any, next: any) {
   if (!req.isAuthenticated()) {
@@ -12,127 +13,39 @@ function isAuthenticated(req: any, res: any, next: any) {
   next();
 }
 
-// Function to generate research results based on user interests
-function generateInterestBasedResults(interests: string[]) {
-  const interestResearchMap: Record<string, any[]> = {
-    "plant-biology": [
-      {
-        id: "osdr-101",
-        title: "Transcriptomic Analysis of Arabidopsis thaliana in Microgravity",
-        abstract: "This study examines gene expression changes in Arabidopsis thaliana seedlings grown under microgravity conditions aboard the International Space Station. Results show significant alterations in cell wall biosynthesis and stress response pathways.",
-        authors: ["Dr. Sarah Johnson", "Dr. Michael Chen", "Dr. Anna Rodriguez"],
-        year: 2024,
-        institution: "NASA Kennedy Space Center",
-        tags: ["Plant Biology", "Transcriptomics", "Microgravity", "Gene Expression"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-101"
-      },
-      {
-        id: "osdr-156",
-        title: "Root Development in Space-Grown Lettuce",
-        abstract: "Investigation of root morphology and development patterns in lettuce plants cultivated in the Advanced Plant Habitat on the ISS, revealing adaptations to the space environment.",
-        authors: ["Dr. Lisa Park", "Dr. James Wilson"],
-        year: 2023,
-        institution: "NASA Ames Research Center",
-        tags: ["Plant Biology", "Root Development", "Space Agriculture", "ISS"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-156"
-      }
-    ],
-    "human-health": [
-      {
-        id: "osdr-203",
-        title: "Cardiovascular Deconditioning During Long-Duration Spaceflight",
-        abstract: "Comprehensive analysis of cardiovascular changes in astronauts during 6-month ISS missions, including cardiac function, blood pressure regulation, and vascular adaptation mechanisms.",
-        authors: ["Dr. Robert Martinez", "Dr. Emily Thompson", "Dr. David Kim"],
-        year: 2024,
-        institution: "NASA Johnson Space Center",
-        tags: ["Human Health", "Cardiovascular", "Long-Duration", "Astronaut Health"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-203"
-      },
-      {
-        id: "osdr-178",
-        title: "Bone Density Changes in Microgravity Environment",
-        abstract: "Longitudinal study tracking bone mineral density changes in astronauts during extended space missions, investigating countermeasures and recovery patterns.",
-        authors: ["Dr. Jennifer Brown", "Dr. Alex Turner"],
-        year: 2023,
-        institution: "NASA Johnson Space Center",
-        tags: ["Human Health", "Bone Health", "Microgravity", "Countermeasures"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-178"
-      }
-    ],
-    "microgravity-effects": [
-      {
-        id: "osdr-089",
-        title: "Cellular Response to Simulated Microgravity in Human Fibroblasts",
-        abstract: "Investigation of cellular mechanisms and gene expression changes in human fibroblasts exposed to simulated microgravity using clinostat rotation.",
-        authors: ["Dr. Maria Gonzalez", "Dr. Peter Anderson"],
-        year: 2024,
-        institution: "NASA Ames Research Center",
-        tags: ["Microgravity Effects", "Cell Biology", "Fibroblasts", "Gene Expression"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-089"
-      }
-    ],
-    "radiation-studies": [
-      {
-        id: "osdr-245",
-        title: "DNA Damage Response to Cosmic Radiation in Human Cells",
-        abstract: "Analysis of DNA repair mechanisms and cellular responses to cosmic radiation exposure, studying both acute and chronic effects on human cell cultures.",
-        authors: ["Dr. Rachel White", "Dr. Steven Lee"],
-        year: 2024,
-        institution: "NASA Glenn Research Center",
-        tags: ["Radiation Biology", "DNA Repair", "Cosmic Radiation", "Cell Culture"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-245"
-      }
-    ],
-    "microbiology": [
-      {
-        id: "osdr-134",
-        title: "Microbial Community Dynamics in Space Environment",
-        abstract: "Comprehensive study of microbial communities aboard the International Space Station, examining species diversity, biofilm formation, and antibiotic resistance patterns.",
-        authors: ["Dr. Kevin Zhang", "Dr. Amanda Davis"],
-        year: 2023,
-        institution: "NASA Marshall Space Flight Center",
-        tags: ["Microbiology", "Biofilms", "ISS Environment", "Antibiotic Resistance"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-134"
-      }
-    ],
-    "genetics": [
-      {
-        id: "osdr-167",
-        title: "Epigenetic Changes During Spaceflight in Twin Astronauts",
-        abstract: "Groundbreaking study comparing epigenetic modifications between twin astronauts, one on Earth and one in space, revealing space-induced genetic regulation changes.",
-        authors: ["Dr. Susan Kelly", "Dr. Mark Johnson", "Dr. Patricia Smith"],
-        year: 2024,
-        institution: "NASA Johnson Space Center",
-        tags: ["Genetics", "Epigenetics", "Twin Study", "Space Medicine"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-167"
-      }
-    ]
-  };
-
-  let results: any[] = [];
-  interests.forEach(interest => {
-    if (interestResearchMap[interest]) {
-      results = results.concat(interestResearchMap[interest]);
+// Function to generate research results based on user interests using real NASA OSDR API
+async function generateInterestBasedResults(interests: string[]) {
+  try {
+    const allResults: any[] = [];
+    
+    // Fetch studies for each interest from real NASA OSDR API
+    for (const interest of interests) {
+      const studies = await nasaOSDRService.getStudiesByInterest(interest, 5);
+      allResults.push(...studies);
     }
-  });
-
-  // If no specific interests match, return some general space biology research
-  if (results.length === 0) {
-    results = [
-      {
-        id: "osdr-general-1",
-        title: "Overview of Space Biology Research Initiatives",
-        abstract: "Comprehensive review of current space biology research programs and their contributions to understanding life in space environments.",
-        authors: ["Dr. Generic Scientist"],
-        year: 2024,
-        institution: "NASA",
-        tags: ["Space Biology", "Research Overview"],
-        url: "https://osdr.nasa.gov"
-      }
-    ];
+    
+    // If no results from interests, get recent studies
+    if (allResults.length === 0) {
+      const recentStudies = await nasaOSDRService.getRecentStudies(10);
+      allResults.push(...recentStudies);
+    }
+    
+    // Remove duplicates based on ID
+    const uniqueResults = allResults.filter((study, index, self) =>
+      index === self.findIndex(s => s.id === study.id)
+    );
+    
+    return uniqueResults.slice(0, 10); // Return top 10 results
+  } catch (error) {
+    console.error('Error generating interest-based results:', error);
+    // Fallback to recent studies if interest-based search fails
+    try {
+      return await nasaOSDRService.getRecentStudies(10);
+    } catch (fallbackError) {
+      console.error('Fallback also failed:', fallbackError);
+      return [];
+    }
   }
-
-  return results.slice(0, 10); // Return top 10 results
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -157,122 +70,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // If searching by interests, return interest-based results
       if (interests && interests.length > 0) {
-        const interestBasedResults = generateInterestBasedResults(interests);
+        const interestBasedResults = await generateInterestBasedResults(interests);
         return res.json({
           results: interestBasedResults,
           totalCount: interestBasedResults.length,
         });
       }
 
-      // Real NASA OSDR research results
-      const osdrResults = [
-        {
-          id: "OSDR-001",
-          title: "Transcriptomic Analysis of Arabidopsis thaliana Seedlings Grown in Space",
-          abstract: "Comprehensive transcriptomic analysis of Arabidopsis thaliana seedlings exposed to microgravity conditions aboard the International Space Station. This study reveals significant changes in gene expression patterns related to cell wall synthesis, stress response, and gravitropic signaling pathways, providing crucial insights for future space agriculture initiatives.",
-          year: 2025,
-          authors: ["Dr. Maria Gonzalez", "Dr. James Patterson", "Dr. Lisa Chen"],
-          institution: "NASA Ames Research Center",
-          tags: ["Plant Biology", "Microgravity", "Transcriptomics", "ISS"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-001"
-        },
-        {
-          id: "OSDR-002", 
-          title: "Cardiac Function and Autonomic Regulation During 6-Month ISS Missions",
-          abstract: "Longitudinal study examining cardiovascular deconditioning and autonomic nervous system adaptations in astronauts during extended ISS missions. Data includes echocardiography, heart rate variability, and blood pressure measurements, contributing to countermeasure development for future deep space missions.",
-          year: 2025,
-          authors: ["Dr. Robert Kim", "Dr. Sarah Mitchell", "Dr. Alexander Petrov"],
-          institution: "Johnson Space Center",
-          tags: ["Human Health", "Cardiovascular", "Autonomic", "ISS"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-002"
-        },
-        {
-          id: "OSDR-003",
-          title: "Radiation-Induced DNA Damage and Repair in Mammalian Cell Cultures",
-          abstract: "Investigation of DNA damage and repair mechanisms in mammalian cell cultures exposed to simulated galactic cosmic radiation and solar particle events. Results inform radiation protection strategies for lunar and Mars missions, including novel radioprotective compounds and shielding materials.",
-          year: 2024,
-          authors: ["Dr. Elena Rodriguez", "Dr. Michael Zhang", "Dr. Jennifer Adams"],
-          institution: "Glenn Research Center",
-          tags: ["Radiation Biology", "DNA Repair", "Cell Culture", "Space Radiation"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-003"
-        },
-        {
-          id: "OSDR-004",
-          title: "Bone Metabolism and Microarchitecture Changes in Microgravity",
-          abstract: "Comprehensive analysis of bone loss mechanisms during spaceflight using advanced imaging techniques and biomarker analysis. Study includes data from astronauts on 6-month ISS missions and ground-based analog studies, providing insights for bone health countermeasures.",
-          year: 2024,
-          authors: ["Dr. David Thompson", "Dr. Anna Kowalski", "Dr. Mark Johnson"],
-          institution: "NASA Johnson Space Center",
-          tags: ["Bone Health", "Microgravity", "Medical Countermeasures"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-004"
-        },
-        {
-          id: "OSDR-005",
-          title: "Microbiome Dynamics in Closed-Loop Life Support Systems",
-          abstract: "Analysis of microbial community composition and dynamics in spacecraft environmental control systems and their interaction with crew microbiomes. Critical for developing sustainable life support systems for long-duration missions to Mars and beyond.",
-          year: 2025,
-          authors: ["Dr. Rachel Martinez", "Dr. Kevin Liu", "Dr. Sandra Brown"],
-          institution: "NASA Ames Research Center", 
-          tags: ["Microbiology", "Life Support", "Microbiome", "Crew Health"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-005"
-        },
-        {
-          id: "OSDR-006",
-          title: "Neural Plasticity and Cognitive Performance in Simulated Mars Gravity",
-          abstract: "Neurological and cognitive assessment of subjects exposed to simulated Mars gravity (0.38g) for extended periods. Includes neuroimaging, cognitive testing, and electrophysiological measurements to understand brain adaptation to reduced gravity environments.",
-          year: 2025,
-          authors: ["Dr. Thomas Wilson", "Dr. Catherine Lee", "Dr. Ahmed Hassan"],
-          institution: "NASA Johnson Space Center",
-          tags: ["Neuroscience", "Cognitive Function", "Mars Gravity", "Brain Imaging"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-006"
-        },
-        {
-          id: "OSDR-007",
-          title: "Food Production Systems for Long-Duration Space Missions",
-          abstract: "Development and testing of advanced plant growth systems for sustainable food production during Mars missions. Includes optimization of LED lighting, nutrient delivery systems, and crop selection for maximum nutritional value and resource efficiency.",
-          year: 2024,
-          authors: ["Dr. Maria Santos", "Dr. John Miller", "Dr. Yuki Tanaka"],
-          institution: "Kennedy Space Center",
-          tags: ["Space Agriculture", "Food Systems", "Plant Growth", "Mars Missions"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-007"
-        },
-        {
-          id: "OSDR-008",
-          title: "Sleep Quality and Circadian Rhythms in Space Environment",
-          abstract: "Comprehensive study of sleep patterns, circadian rhythm disruption, and fatigue management in astronauts during ISS missions. Data includes actigraphy, polysomnography, and hormone level measurements to improve crew performance and health.",
-          year: 2025,
-          authors: ["Dr. Laura Anderson", "Dr. Christopher Davis", "Dr. Priya Sharma"],
-          institution: "NASA Johnson Space Center",
-          tags: ["Sleep Medicine", "Circadian Biology", "Crew Performance", "Fatigue"],
-          url: "https://osdr.nasa.gov/bio/repo/data/studies/OSDR-008"
-        }
-      ];
+      // Get real NASA OSDR research results based on query and filters
+      let osdrResults: any[] = [];
+      
+      if (query && query.trim()) {
+        // Search NASA OSDR with the provided query
+        osdrResults = await nasaOSDRService.searchStudies(query.trim(), 20);
+      } else {
+        // Get recent studies if no specific query
+        osdrResults = await nasaOSDRService.getRecentStudies(20);
+      }
 
-      // Apply filters to real OSDR results
+      // Apply additional filtering based on filters
       let filteredResults = osdrResults;
 
       if (filters.yearRange && filters.yearRange !== "All Years") {
-        if (filters.yearRange === "2025") {
-          filteredResults = filteredResults.filter(study => study.year === 2025);
-        } else if (filters.yearRange === "2024-2025") {
-          filteredResults = filteredResults.filter(study => study.year >= 2024 && study.year <= 2025);
-        } else {
-          const [startYear, endYear] = filters.yearRange.split("-").map(Number);
+        if (filters.yearRange === "2020-2024") {
           filteredResults = filteredResults.filter(study => 
-            study.year >= startYear && study.year <= endYear
+            study.year >= 2020 && study.year <= 2024
+          );
+        } else if (filters.yearRange === "2015-2019") {
+          filteredResults = filteredResults.filter(study => 
+            study.year >= 2015 && study.year <= 2019
+          );
+        } else if (filters.yearRange === "2010-2014") {
+          filteredResults = filteredResults.filter(study => 
+            study.year >= 2010 && study.year <= 2014
           );
         }
       }
 
       if (filters.organism && filters.organism !== "All Organisms") {
         filteredResults = filteredResults.filter(study =>
-          study.tags.some(tag => tag.toLowerCase().includes(filters.organism.toLowerCase()))
+          study.organism?.toLowerCase().includes(filters.organism.toLowerCase()) ||
+          study.tags?.some((tag: string) => tag.toLowerCase().includes(filters.organism.toLowerCase()))
         );
       }
 
       if (filters.experimentType && filters.experimentType !== "All Types") {
         filteredResults = filteredResults.filter(study =>
-          study.tags.some(tag => tag.toLowerCase().includes(filters.experimentType.toLowerCase()))
+          study.assayType?.toLowerCase().includes(filters.experimentType.toLowerCase()) ||
+          study.tags?.some((tag: string) => tag.toLowerCase().includes(filters.experimentType.toLowerCase()))
         );
       }
 
