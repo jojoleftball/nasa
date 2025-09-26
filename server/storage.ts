@@ -11,7 +11,7 @@ import {
   type ChatSession
 } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
@@ -114,7 +114,7 @@ export class DatabaseStorage implements IStorage {
 
   async removeFavorite(userId: string, studyId: string): Promise<void> {
     await db.delete(favorites)
-      .where(eq(favorites.userId, userId) && eq(favorites.studyId, studyId));
+      .where(and(eq(favorites.userId, userId), eq(favorites.studyId, studyId)));
   }
 
   async getChatSession(userId: string): Promise<ChatSession | undefined> {
