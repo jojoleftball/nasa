@@ -97,6 +97,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get detailed study metadata
+  app.get("/api/study/:studyId/metadata", requireAuth, async (req, res) => {
+    try {
+      const { studyId } = req.params;
+      
+      if (!studyId) {
+        return res.status(400).json({ message: "Study ID is required" });
+      }
+
+      // Try v2 API first, fallback to v1
+      let metadata = await nasaOSDRService.getStudyMetadataV2(studyId);
+      
+      if (!metadata) {
+        metadata = await nasaOSDRService.getStudyMetadata(studyId);
+      }
+
+      if (!metadata) {
+        return res.status(404).json({ message: "Study not found" });
+      }
+
+      res.json(metadata);
+    } catch (error) {
+      console.error('Error fetching study metadata:', error);
+      res.status(500).json({ message: "Failed to fetch study metadata" });
+    }
+  });
+
   app.post("/api/search", requireAuth, async (req, res) => {
     try {
       const searchRequest = searchRequestSchema.parse(req.body);
@@ -144,12 +171,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Use the enhanced search with filters
+      const searchFilters = {
+        query: query && query.trim() ? query.trim() : undefined,
+        organism: filters.organism && filters.organism.length > 0 ? filters.organism : undefined,
+        assayType: filters.experimentType && filters.experimentType.length > 0 ? filters.experimentType : undefined,
+        mission: filters.mission && filters.mission.length > 0 ? filters.mission : undefined,
+        tissueType: filters.tissueType && filters.tissueType.length > 0 ? filters.tissueType : undefined,
+        yearRange: undefined, // We'll apply year filtering post-search for now
+        // Note: researchArea is handled via post-search filtering since it's more of a semantic search
+        dataType: undefined,
+        limit: 30
+      };
+
       let osdrResults: any[] = [];
       
-      if (query && query.trim()) {
-        osdrResults = await nasaOSDRService.searchStudies(query.trim(), 20);
+      // Try the enhanced v2 API first if we have specific filters, fallback to basic search if needed
+      if (searchFilters.organism || searchFilters.assayType || searchFilters.mission || searchFilters.tissueType) {
+        osdrResults = await nasaOSDRService.searchStudiesAdvanced(searchFilters);
+      } else if (query && query.trim()) {
+        osdrResults = await nasaOSDRService.searchStudies(query.trim(), 30);
       } else {
-        osdrResults = await nasaOSDRService.getRecentStudies(20);
+        osdrResults = await nasaOSDRService.getRecentStudies(30);
       }
 
       let filteredResults = osdrResults;

@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 
 const OSDR_BASE_URL = 'https://osdr.nasa.gov/osdr/data/';
 const OSDR_API_URL = 'https://visualization.osdr.nasa.gov/biodata/api/';
+const OSDR_V2_API_URL = 'https://visualization.osdr.nasa.gov/biodata/api/v2/';
 
 export interface NASAStudy {
   id: string;
@@ -16,6 +17,12 @@ export interface NASAStudy {
   assayType?: string;
   missionName?: string;
   tissueType?: string;
+  dataType?: string;
+  submissionDate?: string;
+  releaseDate?: string;
+  factorValue?: string;
+  spaceflightMission?: string;
+  hardware?: string;
 }
 
 interface OSDRStudyResponse {
@@ -143,6 +150,67 @@ export class NASAOSDRService {
     const randomTerm = terms[Math.floor(Math.random() * terms.length)];
     
     return this.searchStudies(randomTerm, limit);
+  }
+
+  // Enhanced search with advanced filters using improved v1 API
+  async searchStudiesAdvanced(filters: {
+    query?: string;
+    organism?: string[];
+    assayType?: string[];
+    mission?: string[];
+    tissueType?: string[];
+    yearRange?: { start: number; end: number };
+    dataType?: string[];
+    limit?: number;
+  }): Promise<NASAStudy[]> {
+    try {
+      // Use the reliable v1 API with enhanced filtering
+      const query = filters.query || '';
+      let results: NASAStudy[] = [];
+      
+      // If we have specific organism filters, try targeted searches
+      if (filters.organism && filters.organism.length > 0) {
+        for (const organism of filters.organism.slice(0, 2)) { // Limit to avoid too many requests
+          const organismResults = await this.getStudiesByFilters(organism, undefined, Math.ceil((filters.limit || 20) / 2));
+          results.push(...organismResults);
+        }
+      }
+      
+      // If we have assay type filters, try targeted searches
+      if (filters.assayType && filters.assayType.length > 0) {
+        for (const assayType of filters.assayType.slice(0, 2)) { // Limit to avoid too many requests
+          const assayResults = await this.getStudiesByFilters(undefined, assayType, Math.ceil((filters.limit || 20) / 2));
+          results.push(...assayResults);
+        }
+      }
+      
+      // If no specific filters or not enough results, do a general search
+      if (results.length === 0 || (!filters.organism && !filters.assayType)) {
+        if (query.trim()) {
+          const generalResults = await this.searchStudies(query, filters.limit || 20);
+          results.push(...generalResults);
+        } else {
+          const recentResults = await this.getRecentStudies(filters.limit || 20);
+          results.push(...recentResults);
+        }
+      }
+      
+      // Remove duplicates
+      const uniqueResults = results.filter((study, index, self) =>
+        index === self.findIndex(s => s.id === study.id)
+      );
+      
+      return uniqueResults.slice(0, filters.limit || 20);
+    } catch (error) {
+      console.error('Error with advanced search, falling back to basic search:', error);
+      return this.searchStudies(filters.query || '', filters.limit || 20);
+    }
+  }
+
+  // Get detailed study metadata (fallback to v1 only for now)
+  async getStudyMetadataV2(studyId: string): Promise<NASAStudy | null> {
+    // For now, just use the reliable v1 API
+    return this.getStudyMetadata(studyId);
   }
 
   async getRecentStudies(limit: number = 15): Promise<NASAStudy[]> {
@@ -276,6 +344,100 @@ export class NASAOSDRService {
     return studies;
   }
 
+  // Transform v2 API search results
+  private transformV2SearchResults(data: any): NASAStudy[] {
+    const studies: NASAStudy[] = [];
+    
+    if (data?.data && Array.isArray(data.data)) {
+      for (const item of data.data) {
+        const study = this.transformV2DataItem(item);
+        if (study) {
+          studies.push(study);
+        }
+      }
+    }
+
+    return studies;
+  }
+
+  // Transform v2 API metadata result
+  private transformV2MetadataResult(data: any, studyId: string): NASAStudy | null {
+    try {
+      if (!data) return null;
+      
+      const metadata = data.data || data;
+      return this.transformV2DataItem(metadata, studyId);
+    } catch (error) {
+      console.error('Error transforming v2 metadata:', error);
+      return null;
+    }
+  }
+
+  // Transform individual v2 API data item
+  private transformV2DataItem(item: any, studyId?: string): NASAStudy | null {
+    try {
+      const accession = item['id.accession'] || item.accession || studyId || `OSD-${Date.now()}`;
+      const title = item['study.title'] || item.title || `Space Biology Study ${accession}`;
+      const description = item['study.description'] || item.description || 
+        'Space biology research study investigating biological processes in space environments.';
+      
+      const organism = item['study.characteristics.organism'] || item.organism;
+      const assayType = item['Study Assay Technology Type'] || item.assayType;
+      const tissueType = item['study.characteristics.tissue'] || item.tissue;
+      const mission = item['study.factor value.spaceflight'] || item['flight_mission'];
+      const dataType = item['file.data type'] || item.dataType;
+      
+      const submitDate = item['study.submit date'] || item.submit_date;
+      const releaseDate = item['study.public release date'] || item.public_release_date;
+      const year = this.extractYear(releaseDate || submitDate) || new Date().getFullYear();
+      
+      const contact = item['study.contact.name'] || item.study_contact_name;
+      const organization = item['study.contact.organization'] || item.study_contact_organization || 'NASA';
+      
+      const authors = this.extractAuthors(contact);
+      const tags = this.extractV2Tags(item);
+
+      return {
+        id: accession,
+        title: title,
+        abstract: description,
+        authors: authors,
+        year: year,
+        institution: organization,
+        tags: tags,
+        url: `https://osdr.nasa.gov/bio/repo/data/studies/${accession}`,
+        organism: organism,
+        assayType: assayType,
+        missionName: mission,
+        tissueType: tissueType,
+        dataType: dataType,
+        submissionDate: submitDate,
+        releaseDate: releaseDate,
+        factorValue: item['study.factor value.factor value'],
+        spaceflightMission: mission,
+        hardware: item['study.hardware'] || item.hardware
+      };
+    } catch (error) {
+      console.error('Error transforming v2 data item:', error);
+      return null;
+    }
+  }
+
+  private extractV2Tags(item: any): string[] {
+    const tags: string[] = [];
+    
+    if (item['study.characteristics.organism']) tags.push(item['study.characteristics.organism']);
+    if (item['Study Assay Technology Type']) tags.push(item['Study Assay Technology Type']);
+    if (item['study.factor value.spaceflight']) tags.push(item['study.factor value.spaceflight']);
+    if (item['study.characteristics.tissue']) tags.push(item['study.characteristics.tissue']);
+    if (item['file.data type']) tags.push(item['file.data type']);
+    if (item['study.hardware']) tags.push(item['study.hardware']);
+    
+    tags.push('Space Biology', 'NASA Research');
+    
+    return Array.from(new Set(tags.filter(tag => tag && tag.trim())));
+  }
+
   private transformSingleStudyFromSearch(source: any, id: string): NASAStudy | null {
     try {
       const title = source.title || source.study_title || `Space Biology Study ${id}`;
@@ -302,7 +464,13 @@ export class NASAOSDRService {
         organism: source.organism || source.experiment_organism,
         assayType: source.study_assay_technology_type,
         missionName: source.flight_mission,
-        tissueType: source.tissue
+        tissueType: source.tissue,
+        dataType: source.data_type,
+        submissionDate: source.submit_date,
+        releaseDate: source.public_release_date,
+        factorValue: source.factor_value,
+        spaceflightMission: source.flight_mission,
+        hardware: source.hardware
       };
     } catch (error) {
       console.error('Error transforming study:', error);
