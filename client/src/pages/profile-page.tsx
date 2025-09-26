@@ -47,7 +47,7 @@ export default function ProfilePage() {
             coverImage: user.coverImage || undefined,
             bio: user.bio || undefined,
             interests: user.interests || undefined,
-            createdAt: user.createdAt?.toISOString() || new Date().toISOString()
+            createdAt: user.createdAt || new Date().toISOString()
           }} />
 
           {/* Profile Management Tabs */}
