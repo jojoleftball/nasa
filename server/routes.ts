@@ -5,6 +5,36 @@ import { setupAuth, requireAuth } from "./auth";
 import { generateChatResponse, summarizeStudy, generateSearchSuggestions, ConversationMode, type ChatContext, analyzeStudyComparison, generateResearchPathway } from "./gemini";
 import { updateUserSchema } from "@shared/schema";
 import { nasaOSDRService } from "./nasa-osdr";
+import { z } from "zod";
+
+// Advanced search validation schemas
+const advancedFiltersSchema = z.object({
+  yearRange: z.string().optional().default("All Years"),
+  organism: z.array(z.string()).optional().default([]),
+  experimentType: z.array(z.string()).optional().default([]),
+  mission: z.array(z.string()).optional().default([]),
+  tissueType: z.array(z.string()).optional().default([]),
+  researchArea: z.array(z.string()).optional().default([]),
+  publicationStatus: z.string().optional().default("All Status"),
+  customDateRange: z.object({
+    start: z.string().optional().default(""),
+    end: z.string().optional().default("")
+  }).optional().default({ start: "", end: "" }),
+  keywords: z.array(z.string()).optional().default([])
+});
+
+const sortOptionsSchema = z.object({
+  sortBy: z.enum(["relevance", "date", "title", "author", "citations"]).optional().default("relevance"),
+  sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
+  secondarySort: z.enum(["relevance", "date", "title", "author", "citations"]).optional()
+});
+
+const searchRequestSchema = z.object({
+  query: z.string().optional().default(""),
+  filters: advancedFiltersSchema.optional(),
+  sortOptions: sortOptionsSchema.optional(),
+  interests: z.array(z.string()).optional()
+});
 
 function isAuthenticated(req: any, res: any, next: any) {
   if (!req.isAuthenticated()) {
@@ -66,11 +96,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Search endpoints
   app.post("/api/search", requireAuth, async (req, res) => {
     try {
-      const { query, filters, interests } = req.body;
+      // Validate and parse request body
+      const searchRequest = searchRequestSchema.parse(req.body);
+      const { query, filters, interests, sortOptions } = searchRequest;
 
       // If searching by interests, return interest-based results
       if (interests && interests.length > 0) {
         const interestBasedResults = await generateInterestBasedResults(interests);
+        
+        // Apply sorting to interest-based results if specified
+        if (sortOptions && sortOptions.sortBy) {
+          interestBasedResults.sort((a, b) => {
+            let comparison = 0;
+            
+            switch (sortOptions.sortBy) {
+              case "date":
+                comparison = (a.year || 0) - (b.year || 0);
+                break;
+              case "title":
+                comparison = (a.title || "").localeCompare(b.title || "");
+                break;
+              case "author":
+                const aAuthor = Array.isArray(a.authors) ? a.authors[0] : a.authors || "";
+                const bAuthor = Array.isArray(b.authors) ? b.authors[0] : b.authors || "";
+                comparison = aAuthor.localeCompare(bAuthor);
+                break;
+              case "citations":
+                comparison = (a.citations || 0) - (b.citations || 0);
+                break;
+              case "relevance":
+              default:
+                comparison = 0;
+                break;
+            }
+            
+            if (sortOptions.sortOrder === "desc") {
+              comparison = -comparison;
+            }
+            
+            return comparison;
+          });
+        }
+        
         return res.json({
           results: interestBasedResults,
           totalCount: interestBasedResults.length,
@@ -88,9 +155,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         osdrResults = await nasaOSDRService.getRecentStudies(20);
       }
 
-      // Apply additional filtering based on filters
+      // Apply advanced filtering based on filters
       let filteredResults = osdrResults;
 
+      // Year Range filtering
       if (filters.yearRange && filters.yearRange !== "All Years") {
         if (filters.yearRange === "2020-2024") {
           filteredResults = filteredResults.filter(study => 
@@ -104,21 +172,146 @@ export async function registerRoutes(app: Express): Promise<Server> {
           filteredResults = filteredResults.filter(study => 
             study.year >= 2010 && study.year <= 2014
           );
+        } else if (filters.yearRange === "2005-2009") {
+          filteredResults = filteredResults.filter(study => 
+            study.year >= 2005 && study.year <= 2009
+          );
+        } else if (filters.yearRange === "2000-2004") {
+          filteredResults = filteredResults.filter(study => 
+            study.year >= 2000 && study.year <= 2004
+          );
         }
       }
 
-      if (filters.organism && filters.organism !== "All Organisms") {
-        filteredResults = filteredResults.filter(study =>
-          study.organism?.toLowerCase().includes(filters.organism.toLowerCase()) ||
-          study.tags?.some((tag: string) => tag.toLowerCase().includes(filters.organism.toLowerCase()))
+      // Custom date range filtering
+      if (filters.customDateRange?.start || filters.customDateRange?.end) {
+        const startYear = filters.customDateRange.start ? parseInt(filters.customDateRange.start.split('-')[0]) : 0;
+        const endYear = filters.customDateRange.end ? parseInt(filters.customDateRange.end.split('-')[0]) : 9999;
+        
+        filteredResults = filteredResults.filter(study => 
+          study.year >= startYear && study.year <= endYear
         );
       }
 
-      if (filters.experimentType && filters.experimentType !== "All Types") {
+      // Multi-select organism filtering
+      if (filters.organism && Array.isArray(filters.organism) && filters.organism.length > 0) {
         filteredResults = filteredResults.filter(study =>
-          study.assayType?.toLowerCase().includes(filters.experimentType.toLowerCase()) ||
-          study.tags?.some((tag: string) => tag.toLowerCase().includes(filters.experimentType.toLowerCase()))
+          filters.organism.some((org: string) =>
+            study.organism?.toLowerCase().includes(org.toLowerCase()) ||
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(org.toLowerCase()))
+          )
         );
+      }
+
+      // Multi-select experiment type filtering
+      if (filters.experimentType && Array.isArray(filters.experimentType) && filters.experimentType.length > 0) {
+        filteredResults = filteredResults.filter(study =>
+          filters.experimentType.some((type: string) =>
+            study.assayType?.toLowerCase().includes(type.toLowerCase()) ||
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(type.toLowerCase()))
+          )
+        );
+      }
+
+      // Research area filtering
+      if (filters.researchArea && Array.isArray(filters.researchArea) && filters.researchArea.length > 0) {
+        filteredResults = filteredResults.filter(study =>
+          filters.researchArea.some((area: string) =>
+            study.title?.toLowerCase().includes(area.toLowerCase()) ||
+            study.abstract?.toLowerCase().includes(area.toLowerCase()) ||
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(area.toLowerCase()))
+          )
+        );
+      }
+
+      // Mission filtering
+      if (filters.mission && Array.isArray(filters.mission) && filters.mission.length > 0) {
+        filteredResults = filteredResults.filter(study =>
+          filters.mission.some((mission: string) =>
+            study.mission?.toLowerCase().includes(mission.toLowerCase()) ||
+            study.title?.toLowerCase().includes(mission.toLowerCase()) ||
+            study.abstract?.toLowerCase().includes(mission.toLowerCase())
+          )
+        );
+      }
+
+      // Tissue type filtering
+      if (filters.tissueType && Array.isArray(filters.tissueType) && filters.tissueType.length > 0) {
+        filteredResults = filteredResults.filter(study =>
+          filters.tissueType.some((tissue: string) =>
+            study.tissue?.toLowerCase().includes(tissue.toLowerCase()) ||
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(tissue.toLowerCase()))
+          )
+        );
+      }
+
+      // Publication status filtering
+      if (filters.publicationStatus && filters.publicationStatus !== "All Status") {
+        filteredResults = filteredResults.filter(study => {
+          const status = study.publicationStatus || study.status || "Published";
+          return status.toLowerCase().includes(filters.publicationStatus.toLowerCase());
+        });
+      }
+
+      // Keywords filtering
+      if (filters.keywords && Array.isArray(filters.keywords) && filters.keywords.length > 0) {
+        filteredResults = filteredResults.filter(study =>
+          filters.keywords.some((keyword: string) =>
+            study.title?.toLowerCase().includes(keyword.toLowerCase()) ||
+            study.abstract?.toLowerCase().includes(keyword.toLowerCase()) ||
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(keyword.toLowerCase()))
+          )
+        );
+      }
+
+      // Apply sorting
+      if (sortOptions && sortOptions.sortBy) {
+        filteredResults.sort((a, b) => {
+          let comparison = 0;
+          
+          switch (sortOptions.sortBy) {
+            case "date":
+              comparison = (a.year || 0) - (b.year || 0);
+              break;
+            case "title":
+              comparison = (a.title || "").localeCompare(b.title || "");
+              break;
+            case "author":
+              const aAuthor = Array.isArray(a.authors) ? a.authors[0] : a.authors || "";
+              const bAuthor = Array.isArray(b.authors) ? b.authors[0] : b.authors || "";
+              comparison = aAuthor.localeCompare(bAuthor);
+              break;
+            case "citations":
+              comparison = (a.citations || 0) - (b.citations || 0);
+              break;
+            case "relevance":
+            default:
+              // Relevance based on query match or keep original order
+              comparison = 0;
+              break;
+          }
+          
+          // Apply sort order (asc/desc)
+          if (sortOptions.sortOrder === "desc") {
+            comparison = -comparison;
+          }
+          
+          // Secondary sort
+          if (comparison === 0 && sortOptions.secondarySort) {
+            switch (sortOptions.secondarySort) {
+              case "date":
+                comparison = (a.year || 0) - (b.year || 0);
+                break;
+              case "title":
+                comparison = (a.title || "").localeCompare(b.title || "");
+                break;
+              default:
+                break;
+            }
+          }
+          
+          return comparison;
+        });
       }
 
       // Save search to history
@@ -132,6 +325,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Search error:", error);
+      
+      // Handle validation errors
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid search parameters", 
+          errors: error.errors 
+        });
+      }
+      
       res.status(500).json({ message: "Search failed" });
     }
   });

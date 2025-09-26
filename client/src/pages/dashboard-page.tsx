@@ -22,8 +22,19 @@ export default function DashboardPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     yearRange: "All Years",
-    organism: "All Organisms",
-    experimentType: "All Types",
+    organism: [],
+    experimentType: [],
+    mission: [],
+    tissueType: [],
+    researchArea: [],
+    publicationStatus: "All Status",
+    customDateRange: { start: "", end: "" },
+    keywords: []
+  });
+  const [sortOptions, setSortOptions] = useState({
+    sortBy: "relevance",
+    sortOrder: "desc",
+    secondarySort: "date"
   });
   const [showGuide, setShowGuide] = useState(true);
   const [showRenameDialog, setShowRenameDialog] = useState(false);
@@ -58,9 +69,10 @@ export default function DashboardPage() {
     }
   };
 
-  const handleSearch = (query: string, newFilters: any) => {
+  const handleSearch = (query: string, newFilters: any, newSortOptions: any) => {
     setSearchQuery(query);
     setFilters(newFilters);
+    setSortOptions(newSortOptions);
     setShowInterestBased(false); // Switch to search results when user searches
   };
 
@@ -118,6 +130,7 @@ export default function DashboardPage() {
             <ResearchResults 
               query={searchQuery} 
               filters={filters} 
+              sortOptions={sortOptions}
               showInterestBased={showInterestBased}
               userInterests={user?.interests || []}
             />

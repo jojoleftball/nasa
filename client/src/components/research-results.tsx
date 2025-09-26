@@ -9,28 +9,56 @@ import { motion } from "framer-motion";
 interface ResearchResultsProps {
   query: string;
   filters: any;
+  sortOptions?: any;
   showInterestBased?: boolean;
   userInterests?: string[];
 }
 
-export function ResearchResults({ query, filters, showInterestBased = false, userInterests = [] }: ResearchResultsProps) {
+export function ResearchResults({ query, filters, sortOptions, showInterestBased = false, userInterests = [] }: ResearchResultsProps) {
+  // Helper function to check if filters are empty
+  const areFiltersEmpty = () => {
+    if (!filters) return true;
+    
+    // Check year range
+    if (filters.yearRange && filters.yearRange !== "All Years") return false;
+    
+    // Check array filters
+    const arrayFilters = ['organism', 'experimentType', 'mission', 'tissueType', 'researchArea', 'keywords'];
+    for (const filterKey of arrayFilters) {
+      if (filters[filterKey] && Array.isArray(filters[filterKey]) && filters[filterKey].length > 0) {
+        return false;
+      }
+    }
+    
+    // Check publication status
+    if (filters.publicationStatus && filters.publicationStatus !== "All Status") return false;
+    
+    // Check custom date range
+    if (filters.customDateRange && (filters.customDateRange.start || filters.customDateRange.end)) {
+      return false;
+    }
+    
+    return true;
+  };
+
   const { data: searchResults, isLoading } = useQuery({
-    queryKey: ["/api/search", query, filters, showInterestBased, userInterests],
+    queryKey: ["/api/search", query, filters, sortOptions, showInterestBased, userInterests],
     queryFn: async () => {
       if (showInterestBased && userInterests.length > 0) {
         // Fetch research based on user interests
         const res = await apiRequest("POST", "/api/search", { 
           interests: userInterests, 
-          filters: { ...filters, limit: 20 } 
+          filters: { ...filters, limit: 20 },
+          sortOptions 
         });
         return await res.json();
-      } else if (!query && Object.values(filters).every(f => f.startsWith("All"))) {
+      } else if (!query && areFiltersEmpty()) {
         return { results: [], totalCount: 0 };
       }
-      const res = await apiRequest("POST", "/api/search", { query, filters });
+      const res = await apiRequest("POST", "/api/search", { query, filters, sortOptions });
       return await res.json();
     },
-    enabled: !!(showInterestBased && userInterests.length > 0) || !!(query || !Object.values(filters).every(f => f.startsWith("All"))),
+    enabled: !!(showInterestBased && userInterests.length > 0) || !!(query || !areFiltersEmpty()),
   });
 
   if (isLoading) {
@@ -64,12 +92,17 @@ export function ResearchResults({ query, filters, showInterestBased = false, use
           <h3 className="text-lg font-medium mb-2">
             {showInterestBased ? "No Recommendations Available" : "No Results Found"}
           </h3>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mb-4">
             {showInterestBased 
               ? "Update your interests in your profile to get personalized research recommendations."
               : "Try adjusting your search terms or filters to find relevant studies."
             }
           </p>
+          {searchResults?.totalCount !== undefined && (
+            <p className="text-sm text-muted-foreground">
+              Searched through {searchResults.totalCount} studies
+            </p>
+          )}
         </CardContent>
       </Card>
     );
