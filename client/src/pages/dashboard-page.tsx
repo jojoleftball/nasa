@@ -10,11 +10,12 @@ import { Chatbot } from "@/components/chatbot";
 import { SearchFilters } from "@/components/search-filters";
 import { VisualizationSidebar } from "@/components/visualization-sidebar";
 import { ResearchResults } from "@/components/research-results";
-import { ChevronDown, User, Bot, LogOut, X } from "lucide-react";
+import { ChevronDown, User, Bot, LogOut, X, Settings } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Link } from "wouter";
 
 export default function DashboardPage() {
   const { user, logoutMutation } = useAuth();
@@ -100,6 +101,12 @@ export default function DashboardPage() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="glass border-border">
+                  <DropdownMenuItem asChild data-testid="button-profile">
+                    <Link href="/profile">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Profile Settings
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem 
                     onClick={() => setShowRenameDialog(true)}
                     data-testid="button-rename-chatbot"

@@ -11,6 +11,7 @@ import LandingPage from "@/pages/landing-page";
 import AuthPage from "@/pages/auth-page";
 import InterestsPage from "@/pages/interests-page";
 import DashboardPage from "@/pages/dashboard-page";
+import ProfilePage from "@/pages/profile-page";
 import NotFoundPage from "@/pages/not-found";
 
 function Router() {
@@ -26,6 +27,11 @@ function Router() {
       <Route path="/dashboard">
         <ProtectedRoute>
           <DashboardPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/profile">
+        <ProtectedRoute>
+          <ProfilePage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFoundPage} />
