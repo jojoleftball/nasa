@@ -103,59 +103,6 @@ export default function LandingPage() {
             </AnimatedDiv>
           </StaggeredContainer>
 
-          {/* About Section */}
-          <div className="mb-16">
-            <Card className="glass border-0 max-w-5xl mx-auto">
-              <CardContent className="p-8">
-                <div className="text-center mb-8">
-                  <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                    What is Biogalactic?
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    Biogalactic is a revolutionary platform that democratizes access to space biology research. 
-                    We've transformed NASA's Open Science Data Repository (OSDR) into an intuitive, AI-enhanced 
-                    experience that makes complex space biology research accessible to scientists, students, and 
-                    space enthusiasts worldwide.
-                  </p>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-foreground">🚀 Real NASA Data</h3>
-                    <p className="text-muted-foreground">
-                      Access authentic research from NASA's Space Biology program, including studies on 
-                      microgravity effects, radiation impact, and life support systems. All data is 
-                      sourced directly from NASA's official repositories.
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-foreground">🤖 AI-Powered Insights</h3>
-                    <p className="text-muted-foreground">
-                      Meet Ria, your intelligent research companion. She can explain complex concepts, 
-                      summarize research findings, and help you discover connections between different studies.
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-foreground">📊 Advanced Visualizations</h3>
-                    <p className="text-muted-foreground">
-                      Interactive charts and graphs make complex data patterns visible. Track research trends, 
-                      compare study outcomes, and visualize the evolution of space biology over time.
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-foreground">🔬 Comprehensive Coverage</h3>
-                    <p className="text-muted-foreground">
-                      From plant biology in microgravity to human physiological adaptations, explore 
-                      research across all domains of space biology with sophisticated filtering and search capabilities.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
 
           {/* Features Grid */}
           <AnimatedDiv variants={fadeInUp} delay={0.2} className="mb-16">
