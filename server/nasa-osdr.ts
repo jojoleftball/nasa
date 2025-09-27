@@ -9,7 +9,7 @@ export interface NASAStudy {
   title: string;
   abstract: string;
   authors: string[];
-  year: number;
+  year?: number; // Optional - only include if we have real date data
   institution: string;
   tags: string[];
   url: string;
@@ -63,6 +63,14 @@ export class NASAOSDRService {
   } | null = null;
   private readonly cacheTimeout = 6 * 60 * 60 * 1000;
   
+  // Enhanced caching for studies database
+  private studiesCache: {
+    studies: NASAStudy[];
+    timestamp: number;
+  } | null = null;
+  private readonly studiesCacheTimeout = 24 * 60 * 60 * 1000; // 24 hours
+  private isRefreshing = false;
+  
   async searchStudies(searchTerm: string, limit: number = 20): Promise<NASAStudy[]> {
     try {
       const url = `${OSDR_BASE_URL}search`;
@@ -82,7 +90,7 @@ export class NASAOSDRService {
       return this.transformSearchResults(data);
     } catch (error) {
       console.error('Error fetching NASA OSDR data:', error);
-      return this.getFallbackStudies(searchTerm);
+      throw error; // No synthetic fallbacks - propagate error
     }
   }
 
@@ -114,7 +122,7 @@ export class NASAOSDRService {
       return this.transformSearchResults(data);
     } catch (error) {
       console.error('Error fetching filtered NASA OSDR data:', error);
-      return this.getFallbackStudies('space biology');
+      throw error; // No synthetic fallbacks - propagate error
     }
   }
 
@@ -219,8 +227,13 @@ export class NASAOSDRService {
       const allResults: NASAStudy[] = [];
 
       for (const term of recentTerms.slice(0, 3)) {
-        const results = await this.searchStudies(term, Math.ceil(limit / 3));
-        allResults.push(...results);
+        try {
+          const results = await this.searchStudies(term, Math.ceil(limit / 3));
+          allResults.push(...results);
+        } catch (error) {
+          console.warn(`Error fetching recent studies for term "${term}":`, error);
+          // Continue with other terms rather than using fallback
+        }
       }
 
       const uniqueResults = allResults.filter((study, index, self) => 
@@ -232,8 +245,254 @@ export class NASAOSDRService {
         .slice(0, limit);
     } catch (error) {
       console.error('Error fetching recent studies:', error);
-      return this.getFallbackStudies('recent space biology');
+      throw error; // No synthetic fallbacks - propagate error
     }
+  }
+
+  // Cached method to get comprehensive studies database
+  async getComprehensiveStudiesDatabase(): Promise<NASAStudy[]> {
+    // Return cached data if available and fresh
+    if (this.studiesCache && (Date.now() - this.studiesCache.timestamp) < this.studiesCacheTimeout) {
+      console.log(`Returning cached studies database with ${this.studiesCache.studies.length} studies`);
+      return this.studiesCache.studies;
+    }
+
+    // If no cache or expired, but not currently refreshing, start background refresh
+    if (!this.isRefreshing) {
+      this.backgroundRefreshStudies();
+    }
+
+    // Return existing cached data while background refresh is happening
+    if (this.studiesCache?.studies) {
+      console.log('Returning existing cached data while background refresh is in progress');
+      return this.studiesCache.studies;
+    }
+
+    // First time access - do synchronous fetch and properly cache the result
+    const studies = await this.fetchRealStudiesWithPagination();
+    
+    // CRITICAL FIX: Set the cache immediately after fetch
+    this.studiesCache = {
+      studies,
+      timestamp: Date.now()
+    };
+    
+    return studies;
+  }
+
+  // Background refresh method to update studies cache
+  private backgroundRefreshStudies(): void {
+    if (this.isRefreshing) return;
+    
+    this.isRefreshing = true;
+    console.log('Starting background refresh of NASA studies database...');
+    
+    // Run async without blocking - use real pagination method
+    this.fetchRealStudiesWithPagination()
+      .then(studies => {
+        this.studiesCache = {
+          studies,
+          timestamp: Date.now()
+        };
+        console.log(`Background refresh completed: cached ${studies.length} real studies`);
+      })
+      .catch(error => {
+        console.error('Background refresh failed:', error);
+        // Keep existing cache on failure rather than clearing it
+      })
+      .finally(() => {
+        this.isRefreshing = false;
+      });
+  }
+
+  // Deterministic concurrent fetching with retries to guarantee 300+ real studies
+  private async fetchRealStudiesWithPagination(): Promise<NASAStudy[]> {
+    try {
+      console.log('Fetching 300+ real NASA OSDR studies with deterministic pagination...');
+      const allStudies: NASAStudy[] = [];
+      const uniqueIds = new Set<string>();
+      const TARGET_STUDY_COUNT = 300;
+
+      // Expanded high-yield search terms for better coverage
+      const highYieldTerms = [
+        "microgravity", "spaceflight", "ISS", "space", "NASA", "astronaut",
+        "human", "mouse", "plant", "bacteria", "cell", "tissue", "gene",
+        "protein", "RNA", "DNA", "metabolism", "immune", "cardiovascular",
+        "bone", "muscle", "radiation", "growth", "development"
+      ];
+
+      // Concurrency and retry parameters
+      const PAGE_SIZE = 50; // Smaller pages for better concurrency
+      const MAX_PAGES_PER_TERM = 10; // More pages per term
+      const MAX_CONCURRENT = 3; // Use actual concurrency
+      const MAX_RETRIES = 3; // Retry failed pages
+
+      // Process terms with proper concurrency control
+      const processTermsConcurrently = async (terms: string[]) => {
+        const semaphore = new Array(MAX_CONCURRENT).fill(null);
+        let termIndex = 0;
+
+        const processNextTerm = async (): Promise<void> => {
+          while (termIndex < terms.length && uniqueIds.size < TARGET_STUDY_COUNT) {
+            const currentTermIndex = termIndex++;
+            const term = terms[currentTermIndex];
+
+            console.log(`[${currentTermIndex}] Searching "${term}" - have ${uniqueIds.size} studies`);
+
+            // Paginate through this term with retries
+            for (let page = 0; page < MAX_PAGES_PER_TERM && uniqueIds.size < TARGET_STUDY_COUNT; page++) {
+              let retries = 0;
+              let success = false;
+
+              while (retries < MAX_RETRIES && !success) {
+                try {
+                  const results = await this.searchStudiesWithPagination(term, page * PAGE_SIZE, PAGE_SIZE);
+                  
+                  if (results.length === 0) {
+                    console.log(`[${currentTermIndex}] No more results for "${term}" on page ${page}`);
+                    success = true;
+                    break; // No more results for this term
+                  }
+
+                  let newStudiesCount = 0;
+                  for (const study of results) {
+                    if (!uniqueIds.has(study.id)) {
+                      uniqueIds.add(study.id);
+                      // Don't apply term-based category tags to avoid mislabeling
+                      allStudies.push(study);
+                      newStudiesCount++;
+                    }
+                  }
+
+                  console.log(`[${currentTermIndex}] Page ${page}: ${newStudiesCount} new (${results.length} fetched) - Total: ${uniqueIds.size}`);
+                  success = true;
+                  
+                  // API-friendly delay
+                  await new Promise(resolve => setTimeout(resolve, 200));
+
+                } catch (error) {
+                  retries++;
+                  console.warn(`[${currentTermIndex}] Retry ${retries}/${MAX_RETRIES} for page ${page} of "${term}":`, error);
+                  
+                  if (retries < MAX_RETRIES) {
+                    // Exponential backoff
+                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, retries) * 1000));
+                  } else {
+                    console.error(`[${currentTermIndex}] Max retries exceeded for page ${page} of "${term}"`);
+                    break; // Move to next page after max retries
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        // Start concurrent processing
+        await Promise.all(semaphore.map(() => processNextTerm()));
+      };
+
+      await processTermsConcurrently(highYieldTerms);
+
+      console.log(`Fetched ${uniqueIds.size} unique studies from API`);
+      
+      // Process and validate studies - ONLY real data
+      const processedStudies = allStudies
+        .filter(study => {
+          // Strict validation for real studies
+          return study.title && 
+                 study.abstract && 
+                 study.title.length > 10 && 
+                 study.abstract.length > 50 && 
+                 (study.id.match(/OSD-\d+/) || study.id.match(/^\d+$/));
+        })
+        .filter(study => {
+          // Only include studies with real years
+          const realYear = study.year || this.extractYearFromDates(study.submissionDate, study.releaseDate);
+          return realYear && realYear >= 2000 && realYear <= new Date().getFullYear();
+        })
+        .map(study => ({
+          ...study,
+          year: study.year || this.extractYearFromDates(study.submissionDate, study.releaseDate)!
+        }))
+        .sort((a, b) => (b.year || 0) - (a.year || 0));
+
+      console.log(`Final processed: ${processedStudies.length} authentic NASA studies`);
+
+      if (processedStudies.length < TARGET_STUDY_COUNT) {
+        console.warn(`CRITICAL: Only ${processedStudies.length} real studies found, target was ${TARGET_STUDY_COUNT}`);
+        throw new Error(`Cannot guarantee ${TARGET_STUDY_COUNT}+ authentic studies. Found: ${processedStudies.length}`);
+      }
+
+      return processedStudies;
+    } catch (error) {
+      console.error('Error in deterministic studies fetch:', error);
+      throw error; // Fail fast - no fallback data
+    }
+  }
+
+  // Enhanced search method with pagination support
+  private async searchStudiesWithPagination(searchTerm: string, from: number = 0, size: number = 100): Promise<NASAStudy[]> {
+    try {
+      const url = `${OSDR_BASE_URL}search`;
+      const params = new URLSearchParams({
+        'term': searchTerm,
+        'from': from.toString(),
+        'size': size.toString(),
+        'type': 'cgene'
+      });
+
+      const response = await fetch(`${url}?${params}`);
+      if (!response.ok) {
+        throw new Error(`OSDR API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json() as any;
+      return this.transformSearchResults(data);
+    } catch (error) {
+      console.error(`Error fetching NASA OSDR data for "${searchTerm}" (from: ${from}, size: ${size}):`, error);
+      throw error; // Propagate error instead of returning fallback
+    }
+  }
+
+  // Helper to infer categories from search terms
+  private inferCategoryFromTerm(term: string): string[] {
+    const categoryMap: Record<string, string[]> = {
+      'plant': ['Plant Biology'],
+      'arabidopsis': ['Plant Biology'],
+      'human': ['Human Health'],
+      'astronaut': ['Human Health'],
+      'cardiovascular': ['Human Health'],
+      'bone': ['Human Health'],
+      'mouse': ['Rodent Research'],
+      'bacteria': ['Microbiology'],
+      'immune': ['Human Health', 'Microbiology'],
+      'radiation': ['Radiation Biology'],
+      'neuroscience': ['Neuroscience'],
+      'microgravity': ['Human Health', 'Plant Biology', 'Cell Biology'],
+      'spaceflight': ['Human Health', 'Plant Biology', 'Microbiology'],
+      'ISS': ['Human Health', 'Plant Biology', 'Microbiology', 'Technology Demo']
+    };
+
+    const lowerTerm = term.toLowerCase();
+    for (const [key, categories] of Object.entries(categoryMap)) {
+      if (lowerTerm.includes(key)) {
+        return categories;
+      }
+    }
+    return [];
+  }
+
+  // Enhanced year extraction from multiple date sources
+  private extractYearFromDates(...dates: (string | undefined)[]): number | null {
+    for (const date of dates) {
+      if (date) {
+        const year = this.extractYear(date);
+        if (year && year >= 2000 && year <= new Date().getFullYear() + 1) {
+          return year;
+        }
+      }
+    }
+    return null;
   }
 
   async getStatistics(): Promise<{
@@ -241,56 +500,62 @@ export class NASAOSDRService {
     categoryStats: Record<string, number>;
     yearlyTrends: Record<string, number>;
     recentStudiesCount: number;
+    monthlyData: Array<{ month: string; studies: number; papers: number }>;
+    researchTrends: Record<string, number>;
   }> {
     if (this.statsCache && (Date.now() - this.statsCache.timestamp) < this.cacheTimeout) {
       return this.statsCache.data;
     }
 
     try {
-      const categoryTerms = {
-        "Plant Biology": "plant",
-        "Human Health": "human",
-        "Microbiology": "microbe",
-        "Rodent Research": "rodent",
-        "Cell Biology": "cell",
-        "Radiation Biology": "radiation",
-        "Neuroscience": "neuroscience",
-        "Food Systems": "food",
-        "Technology Demo": "technology"
-      };
-
-      const yearlyTerms = ['2019', '2020', '2021', '2022', '2023', '2024', '2025'];
+      // Get cached studies for fast statistics calculation
+      const allStudies = await this.getComprehensiveStudiesDatabase();
       
+      // Calculate real statistics from fetched data
       const categoryStats: Record<string, number> = {};
       const yearlyTrends: Record<string, number> = {};
-      
-      for (const [category, term] of Object.entries(categoryTerms)) {
-        try {
-          const results = await this.searchStudies(term, 100);
-          categoryStats[category] = results.length;
-        } catch (error) {
-          categoryStats[category] = 0;
-        }
+
+      // Initialize categories with better matching logic
+      const categories = [
+        "Plant Biology", "Human Health", "Microbiology", "Rodent Research", 
+        "Cell Biology", "Radiation Biology", "Neuroscience", "Food Systems", 
+        "Technology Demo", "Genetics", "Tissue Biology", "Developmental Biology"
+      ];
+
+      categories.forEach(category => {
+        const categoryKey = category.toLowerCase().split(' ')[0];
+        categoryStats[category] = allStudies.filter(study => {
+          return study.tags.some(tag => 
+            tag.toLowerCase().includes(categoryKey) || 
+            tag.toLowerCase().includes(category.toLowerCase())
+          ) || 
+          study.title.toLowerCase().includes(categoryKey) ||
+          study.abstract.toLowerCase().includes(categoryKey);
+        }).length;
+      });
+
+      // Calculate real yearly trends from actual study years
+      const studyYears = allStudies.map(study => study.year).filter(year => year !== undefined) as number[];
+      const minYear = studyYears.length > 0 ? Math.min(...studyYears, 2018) : 2018;
+      const maxYear = studyYears.length > 0 ? Math.max(...studyYears, 2025) : 2025;
+
+      for (let year = minYear; year <= maxYear; year++) {
+        yearlyTrends[year.toString()] = allStudies.filter(study => 
+          study.year === year
+        ).length;
       }
 
-      for (const year of yearlyTerms) {
-        try {
-          const results = await this.searchStudies(year, 100);
-          yearlyTrends[year] = results.length;
-        } catch (error) {
-          yearlyTrends[year] = 0;
-        }
-      }
+      // Calculate real monthly data based on submission/release dates
+      const monthlyData = this.calculateMonthlyDistribution(allStudies);
 
-      const totalStudies = Object.values(categoryStats).reduce((sum, count) => sum + count, 0);
       const currentYear = new Date().getFullYear();
-      const recentStudiesCount = yearlyTrends[currentYear.toString()] || 0;
-
       const stats = {
-        totalStudies,
+        totalStudies: allStudies.length,
         categoryStats,
         yearlyTrends,
-        recentStudiesCount
+        recentStudiesCount: yearlyTrends[currentYear.toString()] || 0,
+        monthlyData,
+        researchTrends: yearlyTrends
       };
 
       this.statsCache = {
@@ -301,31 +566,54 @@ export class NASAOSDRService {
       return stats;
     } catch (error) {
       console.error('Error fetching OSDR statistics:', error);
-      return {
-        totalStudies: 665,
-        categoryStats: {
-          "Plant Biology": 198,
-          "Human Health": 147,
-          "Microbiology": 89,
-          "Rodent Research": 76,
-          "Cell Biology": 52,
-          "Radiation Biology": 38,
-          "Neuroscience": 29,
-          "Food Systems": 19,
-          "Technology Demo": 17
-        },
-        yearlyTrends: {
-          "2019": 42,
-          "2020": 58,
-          "2021": 73,
-          "2022": 89,
-          "2023": 124,
-          "2024": 186,
-          "2025": 93
-        },
-        recentStudiesCount: 93
-      };
+      
+      // NO synthetic fallbacks - rely on existing cache or propagate error
+      if (this.statsCache?.data) {
+        console.log('Using last known good statistics cache due to error');
+        return this.statsCache.data;
+      }
+      
+      // If no cache exists, throw error rather than return synthetic data
+      throw new Error('Cannot fetch real NASA statistics and no cached data available');
     }
+  }
+
+  // Calculate monthly distribution from real study dates ONLY - no synthetic data
+  private calculateMonthlyDistribution(studies: NASAStudy[]): Array<{ month: string; studies: number; papers: number }> {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+
+    const monthlyDistribution = months.map((month, index) => {
+      // Extract real monthly data from submission/release dates
+      const monthlyStudies = studies.filter(study => {
+        const submitDate = study.submissionDate;
+        const releaseDate = study.releaseDate;
+        
+        // Only count if we have real dates
+        if (submitDate || releaseDate) {
+          const dateStr = (submitDate || releaseDate || '').toLowerCase();
+          const monthNumber = String(index + 1).padStart(2, '0');
+          const monthAbbr = month.toLowerCase();
+          
+          return dateStr.includes(monthAbbr) || 
+                 dateStr.includes(`-${monthNumber}-`) ||
+                 dateStr.includes(`/${monthNumber}/`) ||
+                 dateStr.includes(`${monthNumber}/`);
+        }
+        
+        return false; // No fallback - only real date matches
+      }).length;
+
+      return {
+        month,
+        studies: monthlyStudies, // Use only real counts
+        papers: monthlyStudies   // Same count for papers (no artificial inflation)
+      };
+    });
+
+    return monthlyDistribution;
   }
 
   private transformSearchResults(data: any): NASAStudy[] {
@@ -389,7 +677,7 @@ export class NASAOSDRService {
       
       const submitDate = item['study.submit date'] || item.submit_date;
       const releaseDate = item['study.public release date'] || item.public_release_date;
-      const year = this.extractYear(releaseDate || submitDate) || new Date().getFullYear();
+      const year = this.extractYear(releaseDate || submitDate); // No synthetic fallback - only real dates
       
       const contact = item['study.contact.name'] || item.study_contact_name;
       const organization = item['study.contact.organization'] || item.study_contact_organization || 'NASA';
@@ -397,12 +685,11 @@ export class NASAOSDRService {
       const authors = this.extractAuthors(contact);
       const tags = this.extractV2Tags(item);
 
-      return {
+      const study: NASAStudy = {
         id: accession,
         title: title,
         abstract: description,
         authors: authors,
-        year: year,
         institution: organization,
         tags: tags,
         url: `https://osdr.nasa.gov/bio/repo/data/studies/${accession}`,
@@ -417,6 +704,13 @@ export class NASAOSDRService {
         spaceflightMission: mission,
         hardware: item['study.hardware'] || item.hardware
       };
+
+      // Only set year if we have a real one
+      if (year) {
+        study.year = year;
+      }
+
+      return study;
     } catch (error) {
       console.error('Error transforming v2 data item:', error);
       return null;
@@ -440,24 +734,27 @@ export class NASAOSDRService {
 
   private transformSingleStudyFromSearch(source: any, id: string): NASAStudy | null {
     try {
-      const title = source.title || source.study_title || `Space Biology Study ${id}`;
-      const description = source.description || source.study_description || 
-        'Space biology research study investigating biological processes in space environments.';
+      const title = source.title || source.study_title;
+      const description = source.description || source.study_description;
       
-      const year = this.extractYear(source.public_release_date || source.submit_date) || 
-        new Date().getFullYear();
+      // Only use real dates - no fallback to current year
+      const year = this.extractYear(source.public_release_date || source.submit_date);
+      
+      // Skip studies without essential real data
+      if (!title || !description || title.length < 10 || description.length < 50) {
+        return null;
+      }
       
       const authors = this.extractAuthors(source.study_contact_name || source.authors);
       const institution = source.study_contact_organization || 'NASA';
       const tags = this.extractTags(source);
       const studyId = source.accession || `OSD-${id}`;
 
-      return {
+      const study: NASAStudy = {
         id: studyId,
         title: title,
         abstract: description,
         authors: authors,
-        year: year,
         institution: institution,
         tags: tags,
         url: `https://osdr.nasa.gov/bio/repo/data/studies/${studyId}`,
@@ -472,23 +769,36 @@ export class NASAOSDRService {
         spaceflightMission: source.flight_mission,
         hardware: source.hardware
       };
+
+      // Only set year if we have a real one
+      if (year) {
+        study.year = year;
+      }
+
+      return study;
     } catch (error) {
       console.error('Error transforming study:', error);
       return null;
     }
   }
 
-  private transformSingleStudy(data: OSDRStudyResponse, id: string): NASAStudy {
-    const title = data.title || `Space Biology Study ${id}`;
-    const description = data.description || 
-      'Space biology research study investigating biological processes in space environments.';
+  private transformSingleStudy(data: OSDRStudyResponse, id: string): NASAStudy | null {
+    const title = data.title;
+    const description = data.description;
     
-    return {
+    // Skip studies without essential real data
+    if (!title || !description || title.length < 10 || description.length < 50) {
+      return null;
+    }
+    
+    // Only use real dates - no fallback to current year
+    const year = data.year || this.extractYear(data.public_release_date);
+    
+    const study: NASAStudy = {
       id: data.accession || id,
       title: title,
       abstract: description,
       authors: data.authors || [data.study_contact_name || 'NASA Researcher'],
-      year: data.year || this.extractYear(data.public_release_date) || new Date().getFullYear(),
       institution: data.study_contact_organization || 'NASA',
       tags: this.extractTagsFromMetadata(data),
       url: `https://osdr.nasa.gov/bio/repo/data/studies/${data.accession || id}`,
@@ -497,6 +807,13 @@ export class NASAOSDRService {
       missionName: data.flight_mission,
       tissueType: data.tissue
     };
+
+    // Only set year if we have a real one
+    if (year) {
+      study.year = year;
+    }
+
+    return study;
   }
 
   private extractYear(dateString?: string): number | null {
@@ -542,46 +859,7 @@ export class NASAOSDRService {
     return Array.from(new Set(tags));
   }
 
-  private getFallbackStudies(searchTerm: string): NASAStudy[] {
-    return [
-      {
-        id: "OSD-665",
-        title: "Microgravity Effects on Plant Gravitropic Response",
-        abstract: "Investigation of gravitropic response mechanisms in Arabidopsis thaliana seedlings grown under microgravity conditions aboard the International Space Station, examining changes in root and shoot orientation patterns.",
-        authors: ["Dr. Anna Pozhitkov", "Dr. Peter Pietrzyk", "Dr. Sarah Wyatt"],
-        year: 2023,
-        institution: "NASA Ames Research Center",
-        tags: ["Plant Biology", "Gravitropism", "ISS", "Microgravity", "Arabidopsis"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-665",
-        organism: "Arabidopsis thaliana",
-        assayType: "Microscopy"
-      },
-      {
-        id: "OSD-379",
-        title: "Rodent Research Reference Mission-1",
-        abstract: "Comprehensive analysis of physiological changes in mice during 30-day spaceflight mission aboard the International Space Station, focusing on cardiovascular, musculoskeletal, and immune system responses to microgravity.",
-        authors: ["Dr. Ruth Globus", "Dr. Amber Paul", "Dr. Louis Stodieck"],
-        year: 2022,
-        institution: "NASA Ames Research Center",
-        tags: ["Rodent Research", "Physiology", "ISS", "Long Duration", "Mice"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-379",
-        organism: "Mus musculus",
-        assayType: "Multi-omics"
-      },
-      {
-        id: "OSD-168",
-        title: "Advanced Plant Habitat-04: Cotton Growth in Microgravity",
-        abstract: "Study of cotton plant development and fiber production in the Advanced Plant Habitat aboard the International Space Station, examining growth patterns and cellular development under microgravity conditions.",
-        authors: ["Dr. Gioia Massa", "Dr. Christina Khodadad", "Dr. Ralph Fritsche"],
-        year: 2021,
-        institution: "NASA Kennedy Space Center",
-        tags: ["Plant Biology", "Cotton", "APH", "ISS", "Fiber Development"],
-        url: "https://osdr.nasa.gov/bio/repo/data/studies/OSD-168",
-        organism: "Gossypium hirsutum",
-        assayType: "Morphological Analysis"
-      }
-    ];
-  }
+
 }
 
 export const nasaOSDRService = new NASAOSDRService();
