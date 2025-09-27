@@ -1,3 +1,4 @@
+
 {
   "version": "7",
   "dialect": "postgresql",
@@ -5,15 +6,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1758850231834,
+      "when": 1734738680075,
       "tag": "0000_tranquil_jigsaw",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1759009113492,
-      "tag": "0001_vengeful_wither",
       "breakpoints": true
     }
   ]
