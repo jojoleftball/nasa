@@ -1,10 +1,27 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import storage from "./storage";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "biolifespace-secret-key-change-in-production",
+    resave: false,
+    saveUninitialized: false,
+    store: storage.sessionStore,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      sameSite: 'lax'
+    }
+  })
+);
 
 app.use((req, res, next) => {
   const start = Date.now();
