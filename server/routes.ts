@@ -55,18 +55,26 @@ function isAuthenticated(req: any, res: any, next: any) {
 }
 
 function transformAdminResearchToStudyFormat(research: any): any {
+  const authorsArray = research.authors 
+    ? research.authors.split(',').map((a: string) => a.trim()).filter(Boolean)
+    : ['BioGalactic Admin'];
+  
+  const validUrl = research.nasaOsdrLinks && research.nasaOsdrLinks.length > 0 
+    ? research.nasaOsdrLinks[0] 
+    : `https://osdr.nasa.gov/bio/repo/search?q=${encodeURIComponent(research.title)}`;
+  
   return {
     id: `admin-${research.id}`,
     title: research.title,
     abstract: research.description,
-    authors: research.authors ? [research.authors] : ['BioGalactic Admin'],
+    authors: authorsArray,
     institution: research.institution || 'BioGalactic Research',
     tags: research.tags || [],
-    url: research.nasaOsdrLinks?.[0] || '#',
+    url: validUrl,
     year: research.year ? parseInt(research.year) : new Date(research.createdAt).getFullYear(),
     isAdminCreated: true,
     customFields: research.customFields,
-    nasaOsdrLinks: research.nasaOsdrLinks,
+    nasaOsdrLinks: research.nasaOsdrLinks || [],
   };
 }
 
