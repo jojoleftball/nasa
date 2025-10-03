@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, LogOut, Bot, X } from "lucide-react";
 import { useLocation } from "wouter";
 import { AdminAssistant } from "@/components/admin-assistant";
+import type { AdminResearch } from "@shared/schema";
 
 const researchSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -37,7 +38,7 @@ export default function AdminDashboardPage() {
   const [tagInput, setTagInput] = useState("");
   const [linkInput, setLinkInput] = useState("");
 
-  const { data: research = [], isLoading } = useQuery({
+  const { data: research = [], isLoading } = useQuery<AdminResearch[]>({
     queryKey: ["/api/admin/research"],
   });
 

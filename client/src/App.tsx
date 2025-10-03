@@ -12,6 +12,8 @@ import AuthPage from "@/pages/auth-page";
 import InterestsPage from "@/pages/interests-page";
 import DashboardPage from "@/pages/dashboard-page";
 import ProfilePage from "@/pages/profile-page";
+import AdminLoginPage from "@/pages/admin-login";
+import AdminDashboardPage from "@/pages/admin-dashboard";
 import NotFoundPage from "@/pages/not-found";
 
 function Router() {
@@ -19,6 +21,8 @@ function Router() {
     <Switch>
       <Route path="/" component={LandingPage} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/admin" component={AdminLoginPage} />
+      <Route path="/admin/dashboard" component={AdminDashboardPage} />
       <Route path="/interests">
         <ProtectedRoute>
           <InterestsPage />
