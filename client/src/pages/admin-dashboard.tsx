@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -14,14 +14,30 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Edit, Trash2, LogOut, Bot, X } from "lucide-react";
+import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun } from "lucide-react";
 import { useLocation } from "wouter";
 import { AdminAssistant } from "@/components/admin-assistant";
 import type { AdminResearch } from "@shared/schema";
 
+const PREDEFINED_TAGS = [
+  "Plant Biology",
+  "Human Health",
+  "Microgravity Effects",
+  "Radiation Studies",
+  "Microbiology",
+  "Genetics",
+  "Space Medicine",
+  "Cell Biology",
+  "Molecular Biology",
+  "Physiology",
+];
+
 const researchSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
+  year: z.string().optional(),
+  authors: z.string().optional(),
+  institution: z.string().optional(),
   tags: z.array(z.string()).default([]),
   nasaOsdrLinks: z.array(z.string()).default([]),
   published: z.boolean().default(false),
@@ -37,6 +53,20 @@ export default function AdminDashboardPage() {
   const [editingResearch, setEditingResearch] = useState<any>(null);
   const [tagInput, setTagInput] = useState("");
   const [linkInput, setLinkInput] = useState("");
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('admin-theme') as 'light' | 'dark' || 'dark';
+    setTheme(savedTheme);
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('admin-theme', newTheme);
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+  };
 
   const { data: research = [], isLoading } = useQuery<AdminResearch[]>({
     queryKey: ["/api/admin/research"],
@@ -47,6 +77,9 @@ export default function AdminDashboardPage() {
     defaultValues: {
       title: "",
       description: "",
+      year: "",
+      authors: "",
+      institution: "",
       tags: [],
       nasaOsdrLinks: [],
       published: false,
@@ -125,12 +158,22 @@ export default function AdminDashboardPage() {
     form.reset({
       title: item.title,
       description: item.description,
+      year: item.year || "",
+      authors: item.authors || "",
+      institution: item.institution || "",
       tags: item.tags || [],
       nasaOsdrLinks: item.nasaOsdrLinks || [],
       published: item.published,
       customFields: item.customFields || {},
     });
     setIsDialogOpen(true);
+  }
+
+  function addPredefinedTag(tag: string) {
+    const currentTags = form.getValues("tags");
+    if (!currentTags.includes(tag)) {
+      form.setValue("tags", [...currentTags, tag]);
+    }
   }
 
   function handleDelete(id: string) {
@@ -173,15 +216,26 @@ export default function AdminDashboardPage() {
             <h1 className="text-3xl font-bold text-white dark:text-gray-100">Admin Dashboard</h1>
             <p className="text-gray-300 dark:text-gray-400 mt-1">Manage research content</p>
           </div>
-          <Button
-            onClick={() => logoutMutation.mutate()}
-            variant="outline"
-            className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200 hover:bg-white/10 dark:hover:bg-gray-700/50"
-            data-testid="button-logout"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={toggleTheme}
+              variant="outline"
+              size="icon"
+              className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200 hover:bg-white/10 dark:hover:bg-gray-700/50"
+              data-testid="button-theme-toggle"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
+            <Button
+              onClick={() => logoutMutation.mutate()}
+              variant="outline"
+              className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200 hover:bg-white/10 dark:hover:bg-gray-700/50"
+              data-testid="button-logout"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="research" className="space-y-6">
@@ -250,9 +304,68 @@ export default function AdminDashboardPage() {
                           </FormItem>
                         )}
                       />
+
+                      <div className="grid grid-cols-3 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="year"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-gray-200 dark:text-gray-300">Year</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="2024" className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-year" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="authors"
+                          render={({ field }) => (
+                            <FormItem className="col-span-2">
+                              <FormLabel className="text-gray-200 dark:text-gray-300">Authors</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="e.g., Dr. Smith, Dr. Johnson" className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-authors" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="institution"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-200 dark:text-gray-300">Institution</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="e.g., NASA Ames Research Center" className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-institution" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                       
                       <div className="space-y-2">
                         <FormLabel className="text-gray-200 dark:text-gray-300">Tags</FormLabel>
+                        <div className="mb-3">
+                          <p className="text-sm text-gray-400 dark:text-gray-500 mb-2">Quick add predefined tags:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {PREDEFINED_TAGS.map((tag) => (
+                              <Badge
+                                key={tag}
+                                variant="outline"
+                                className="cursor-pointer border-purple-500/50 dark:border-purple-600/50 text-purple-300 dark:text-purple-400 hover:bg-purple-600/30 dark:hover:bg-purple-700/30"
+                                onClick={() => addPredefinedTag(tag)}
+                                data-testid={`badge-predefined-${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                              >
+                                + {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
                         <div className="flex gap-2">
                           <Input
                             value={tagInput}
