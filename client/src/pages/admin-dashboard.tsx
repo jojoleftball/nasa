@@ -457,7 +457,21 @@ export default function AdminDashboardPage() {
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <CardTitle className="text-white dark:text-gray-100">{item.title}</CardTitle>
+                          <div className="flex items-center gap-2 mb-1">
+                            <CardTitle className="text-white dark:text-gray-100">{item.title}</CardTitle>
+                            {item.year && (
+                              <Badge variant="outline" className="border-blue-500/50 dark:border-blue-600/50 text-blue-300 dark:text-blue-400">
+                                {item.year}
+                              </Badge>
+                            )}
+                          </div>
+                          {(item.authors || item.institution) && (
+                            <div className="text-sm text-gray-400 dark:text-gray-500 mb-2">
+                              {item.authors && <span>{item.authors}</span>}
+                              {item.authors && item.institution && <span> • </span>}
+                              {item.institution && <span>{item.institution}</span>}
+                            </div>
+                          )}
                           <CardDescription className="text-gray-300 dark:text-gray-400 mt-2">
                             {item.description.length > 200 ? `${item.description.substring(0, 200)}...` : item.description}
                           </CardDescription>
