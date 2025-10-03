@@ -81,6 +81,27 @@ export const studyRecommendations = pgTable("study_recommendations", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const admins = pgTable("admins", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const adminResearch = pgTable("admin_research", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  tags: jsonb("tags").$type<string[]>().default([]),
+  nasaOsdrLinks: jsonb("nasa_osdr_links").$type<string[]>().default([]),
+  customFields: jsonb("custom_fields").$type<Record<string, any>>().default({}),
+  published: boolean("published").default(false),
+  createdBy: varchar("created_by").references(() => admins.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   email: true,
@@ -112,6 +133,25 @@ export const updateUsernameSchema = z.object({
   password: z.string().min(1, "Password is required for security")
 });
 
+export const insertAdminSchema = createInsertSchema(admins).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertAdminResearchSchema = createInsertSchema(adminResearch).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const updateAdminResearchSchema = createInsertSchema(adminResearch).omit({
+  id: true,
+  createdBy: true,
+  createdAt: true,
+  updatedAt: true,
+}).partial();
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type UpdateUser = z.infer<typeof updateUserSchema>;
 export type UpdatePassword = z.infer<typeof updatePasswordSchema>;
@@ -120,3 +160,8 @@ export type User = typeof users.$inferSelect;
 export type Search = typeof searches.$inferSelect;
 export type Favorite = typeof favorites.$inferSelect;
 export type ChatSession = typeof chatSessions.$inferSelect;
+export type Admin = typeof admins.$inferSelect;
+export type InsertAdmin = z.infer<typeof insertAdminSchema>;
+export type AdminResearch = typeof adminResearch.$inferSelect;
+export type InsertAdminResearch = z.infer<typeof insertAdminResearchSchema>;
+export type UpdateAdminResearch = z.infer<typeof updateAdminResearchSchema>;

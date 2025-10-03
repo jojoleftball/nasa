@@ -2,6 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, requireAuth } from "./auth";
+import { setupAdminAuth, initializeDefaultAdmin } from "./admin-auth";
+import { setupAdminRoutes } from "./admin-routes";
 import { generateChatResponse, summarizeStudy, generateSearchSuggestions, ConversationMode, type ChatContext, analyzeStudyComparison, generateResearchPathway } from "./gemini";
 import { updateUserSchema, updatePasswordSchema, updateUsernameSchema } from "@shared/schema";
 import { nasaOSDRService } from "./nasa-osdr";
@@ -52,6 +54,22 @@ function isAuthenticated(req: any, res: any, next: any) {
   next();
 }
 
+function transformAdminResearchToStudyFormat(research: any): any {
+  return {
+    id: `admin-${research.id}`,
+    title: research.title,
+    abstract: research.description,
+    authors: ['BioGalactic Admin'],
+    institution: 'BioGalactic Research',
+    tags: research.tags || [],
+    url: research.nasaOsdrLinks?.[0] || '#',
+    year: new Date(research.createdAt).getFullYear(),
+    isAdminCreated: true,
+    customFields: research.customFields,
+    nasaOsdrLinks: research.nasaOsdrLinks,
+  };
+}
+
 async function generateInterestBasedResults(interests: string[]) {
   try {
     const allResults: any[] = [];
@@ -65,6 +83,10 @@ async function generateInterestBasedResults(interests: string[]) {
       const recentStudies = await nasaOSDRService.getRecentStudies(10);
       allResults.push(...recentStudies);
     }
+    
+    const adminResearch = await storage.getAllAdminResearch(true);
+    const transformedAdminResearch = adminResearch.map(transformAdminResearchToStudyFormat);
+    allResults.push(...transformedAdminResearch);
     
     const uniqueResults = allResults.filter((study, index, self) =>
       index === self.findIndex(s => s.id === study.id)
@@ -85,6 +107,10 @@ async function generateInterestBasedResults(interests: string[]) {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   setupAuth(app);
+  setupAdminAuth(app);
+  setupAdminRoutes(app);
+  
+  await initializeDefaultAdmin();
 
   app.put("/api/user/profile", requireAuth, async (req, res) => {
     try {
@@ -262,7 +288,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         osdrResults = await nasaOSDRService.getRecentStudies(30);
       }
 
-      let filteredResults = osdrResults;
+      const adminResearch = await storage.getAllAdminResearch(true);
+      const transformedAdminResearch = adminResearch.map(transformAdminResearchToStudyFormat);
+      const allResults = [...osdrResults, ...transformedAdminResearch];
+
+      let filteredResults = allResults;
 
       if (filters.yearRange && filters.yearRange !== "All Years") {
         if (filters.yearRange === "2020-2024") {

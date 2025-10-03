@@ -3,6 +3,8 @@ import {
   searches, 
   favorites, 
   chatSessions,
+  admins,
+  adminResearch,
   type User, 
   type InsertUser, 
   type UpdateUser,
@@ -10,7 +12,12 @@ import {
   type UpdateUsername,
   type Search,
   type Favorite,
-  type ChatSession
+  type ChatSession,
+  type Admin,
+  type InsertAdmin,
+  type AdminResearch,
+  type InsertAdminResearch,
+  type UpdateAdminResearch
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -55,6 +62,16 @@ export interface IStorage {
   
   getChatSession(userId: string): Promise<ChatSession | undefined>;
   updateChatSession(userId: string, messages: any[]): Promise<ChatSession>;
+  
+  getAdmin(id: string): Promise<Admin | undefined>;
+  getAdminByUsername(username: string): Promise<Admin | undefined>;
+  createAdmin(admin: InsertAdmin): Promise<Admin>;
+  
+  createAdminResearch(research: InsertAdminResearch): Promise<AdminResearch>;
+  getAdminResearch(id: string): Promise<AdminResearch | undefined>;
+  getAllAdminResearch(publishedOnly?: boolean): Promise<AdminResearch[]>;
+  updateAdminResearch(id: string, updates: UpdateAdminResearch): Promise<AdminResearch>;
+  deleteAdminResearch(id: string): Promise<void>;
   
   sessionStore: session.Store;
 }
@@ -237,6 +254,66 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return session;
     }
+  }
+
+  async getAdmin(id: string): Promise<Admin | undefined> {
+    const [admin] = await db.select().from(admins).where(eq(admins.id, id));
+    return admin || undefined;
+  }
+
+  async getAdminByUsername(username: string): Promise<Admin | undefined> {
+    const [admin] = await db.select().from(admins).where(eq(admins.username, username));
+    return admin || undefined;
+  }
+
+  async createAdmin(insertAdmin: InsertAdmin): Promise<Admin> {
+    const [admin] = await db
+      .insert(admins)
+      .values(insertAdmin)
+      .returning();
+    return admin;
+  }
+
+  async createAdminResearch(research: InsertAdminResearch): Promise<AdminResearch> {
+    const [newResearch] = await db
+      .insert(adminResearch)
+      .values(research as any)
+      .returning();
+    return newResearch;
+  }
+
+  async getAdminResearch(id: string): Promise<AdminResearch | undefined> {
+    const [research] = await db.select().from(adminResearch).where(eq(adminResearch.id, id));
+    return research || undefined;
+  }
+
+  async getAllAdminResearch(publishedOnly: boolean = false): Promise<AdminResearch[]> {
+    if (publishedOnly) {
+      return await db.select().from(adminResearch).where(eq(adminResearch.published, true));
+    }
+    return await db.select().from(adminResearch);
+  }
+
+  async updateAdminResearch(id: string, updates: UpdateAdminResearch): Promise<AdminResearch> {
+    const updateData: any = { updatedAt: new Date() };
+    
+    if (updates.title !== undefined) updateData.title = updates.title;
+    if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.tags !== undefined) updateData.tags = updates.tags;
+    if (updates.nasaOsdrLinks !== undefined) updateData.nasaOsdrLinks = updates.nasaOsdrLinks;
+    if (updates.customFields !== undefined) updateData.customFields = updates.customFields;
+    if (updates.published !== undefined) updateData.published = updates.published;
+    
+    const [updatedResearch] = await db
+      .update(adminResearch)
+      .set(updateData)
+      .where(eq(adminResearch.id, id))
+      .returning();
+    return updatedResearch;
+  }
+
+  async deleteAdminResearch(id: string): Promise<void> {
+    await db.delete(adminResearch).where(eq(adminResearch.id, id));
   }
 }
 
