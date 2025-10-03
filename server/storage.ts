@@ -299,6 +299,9 @@ export class DatabaseStorage implements IStorage {
     
     if (updates.title !== undefined) updateData.title = updates.title;
     if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.year !== undefined) updateData.year = updates.year;
+    if (updates.authors !== undefined) updateData.authors = updates.authors;
+    if (updates.institution !== undefined) updateData.institution = updates.institution;
     if (updates.tags !== undefined) updateData.tags = updates.tags;
     if (updates.nasaOsdrLinks !== undefined) updateData.nasaOsdrLinks = updates.nasaOsdrLinks;
     if (updates.customFields !== undefined) updateData.customFields = updates.customFields;
