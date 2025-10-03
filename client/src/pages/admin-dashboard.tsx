@@ -108,7 +108,7 @@ export default function AdminDashboardPage() {
       });
     },
     onSuccess: () => {
-      setLocation("/admin/login");
+      setLocation("/admin");
     },
   });
 
