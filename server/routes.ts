@@ -59,11 +59,11 @@ function transformAdminResearchToStudyFormat(research: any): any {
     id: `admin-${research.id}`,
     title: research.title,
     abstract: research.description,
-    authors: ['BioGalactic Admin'],
-    institution: 'BioGalactic Research',
+    authors: research.authors ? [research.authors] : ['BioGalactic Admin'],
+    institution: research.institution || 'BioGalactic Research',
     tags: research.tags || [],
     url: research.nasaOsdrLinks?.[0] || '#',
-    year: new Date(research.createdAt).getFullYear(),
+    year: research.year ? parseInt(research.year) : new Date(research.createdAt).getFullYear(),
     isAdminCreated: true,
     customFields: research.customFields,
     nasaOsdrLinks: research.nasaOsdrLinks,
@@ -374,6 +374,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         );
       }
 
+
+      if (query && query.trim()) {
+        const searchQuery = query.toLowerCase().trim();
+        filteredResults = filteredResults.filter(study =>
+          study.title?.toLowerCase().includes(searchQuery) ||
+          study.abstract?.toLowerCase().includes(searchQuery) ||
+          study.tags?.some((tag: string) => tag.toLowerCase().includes(searchQuery)) ||
+          study.authors?.some((author: string) => author.toLowerCase().includes(searchQuery)) ||
+          study.institution?.toLowerCase().includes(searchQuery)
+        );
+      }
 
       if (filters.keywords && Array.isArray(filters.keywords) && filters.keywords.length > 0) {
         filteredResults = filteredResults.filter(study =>
