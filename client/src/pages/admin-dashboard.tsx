@@ -10,14 +10,16 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun } from "lucide-react";
+import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun, Search, Filter, Copy, Check } from "lucide-react";
 import { useLocation } from "wouter";
 import { AdminAssistant } from "@/components/admin-assistant";
 import type { AdminResearch } from "@shared/schema";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PREDEFINED_TAGS = [
   "Plant Biology",
@@ -54,6 +56,10 @@ export default function AdminDashboardPage() {
   const [tagInput, setTagInput] = useState("");
   const [linkInput, setLinkInput] = useState("");
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterBy, setFilterBy] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("newest");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('admin-theme') as 'light' | 'dark' || 'dark';
@@ -208,20 +214,76 @@ export default function AdminDashboardPage() {
     form.setValue("nasaOsdrLinks", currentLinks.filter(l => l !== link));
   }
 
+  function copyToClipboard(id: string) {
+    navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    toast({ title: "ID Copied!", description: "Research ID copied to clipboard" });
+    setTimeout(() => setCopiedId(null), 2000);
+  }
+
+  const filteredAndSortedResearch = () => {
+    let filtered = research || [];
+
+    if (searchQuery.trim()) {
+      filtered = filtered.filter((item: any) => {
+        const query = searchQuery.toLowerCase();
+        return (
+          item.id.toLowerCase().includes(query) ||
+          item.title.toLowerCase().includes(query) ||
+          item.description.toLowerCase().includes(query) ||
+          item.authors?.toLowerCase().includes(query) ||
+          item.institution?.toLowerCase().includes(query) ||
+          item.tags?.some((tag: string) => tag.toLowerCase().includes(query))
+        );
+      });
+    }
+
+    if (filterBy !== "all") {
+      if (filterBy === "published") {
+        filtered = filtered.filter((item: any) => item.published);
+      } else if (filterBy === "unpublished") {
+        filtered = filtered.filter((item: any) => !item.published);
+      }
+    }
+
+    const sorted = [...filtered].sort((a: any, b: any) => {
+      switch (sortBy) {
+        case "newest":
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        case "oldest":
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        case "title":
+          return a.title.localeCompare(b.title);
+        case "year":
+          return (b.year || "0").localeCompare(a.year || "0");
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+    <div className="min-h-screen cosmic-bg relative overflow-x-hidden">
+      <div className="stars"></div>
+      <div className="relative z-10 p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between mb-8"
+        >
           <div>
-            <h1 className="text-3xl font-bold text-white dark:text-gray-100">Admin Dashboard</h1>
-            <p className="text-gray-300 dark:text-gray-400 mt-1">Manage research content</p>
+            <h1 className="text-4xl font-bold cosmic-text-gradient mb-2">Admin Dashboard</h1>
+            <p className="text-gray-300 dark:text-gray-400">Manage research content and make it shine</p>
           </div>
           <div className="flex items-center gap-3">
             <Button
               onClick={toggleTheme}
               variant="outline"
               size="icon"
-              className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200 hover:bg-white/10 dark:hover:bg-gray-700/50"
+              className="glass border-0 cosmic-glow hover:scale-110 transition-transform"
               data-testid="button-theme-toggle"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -229,284 +291,383 @@ export default function AdminDashboardPage() {
             <Button
               onClick={() => logoutMutation.mutate()}
               variant="outline"
-              className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200 hover:bg-white/10 dark:hover:bg-gray-700/50"
+              className="glass border-0 hover:scale-105 transition-transform"
               data-testid="button-logout"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Logout
             </Button>
           </div>
-        </div>
+        </motion.div>
 
         <Tabs defaultValue="research" className="space-y-6">
-          <TabsList className="bg-white/10 dark:bg-gray-800/50 backdrop-blur-lg">
-            <TabsTrigger value="research" className="data-[state=active]:bg-purple-600 dark:data-[state=active]:bg-purple-700 data-[state=active]:text-white">
+          <TabsList className="glass border-0">
+            <TabsTrigger value="research" className="data-[state=active]:cosmic-glow data-[state=active]:text-white">
               Research Management
             </TabsTrigger>
-            <TabsTrigger value="assistant" className="data-[state=active]:bg-purple-600 dark:data-[state=active]:bg-purple-700 data-[state=active]:text-white">
+            <TabsTrigger value="assistant" className="data-[state=active]:cosmic-glow data-[state=active]:text-white">
               <Bot className="w-4 h-4 mr-2" />
               AI Assistant
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="research" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <p className="text-gray-300 dark:text-gray-400">
-                Total Research: <span className="font-bold text-white dark:text-gray-100">{research.length}</span>
-              </p>
-              <Dialog open={isDialogOpen} onOpenChange={(open) => {
-                setIsDialogOpen(open);
-                if (!open) {
-                  setEditingResearch(null);
-                  form.reset();
-                }
-              }}>
-                <DialogTrigger asChild>
-                  <Button className="bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white" data-testid="button-add-research">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Research
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gray-900/95 dark:bg-gray-800/95 backdrop-blur-lg border-purple-500/30 dark:border-gray-700 text-white dark:text-gray-100">
-                  <DialogHeader>
-                    <DialogTitle className="text-white dark:text-gray-100">
-                      {editingResearch ? "Edit Research" : "Add New Research"}
-                    </DialogTitle>
-                    <DialogDescription className="text-gray-300 dark:text-gray-400">
-                      Fill in the details for the research entry
-                    </DialogDescription>
-                  </DialogHeader>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="title"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-gray-200 dark:text-gray-300">Title</FormLabel>
-                            <FormControl>
-                              <Input {...field} placeholder="Enter research title" className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-title" />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-gray-200 dark:text-gray-300">Description</FormLabel>
-                            <FormControl>
-                              <Textarea {...field} placeholder="Enter detailed description" rows={6} className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-description" />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="glass p-6 rounded-lg space-y-4"
+            >
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Search by ID, title, author, institution, tags..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 glass border-0 text-white placeholder:text-gray-400"
+                    data-testid="input-search"
+                  />
+                </div>
+                <Select value={filterBy} onValueChange={setFilterBy}>
+                  <SelectTrigger className="w-[180px] glass border-0" data-testid="select-filter">
+                    <Filter className="w-4 h-4 mr-2" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Research</SelectItem>
+                    <SelectItem value="published">Published Only</SelectItem>
+                    <SelectItem value="unpublished">Unpublished Only</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-[160px] glass border-0" data-testid="select-sort">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="oldest">Oldest First</SelectItem>
+                    <SelectItem value="title">Title A-Z</SelectItem>
+                    <SelectItem value="year">Year</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-                      <div className="grid grid-cols-3 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="year"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-gray-200 dark:text-gray-300">Year</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="2024" className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-year" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="authors"
-                          render={({ field }) => (
-                            <FormItem className="col-span-2">
-                              <FormLabel className="text-gray-200 dark:text-gray-300">Authors</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="e.g., Dr. Smith, Dr. Johnson" className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-authors" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <p className="text-gray-300">
+                    Showing: <span className="font-bold text-white">{filteredAndSortedResearch().length}</span> of {research.length}
+                  </p>
+                  {searchQuery && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSearchQuery("")}
+                      className="text-gray-400 hover:text-white"
+                    >
+                      Clear Search
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </motion.div>
 
+            <Dialog open={isDialogOpen} onOpenChange={(open) => {
+              setIsDialogOpen(open);
+              if (!open) {
+                setEditingResearch(null);
+                form.reset();
+              }
+            }}>
+              <DialogTrigger asChild>
+                <Button className="cosmic-glow hover:scale-105 transition-transform bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0" data-testid="button-add-research">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Research
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto glass border-0 text-white">
+                <DialogHeader>
+                  <DialogTitle className="text-white cosmic-text-gradient">
+                    {editingResearch ? "Edit Research" : "Add New Research"}
+                  </DialogTitle>
+                  <DialogDescription className="text-gray-300">
+                    Fill in the details for the research entry
+                  </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-200">Title</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="Enter research title" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-title" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-200">Description</FormLabel>
+                          <FormControl>
+                            <Textarea {...field} placeholder="Enter detailed description" rows={6} className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-description" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="grid grid-cols-3 gap-4">
                       <FormField
                         control={form.control}
-                        name="institution"
+                        name="year"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-gray-200 dark:text-gray-300">Institution</FormLabel>
+                            <FormLabel className="text-gray-200">Year</FormLabel>
                             <FormControl>
-                              <Input {...field} placeholder="e.g., NASA Ames Research Center" className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100" data-testid="input-institution" />
+                              <Input {...field} placeholder="2024" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-year" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      
-                      <div className="space-y-2">
-                        <FormLabel className="text-gray-200 dark:text-gray-300">Tags</FormLabel>
-                        <div className="mb-3">
-                          <p className="text-sm text-gray-400 dark:text-gray-500 mb-2">Quick add predefined tags:</p>
-                          <div className="flex flex-wrap gap-2">
-                            {PREDEFINED_TAGS.map((tag) => (
-                              <Badge
-                                key={tag}
-                                variant="outline"
-                                className="cursor-pointer border-purple-500/50 dark:border-purple-600/50 text-purple-300 dark:text-purple-400 hover:bg-purple-600/30 dark:hover:bg-purple-700/30"
-                                onClick={() => addPredefinedTag(tag)}
-                                data-testid={`badge-predefined-${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                              >
-                                + {tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <Input
-                            value={tagInput}
-                            onChange={(e) => setTagInput(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                            placeholder="Add tag and press Enter"
-                            className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100"
-                            data-testid="input-tag"
-                          />
-                          <Button type="button" onClick={addTag} variant="outline" className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200" data-testid="button-add-tag">
-                            Add
-                          </Button>
-                        </div>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {form.watch("tags").map((tag, index) => (
-                            <Badge key={index} variant="secondary" className="bg-purple-600/20 dark:bg-purple-700/20 text-white dark:text-gray-200" data-testid={`badge-tag-${index}`}>
-                              {tag}
-                              <X className="w-3 h-3 ml-1 cursor-pointer" onClick={() => removeTag(tag)} />
+                      <FormField
+                        control={form.control}
+                        name="authors"
+                        render={({ field }) => (
+                          <FormItem className="col-span-2">
+                            <FormLabel className="text-gray-200">Authors</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="e.g., Dr. Smith, Dr. Johnson" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-authors" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="institution"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-200">Institution</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="e.g., NASA Ames Research Center" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-institution" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <div className="space-y-2">
+                      <FormLabel className="text-gray-200">Tags</FormLabel>
+                      <div className="mb-3">
+                        <p className="text-sm text-gray-400 mb-2">Quick add predefined tags:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {PREDEFINED_TAGS.map((tag) => (
+                            <Badge
+                              key={tag}
+                              variant="outline"
+                              className="cursor-pointer border-purple-500/50 text-purple-300 hover:bg-purple-600/30 hover:scale-105 transition-transform"
+                              onClick={() => addPredefinedTag(tag)}
+                              data-testid={`badge-predefined-${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                            >
+                              + {tag}
                             </Badge>
                           ))}
                         </div>
                       </div>
-
-                      <div className="space-y-2">
-                        <FormLabel className="text-gray-200 dark:text-gray-300">NASA OSDR Links</FormLabel>
-                        <div className="flex gap-2">
-                          <Input
-                            value={linkInput}
-                            onChange={(e) => setLinkInput(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addLink())}
-                            placeholder="Add NASA OSDR link and press Enter"
-                            className="bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100"
-                            data-testid="input-link"
-                          />
-                          <Button type="button" onClick={addLink} variant="outline" className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200" data-testid="button-add-link">
-                            Add
-                          </Button>
-                        </div>
-                        <div className="space-y-1 mt-2">
-                          {form.watch("nasaOsdrLinks").map((link, index) => (
-                            <div key={index} className="flex items-center gap-2 bg-white/5 dark:bg-gray-700/30 p-2 rounded" data-testid={`link-item-${index}`}>
-                              <span className="text-sm text-gray-300 dark:text-gray-400 flex-1 truncate">{link}</span>
-                              <X className="w-4 h-4 cursor-pointer text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200" onClick={() => removeLink(link)} />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <FormField
-                        control={form.control}
-                        name="published"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center justify-between rounded-lg border border-purple-500/30 dark:border-gray-600 p-4 bg-white/5 dark:bg-gray-700/30">
-                            <div className="space-y-0.5">
-                              <FormLabel className="text-gray-200 dark:text-gray-300">Published</FormLabel>
-                              <div className="text-sm text-gray-400 dark:text-gray-500">Make this research visible to users</div>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                                data-testid="switch-published"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <div className="flex gap-2 pt-4">
-                        <Button type="submit" className="flex-1 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
-                          {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
-                        </Button>
-                        <Button type="button" variant="outline" className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
-                          Cancel
+                      <div className="flex gap-2">
+                        <Input
+                          value={tagInput}
+                          onChange={(e) => setTagInput(e.target.value)}
+                          onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                          placeholder="Add tag and press Enter"
+                          className="glass border-0 text-white placeholder:text-gray-400"
+                          data-testid="input-tag"
+                        />
+                        <Button type="button" onClick={addTag} variant="outline" className="glass border-0" data-testid="button-add-tag">
+                          Add
                         </Button>
                       </div>
-                    </form>
-                  </Form>
-                </DialogContent>
-              </Dialog>
-            </div>
-
-            {isLoading ? (
-              <div className="text-center text-gray-300 dark:text-gray-400 py-12">Loading research...</div>
-            ) : (
-              <div className="grid gap-4">
-                {research.map((item: any) => (
-                  <Card key={item.id} className="bg-white/10 dark:bg-gray-800/50 backdrop-blur-lg border-purple-500/20 dark:border-gray-700" data-testid={`card-research-${item.id}`}>
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <CardTitle className="text-white dark:text-gray-100">{item.title}</CardTitle>
-                            {item.year && (
-                              <Badge variant="outline" className="border-blue-500/50 dark:border-blue-600/50 text-blue-300 dark:text-blue-400">
-                                {item.year}
-                              </Badge>
-                            )}
-                          </div>
-                          {(item.authors || item.institution) && (
-                            <div className="text-sm text-gray-400 dark:text-gray-500 mb-2">
-                              {item.authors && <span>{item.authors}</span>}
-                              {item.authors && item.institution && <span> • </span>}
-                              {item.institution && <span>{item.institution}</span>}
-                            </div>
-                          )}
-                          <CardDescription className="text-gray-300 dark:text-gray-400 mt-2">
-                            {item.description.length > 200 ? `${item.description.substring(0, 200)}...` : item.description}
-                          </CardDescription>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="icon" onClick={() => handleEdit(item)} className="border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-200" data-testid={`button-edit-${item.id}`}>
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button variant="outline" size="icon" onClick={() => handleDelete(item.id)} className="border-red-500/30 dark:border-red-600 text-red-300 dark:text-red-400 hover:bg-red-500/20 dark:hover:bg-red-600/20" data-testid={`button-delete-${item.id}`}>
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {item.tags?.map((tag: string, index: number) => (
-                          <Badge key={index} variant="secondary" className="bg-purple-600/20 dark:bg-purple-700/20 text-white dark:text-gray-200">
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {form.watch("tags").map((tag, index) => (
+                          <Badge key={index} className="bg-purple-600/30 text-white" data-testid={`badge-tag-${index}`}>
                             {tag}
+                            <X className="w-3 h-3 ml-1 cursor-pointer hover:scale-110 transition-transform" onClick={() => removeTag(tag)} />
                           </Badge>
                         ))}
                       </div>
-                      <div className="flex items-center justify-between">
-                        <Badge variant={item.published ? "default" : "secondary"} className={item.published ? "bg-green-600/50 dark:bg-green-700/50 text-white" : "bg-gray-600/50 dark:bg-gray-700/50 text-gray-200"} data-testid={`badge-status-${item.id}`}>
-                          {item.published ? "Published" : "Draft"}
-                        </Badge>
-                        {item.nasaOsdrLinks?.length > 0 && (
-                          <span className="text-sm text-gray-400 dark:text-gray-500">
-                            {item.nasaOsdrLinks.length} NASA OSDR link(s)
-                          </span>
-                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <FormLabel className="text-gray-200">NASA OSDR Links</FormLabel>
+                      <div className="flex gap-2">
+                        <Input
+                          value={linkInput}
+                          onChange={(e) => setLinkInput(e.target.value)}
+                          onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addLink())}
+                          placeholder="Add NASA OSDR link and press Enter"
+                          className="glass border-0 text-white placeholder:text-gray-400"
+                          data-testid="input-link"
+                        />
+                        <Button type="button" onClick={addLink} variant="outline" className="glass border-0" data-testid="button-add-link">
+                          Add
+                        </Button>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      <div className="space-y-1 mt-2">
+                        {form.watch("nasaOsdrLinks").map((link, index) => (
+                          <div key={index} className="flex items-center gap-2 glass p-2 rounded" data-testid={`link-item-${index}`}>
+                            <span className="text-sm text-gray-300 flex-1 truncate">{link}</span>
+                            <X className="w-4 h-4 cursor-pointer text-gray-400 hover:text-white hover:scale-110 transition-transform" onClick={() => removeLink(link)} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="published"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg glass p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-gray-200">Published</FormLabel>
+                            <div className="text-sm text-gray-400">Make this research visible to users</div>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              data-testid="switch-published"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="flex gap-2 pt-4">
+                      <Button type="submit" className="flex-1 cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 hover:scale-105 transition-transform" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
+                        {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
+                      </Button>
+                      <Button type="button" variant="outline" className="glass border-0" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
+                        Cancel
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              </DialogContent>
+            </Dialog>
+
+            {isLoading ? (
+              <div className="text-center text-gray-300 py-12">Loading research...</div>
+            ) : (
+              <div className="grid gap-4">
+                <AnimatePresence>
+                  {filteredAndSortedResearch().map((item: any, index: number) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <Card className="glass border-0 hover:scale-[1.01] transition-transform" data-testid={`card-research-${item.id}`}>
+                        <CardHeader>
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <CardTitle className="text-white">{item.title}</CardTitle>
+                                {item.year && (
+                                  <Badge variant="outline" className="border-blue-500/50 text-blue-300 cosmic-glow">
+                                    {item.year}
+                                  </Badge>
+                                )}
+                                {item.published ? (
+                                  <Badge className="bg-green-600/30 text-green-300 border-green-500/50">
+                                    Published
+                                  </Badge>
+                                ) : (
+                                  <Badge className="bg-yellow-600/30 text-yellow-300 border-yellow-500/50">
+                                    Draft
+                                  </Badge>
+                                )}
+                              </div>
+                              
+                              <div className="flex items-center gap-2 mb-2">
+                                <code className="text-xs text-gray-400 bg-black/30 px-2 py-1 rounded">
+                                  ID: {item.id.substring(0, 8)}...
+                                </code>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => copyToClipboard(item.id)}
+                                  className="h-6 px-2 text-gray-400 hover:text-white"
+                                  data-testid={`button-copy-${item.id}`}
+                                >
+                                  {copiedId === item.id ? (
+                                    <Check className="w-3 h-3 text-green-400" />
+                                  ) : (
+                                    <Copy className="w-3 h-3" />
+                                  )}
+                                </Button>
+                              </div>
+
+                              {(item.authors || item.institution) && (
+                                <div className="text-sm text-gray-400 mb-2">
+                                  {item.authors && <span>{item.authors}</span>}
+                                  {item.authors && item.institution && <span> • </span>}
+                                  {item.institution && <span>{item.institution}</span>}
+                                </div>
+                              )}
+                              <CardDescription className="text-gray-300 mt-2">
+                                {item.description.length > 200 ? `${item.description.substring(0, 200)}...` : item.description}
+                              </CardDescription>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button variant="outline" size="icon" onClick={() => handleEdit(item)} className="glass border-0 hover:scale-110 transition-transform" data-testid={`button-edit-${item.id}`}>
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button variant="outline" size="icon" onClick={() => handleDelete(item.id)} className="glass border-0 text-red-300 hover:bg-red-500/20 hover:scale-110 transition-transform" data-testid={`button-delete-${item.id}`}>
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {item.tags?.map((tag: string, index: number) => (
+                              <Badge key={index} className="bg-purple-600/30 text-white">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                          {item.nasaOsdrLinks && item.nasaOsdrLinks.length > 0 && (
+                            <div className="mt-2">
+                              <p className="text-sm font-medium text-gray-400 mb-1">
+                                {item.nasaOsdrLinks.length} NASA OSDR link(s)
+                              </p>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                {filteredAndSortedResearch().length === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-12 glass rounded-lg"
+                  >
+                    <p className="text-gray-400">No research found matching your search criteria.</p>
+                  </motion.div>
+                )}
               </div>
             )}
           </TabsContent>
@@ -515,6 +676,7 @@ export default function AdminDashboardPage() {
             <AdminAssistant />
           </TabsContent>
         </Tabs>
+      </div>
       </div>
     </div>
   );
