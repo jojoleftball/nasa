@@ -126,7 +126,6 @@
     );
 }
 
-/* Enhanced Star Field with Multiple Layers */
 .stars {
   position: absolute;
   top: 0;
@@ -147,7 +146,6 @@
   height: 100%;
 }
 
-/* Main star layer - bright stars */
 .stars::before {
   background-image: 
     radial-gradient(3px 3px at 20px 30px, hsl(var(--stardust)), transparent),
