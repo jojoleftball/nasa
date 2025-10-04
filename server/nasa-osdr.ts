@@ -9,7 +9,7 @@ export interface NASAStudy {
   title: string;
   abstract: string;
   authors: string[];
-  year?: number; // Optional - only include if we have real date data
+  year?: number; 
   institution: string;
   tags: string[];
   url: string;
