@@ -3,65 +3,57 @@ import { forwardRef, ReactNode } from "react";
 
 // Animation variants for different effects
 export const fadeInUp: Variants = {
-  initial: { opacity: 0, y: 20, filter: "blur(4px)" },
+  initial: { opacity: 0, y: 20 },
   animate: { 
     opacity: 1, 
     y: 0, 
-    filter: "blur(0px)",
     transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] }
   },
   exit: { 
     opacity: 0, 
     y: -20, 
-    filter: "blur(4px)",
     transition: { duration: 0.3 }
   }
 };
 
 export const slideInLeft: Variants = {
-  initial: { opacity: 0, x: -60, filter: "blur(4px)" },
+  initial: { opacity: 0, x: -60 },
   animate: { 
     opacity: 1, 
     x: 0, 
-    filter: "blur(0px)",
     transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] }
   },
   exit: { 
     opacity: 0, 
     x: -60, 
-    filter: "blur(4px)",
     transition: { duration: 0.3 }
   }
 };
 
 export const slideInRight: Variants = {
-  initial: { opacity: 0, x: 60, filter: "blur(4px)" },
+  initial: { opacity: 0, x: 60 },
   animate: { 
     opacity: 1, 
     x: 0, 
-    filter: "blur(0px)",
     transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] }
   },
   exit: { 
     opacity: 0, 
     x: 60, 
-    filter: "blur(4px)",
     transition: { duration: 0.3 }
   }
 };
 
 export const scaleIn: Variants = {
-  initial: { opacity: 0, scale: 0.8, filter: "blur(4px)" },
+  initial: { opacity: 0, scale: 0.8 },
   animate: { 
     opacity: 1, 
     scale: 1, 
-    filter: "blur(0px)",
     transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
   },
   exit: { 
     opacity: 0, 
     scale: 0.8, 
-    filter: "blur(4px)",
     transition: { duration: 0.3 }
   }
 };
@@ -179,17 +171,15 @@ export const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedDivProps>(
 
 export const PageTransition = ({ children, ...props }: { children: ReactNode }) => (
   <motion.div
-    initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+    initial={{ opacity: 0, y: 20 }}
     animate={{ 
       opacity: 1, 
       y: 0, 
-      filter: "blur(0px)",
       transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] }
     }}
     exit={{ 
       opacity: 0, 
       y: -20, 
-      filter: "blur(10px)",
       transition: { duration: 0.4 }
     }}
     {...props}

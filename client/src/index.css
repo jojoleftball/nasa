@@ -404,12 +404,10 @@
   from { 
     transform: translateX(-100%) rotateY(-30deg); 
     opacity: 0;
-    filter: blur(10px);
   }
   to { 
     transform: translateX(0) rotateY(0deg); 
     opacity: 1;
-    filter: blur(0px);
   }
 }
 
