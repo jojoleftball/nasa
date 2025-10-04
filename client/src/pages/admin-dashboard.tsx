@@ -389,16 +389,16 @@ export default function AdminDashboardPage() {
                   Add Research
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[1600px] w-[96vw] h-[95vh] glass border-0 text-white p-0 flex flex-col">
-                <DialogHeader className="px-6 pt-6 pb-4 border-b border-white/10 flex-shrink-0">
-                  <DialogTitle className="text-white cosmic-text-gradient text-2xl">
+              <DialogContent className="max-w-7xl w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[80vw] max-h-[90vh] sm:max-h-[92vh] md:max-h-[95vh] glass border-0 text-white p-0 flex flex-col">
+                <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-white/10 flex-shrink-0">
+                  <DialogTitle className="text-white cosmic-text-gradient text-xl sm:text-2xl">
                     {editingResearch ? "Edit Research" : "Add New Research"}
                   </DialogTitle>
-                  <DialogDescription className="text-gray-300">
+                  <DialogDescription className="text-gray-300 text-sm sm:text-base">
                     Fill in the details for the research entry
                   </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="flex-1 px-6" type="always">
+                <ScrollArea className="flex-1 px-4 sm:px-6" type="always">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
                     <FormField
@@ -428,7 +428,7 @@ export default function AdminDashboardPage() {
                       )}
                     />
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <FormField
                         control={form.control}
                         name="year"
@@ -446,7 +446,7 @@ export default function AdminDashboardPage() {
                         control={form.control}
                         name="authors"
                         render={({ field }) => (
-                          <FormItem className="col-span-2">
+                          <FormItem className="md:col-span-2">
                             <FormLabel className="text-gray-200">Authors</FormLabel>
                             <FormControl>
                               <Input {...field} placeholder="e.g., Dr. Smith, Dr. Johnson" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-authors" />
@@ -560,12 +560,12 @@ export default function AdminDashboardPage() {
                   </form>
                 </Form>
                 </ScrollArea>
-                <div className="px-6 py-4 border-t border-white/10 bg-black/20">
-                  <div className="flex gap-2">
+                <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-white/10 bg-black/20 flex-shrink-0">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Button type="submit" onClick={form.handleSubmit(onSubmit)} className="flex-1 cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 hover:scale-105 transition-transform" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
                       {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
                     </Button>
-                    <Button type="button" variant="outline" className="glass border-0" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
+                    <Button type="button" variant="outline" className="glass border-0 sm:w-auto w-full" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
                       Cancel
                     </Button>
                   </div>
