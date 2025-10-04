@@ -11,6 +11,7 @@ import { SearchFilters } from "@/components/search-filters";
 import { VisualizationSidebar } from "@/components/visualization-sidebar";
 import { ResearchResults } from "@/components/research-results";
 import { ChevronDown, User, Bot, LogOut, X, Settings } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -85,9 +86,7 @@ export default function DashboardPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                Biogalactic
-              </h1>
+              <Logo size="md" showText={true} />
             </div>
             
             <div className="flex items-center space-x-4">
