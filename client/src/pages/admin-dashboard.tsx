@@ -389,8 +389,8 @@ export default function AdminDashboardPage() {
                   Add Research
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[1400px] w-[95vw] max-h-[92vh] glass border-0 text-white p-0 flex flex-col">
-                <DialogHeader className="px-6 pt-6 pb-4 border-b border-white/10">
+              <DialogContent className="max-w-[1600px] w-[96vw] h-[95vh] glass border-0 text-white p-0 flex flex-col">
+                <DialogHeader className="px-6 pt-6 pb-4 border-b border-white/10 flex-shrink-0">
                   <DialogTitle className="text-white cosmic-text-gradient text-2xl">
                     {editingResearch ? "Edit Research" : "Add New Research"}
                   </DialogTitle>
@@ -398,7 +398,7 @@ export default function AdminDashboardPage() {
                     Fill in the details for the research entry
                   </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="flex-1 px-6">
+                <ScrollArea className="flex-1 px-6" type="always">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
                     <FormField
