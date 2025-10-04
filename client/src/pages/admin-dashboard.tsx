@@ -182,7 +182,13 @@ export default function AdminDashboardPage() {
   function addPredefinedTag(tag: string) {
     const currentTags = form.getValues("tags");
     if (!currentTags.includes(tag)) {
-      form.setValue("tags", [...currentTags, tag]);
+      form.setValue("tags", [...currentTags, tag], { shouldValidate: false });
+    } else {
+      toast({ 
+        title: "Already Added", 
+        description: `"${tag}" is already in your tags`,
+        variant: "default"
+      });
     }
   }
 
@@ -195,27 +201,43 @@ export default function AdminDashboardPage() {
   function addTag() {
     if (tagInput.trim()) {
       const currentTags = form.getValues("tags");
-      form.setValue("tags", [...currentTags, tagInput.trim()]);
-      setTagInput("");
+      if (!currentTags.includes(tagInput.trim())) {
+        form.setValue("tags", [...currentTags, tagInput.trim()], { shouldValidate: false });
+        setTagInput("");
+      } else {
+        toast({ 
+          title: "Duplicate Tag", 
+          description: "This tag already exists",
+          variant: "default"
+        });
+      }
     }
   }
 
   function removeTag(tag: string) {
     const currentTags = form.getValues("tags");
-    form.setValue("tags", currentTags.filter(t => t !== tag));
+    form.setValue("tags", currentTags.filter(t => t !== tag), { shouldValidate: false });
   }
 
   function addLink() {
     if (linkInput.trim()) {
       const currentLinks = form.getValues("nasaOsdrLinks");
-      form.setValue("nasaOsdrLinks", [...currentLinks, linkInput.trim()]);
-      setLinkInput("");
+      if (!currentLinks.includes(linkInput.trim())) {
+        form.setValue("nasaOsdrLinks", [...currentLinks, linkInput.trim()], { shouldValidate: false });
+        setLinkInput("");
+      } else {
+        toast({ 
+          title: "Duplicate Link", 
+          description: "This link already exists",
+          variant: "default"
+        });
+      }
     }
   }
 
   function removeLink(link: string) {
     const currentLinks = form.getValues("nasaOsdrLinks");
-    form.setValue("nasaOsdrLinks", currentLinks.filter(l => l !== link));
+    form.setValue("nasaOsdrLinks", currentLinks.filter(l => l !== link), { shouldValidate: false });
   }
 
   function copyToClipboard(id: string) {
@@ -435,10 +457,12 @@ export default function AdminDashboardPage() {
               }
             }}>
               <DialogTrigger asChild>
-                <Button className="cosmic-glow hover:scale-105 transition-transform bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0" data-testid="button-add-research">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Research
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button className="cosmic-glow transition-all bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0" data-testid="button-add-research">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Research
+                  </Button>
+                </motion.div>
               </DialogTrigger>
               <DialogContent className="w-[calc(100vw-2rem)] sm:w-[calc(100vw-4rem)] md:w-[min(90vw,1200px)] lg:w-[min(85vw,1400px)] h-[calc(100vh-2rem)] sm:h-[calc(100vh-4rem)] max-h-none glass border-0 text-white p-0 flex flex-col overflow-hidden">
                 <DialogHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 pb-2 sm:pb-3 md:pb-4 border-b border-white/10 flex-shrink-0">
@@ -527,16 +551,24 @@ export default function AdminDashboardPage() {
                       <div className="mb-2 sm:mb-3">
                         <p className="text-xs sm:text-sm text-gray-400 mb-2">Quick add predefined tags:</p>
                         <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                          {PREDEFINED_TAGS.map((tag) => (
-                            <Badge
+                          {PREDEFINED_TAGS.map((tag, idx) => (
+                            <motion.div
                               key={tag}
-                              variant="outline"
-                              className="cursor-pointer border-purple-500/50 text-purple-300 hover:bg-purple-600/30 hover:scale-105 transition-transform text-xs sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1"
-                              onClick={() => addPredefinedTag(tag)}
-                              data-testid={`badge-predefined-${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: idx * 0.03, duration: 0.2 }}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
                             >
-                              + {tag}
-                            </Badge>
+                              <Badge
+                                variant="outline"
+                                className="cursor-pointer border-purple-500/50 text-purple-300 hover:bg-purple-600/30 transition-colors text-xs sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1"
+                                onClick={() => addPredefinedTag(tag)}
+                                data-testid={`badge-predefined-${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                              >
+                                + {tag}
+                              </Badge>
+                            </motion.div>
                           ))}
                         </div>
                       </div>
@@ -553,14 +585,27 @@ export default function AdminDashboardPage() {
                           Add
                         </Button>
                       </div>
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2">
-                        {form.watch("tags").map((tag, index) => (
-                          <Badge key={index} className="bg-purple-600/30 text-white text-xs sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1" data-testid={`badge-tag-${index}`}>
-                            {tag}
-                            <X className="w-3 h-3 ml-1 cursor-pointer hover:scale-110 transition-transform" onClick={() => removeTag(tag)} />
-                          </Badge>
-                        ))}
-                      </div>
+                      <AnimatePresence mode="popLayout">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2">
+                          {form.watch("tags").map((tag, index) => (
+                            <motion.div
+                              key={tag}
+                              initial={{ opacity: 0, scale: 0.8, y: -10 }}
+                              animate={{ opacity: 1, scale: 1, y: 0 }}
+                              exit={{ opacity: 0, scale: 0.8, x: -20 }}
+                              transition={{ duration: 0.2 }}
+                              layout
+                            >
+                              <Badge className="bg-purple-600/30 text-white text-xs sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1" data-testid={`badge-tag-${index}`}>
+                                {tag}
+                                <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                                  <X className="w-3 h-3 ml-1 cursor-pointer hover:text-red-300 transition-colors inline-block" onClick={() => removeTag(tag)} />
+                                </motion.div>
+                              </Badge>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </AnimatePresence>
                     </div>
 
                     <div className="space-y-2">
@@ -578,14 +623,27 @@ export default function AdminDashboardPage() {
                           Add
                         </Button>
                       </div>
-                      <div className="space-y-1 sm:space-y-1.5 mt-2">
-                        {form.watch("nasaOsdrLinks").map((link, index) => (
-                          <div key={index} className="flex items-center gap-2 glass p-2 sm:p-2.5 rounded" data-testid={`link-item-${index}`}>
-                            <span className="text-xs sm:text-sm text-gray-300 flex-1 truncate break-all">{link}</span>
-                            <X className="w-4 h-4 flex-shrink-0 cursor-pointer text-gray-400 hover:text-white hover:scale-110 transition-transform" onClick={() => removeLink(link)} />
-                          </div>
-                        ))}
-                      </div>
+                      <AnimatePresence mode="popLayout">
+                        <div className="space-y-1 sm:space-y-1.5 mt-2">
+                          {form.watch("nasaOsdrLinks").map((link, index) => (
+                            <motion.div 
+                              key={link}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: 20 }}
+                              transition={{ duration: 0.2 }}
+                              layout
+                              className="flex items-center gap-2 glass p-2 sm:p-2.5 rounded" 
+                              data-testid={`link-item-${index}`}
+                            >
+                              <span className="text-xs sm:text-sm text-gray-300 flex-1 truncate break-all">{link}</span>
+                              <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                                <X className="w-4 h-4 flex-shrink-0 cursor-pointer text-gray-400 hover:text-red-300 transition-colors" onClick={() => removeLink(link)} />
+                              </motion.div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </AnimatePresence>
                     </div>
 
                     <FormField
@@ -614,12 +672,35 @@ export default function AdminDashboardPage() {
                 </ScrollArea>
                 <div className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 border-t border-white/10 bg-black/20 flex-shrink-0">
                   <div className="flex flex-col-reverse sm:flex-row gap-2">
-                    <Button type="button" variant="outline" className="glass border-0 sm:w-auto w-full h-9 sm:h-10 text-sm sm:text-base" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
-                      Cancel
-                    </Button>
-                    <Button type="submit" onClick={form.handleSubmit(onSubmit)} className="flex-1 cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 hover:scale-105 transition-transform h-9 sm:h-10 text-sm sm:text-base" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
-                      {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
-                    </Button>
+                    <motion.div className="sm:w-auto w-full" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                      <Button type="button" variant="outline" className="glass border-0 w-full h-9 sm:h-10 text-sm sm:text-base transition-all" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
+                        Cancel
+                      </Button>
+                    </motion.div>
+                    <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                      <Button 
+                        type="submit" 
+                        onClick={form.handleSubmit(onSubmit)} 
+                        className="w-full cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 transition-all h-9 sm:h-10 text-sm sm:text-base" 
+                        disabled={createMutation.isPending || updateMutation.isPending} 
+                        data-testid="button-submit"
+                      >
+                        {createMutation.isPending || updateMutation.isPending ? (
+                          <motion.span
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="flex items-center gap-2"
+                          >
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                            />
+                            Saving...
+                          </motion.span>
+                        ) : (editingResearch ? "Update" : "Create")}
+                      </Button>
+                    </motion.div>
                   </div>
                 </div>
               </DialogContent>
