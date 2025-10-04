@@ -176,16 +176,9 @@ export default function AuthPage() {
         <div className="w-full lg:w-1/2 flex items-center justify-center p-4">
           <div className="w-full max-w-md">
             {/* Mobile Branding */}
-            <div className="text-center mb-8 lg:hidden">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="p-2 rounded-xl bg-primary/20 backdrop-blur-sm border border-primary/30">
-                  <Rocket className="h-6 w-6 text-primary" />
-                </div>
-                <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                  Biogalactic
-                </h1>
-              </div>
-              <p className="text-muted-foreground">
+            <div className="flex flex-col items-center mb-8 lg:hidden">
+              <Logo size="md" textClassName="text-3xl" showText={true} />
+              <p className="text-muted-foreground mt-3">
                 Access NASA's space biology research platform
               </p>
             </div>

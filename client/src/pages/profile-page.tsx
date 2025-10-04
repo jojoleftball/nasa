@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, User, Shield, Settings } from "lucide-react";
 import { Link } from "wouter";
+import { Logo } from "@/components/ui/logo";
 import { ProfileForm } from "@/components/profile/profile-form";
 import { PasswordForm } from "@/components/profile/password-form";
 import { UsernameForm } from "@/components/profile/username-form";
@@ -27,13 +28,14 @@ export default function ProfilePage() {
       
       <div className="container mx-auto px-6 py-8 relative z-10">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center justify-between mb-8">
           <Link href="/dashboard">
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Dashboard
             </Button>
           </Link>
+          <Logo size="sm" showText={true} />
         </div>
 
         <div className="max-w-4xl mx-auto space-y-8">
