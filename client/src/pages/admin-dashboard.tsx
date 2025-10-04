@@ -389,7 +389,8 @@ export default function AdminDashboardPage() {
                   Add Research
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto glass border-0 text-white">
+              <DialogContent className="max-w-4xl max-h-[95vh] glass border-0 text-white">
+                <ScrollArea className="max-h-[calc(95vh-8rem)] pr-4">
                 <DialogHeader>
                   <DialogTitle className="text-white cosmic-text-gradient">
                     {editingResearch ? "Edit Research" : "Add New Research"}
@@ -566,6 +567,7 @@ export default function AdminDashboardPage() {
                     </div>
                   </form>
                 </Form>
+                </ScrollArea>
               </DialogContent>
             </Dialog>
 

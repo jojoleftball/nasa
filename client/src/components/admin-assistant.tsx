@@ -68,7 +68,7 @@ export function AdminAssistant() {
   }
 
   return (
-    <Card className="bg-white/10 dark:bg-gray-800/50 backdrop-blur-lg border-purple-500/20 dark:border-gray-700 h-[calc(100vh-300px)]">
+    <Card className="glass border-0 h-[calc(100vh-16rem)]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-white dark:text-gray-100">
           <Bot className="w-5 h-5 text-purple-400 dark:text-purple-500" />
@@ -78,7 +78,7 @@ export function AdminAssistant() {
           Get help with research content creation and management
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col h-[calc(100%-140px)]">
+      <CardContent className="flex flex-col h-[calc(100%-8rem)]">
         <ScrollArea className="flex-1 pr-4 mb-4">
           <div className="space-y-4">
             {messages.map((msg, index) => (
