@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, User } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -67,9 +68,7 @@ export default function AdminLoginPage() {
       <Card className="w-full max-w-md bg-white/10 dark:bg-gray-800/50 backdrop-blur-lg border-purple-500/20 dark:border-gray-700">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
-            <div className="p-3 rounded-full bg-purple-500/20 dark:bg-purple-600/20">
-              <Lock className="w-8 h-8 text-purple-300 dark:text-purple-400" />
-            </div>
+            <Logo size="lg" showText={false} />
           </div>
           <CardTitle className="text-2xl font-bold text-center text-white dark:text-gray-100">
             Admin Login

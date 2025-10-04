@@ -40,8 +40,8 @@ export function Logo({
         data-testid="img-logo"
       />
       {showText && (
-        <div className={cn(textClassName)}>
-          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
+        <div>
+          <h1 className={cn("text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400", textClassName)}>
             Biogalactic
           </h1>
         </div>

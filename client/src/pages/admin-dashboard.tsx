@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun, Search, Filter, Copy, Check } from "lucide-react";
 import { useLocation } from "wouter";
 import { AdminAssistant } from "@/components/admin-assistant";
+import { Logo } from "@/components/ui/logo";
 import type { AdminResearch } from "@shared/schema";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -274,9 +276,12 @@ export default function AdminDashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center justify-between mb-8"
         >
-          <div>
-            <h1 className="text-4xl font-bold cosmic-text-gradient mb-2">Admin Dashboard</h1>
-            <p className="text-gray-300 dark:text-gray-400">Manage research content</p>
+          <div className="flex items-center gap-4">
+            <Logo size="lg" showText={false} />
+            <div>
+              <h1 className="text-4xl font-bold cosmic-text-gradient mb-2">Admin Dashboard</h1>
+              <p className="text-gray-300 dark:text-gray-400">Manage research content</p>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <Button
@@ -567,9 +572,10 @@ export default function AdminDashboardPage() {
             {isLoading ? (
               <div className="text-center text-gray-300 py-12">Loading research...</div>
             ) : (
-              <div className="grid gap-4">
-                <AnimatePresence>
-                  {filteredAndSortedResearch().map((item: any, index: number) => (
+              <ScrollArea className="h-[calc(100vh-28rem)]">
+                <div className="grid gap-4 pr-4">
+                  <AnimatePresence>
+                    {filteredAndSortedResearch().map((item: any, index: number) => (
                     <motion.div
                       key={item.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -657,18 +663,19 @@ export default function AdminDashboardPage() {
                         </CardContent>
                       </Card>
                     </motion.div>
-                  ))}
-                </AnimatePresence>
-                {filteredAndSortedResearch().length === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center py-12 glass rounded-lg"
-                  >
-                    <p className="text-gray-400">No research found matching your search criteria.</p>
-                  </motion.div>
-                )}
-              </div>
+                    ))}
+                  </AnimatePresence>
+                  {filteredAndSortedResearch().length === 0 && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-center py-12 glass rounded-lg"
+                    >
+                      <p className="text-gray-400">No research found matching your search criteria.</p>
+                    </motion.div>
+                  )}
+                </div>
+              </ScrollArea>
             )}
           </TabsContent>
 
