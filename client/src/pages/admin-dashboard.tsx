@@ -389,18 +389,18 @@ export default function AdminDashboardPage() {
                   Add Research
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[1400px] w-[98vw] h-[96vh] glass border-0 text-white overflow-hidden flex flex-col">
-                <ScrollArea className="flex-1 pr-4">
-                <DialogHeader>
-                  <DialogTitle className="text-white cosmic-text-gradient">
+              <DialogContent className="max-w-[1400px] w-[95vw] max-h-[92vh] glass border-0 text-white p-0 flex flex-col">
+                <DialogHeader className="px-6 pt-6 pb-4 border-b border-white/10">
+                  <DialogTitle className="text-white cosmic-text-gradient text-2xl">
                     {editingResearch ? "Edit Research" : "Add New Research"}
                   </DialogTitle>
                   <DialogDescription className="text-gray-300">
                     Fill in the details for the research entry
                   </DialogDescription>
                 </DialogHeader>
+                <ScrollArea className="flex-1 px-6">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
                     <FormField
                       control={form.control}
                       name="title"
@@ -557,17 +557,19 @@ export default function AdminDashboardPage() {
                       )}
                     />
 
-                    <div className="flex gap-2 pt-4">
-                      <Button type="submit" className="flex-1 cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 hover:scale-105 transition-transform" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
-                        {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
-                      </Button>
-                      <Button type="button" variant="outline" className="glass border-0" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
-                        Cancel
-                      </Button>
-                    </div>
                   </form>
                 </Form>
                 </ScrollArea>
+                <div className="px-6 py-4 border-t border-white/10 bg-black/20">
+                  <div className="flex gap-2">
+                    <Button type="submit" onClick={form.handleSubmit(onSubmit)} className="flex-1 cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 hover:scale-105 transition-transform" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
+                      {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
+                    </Button>
+                    <Button type="button" variant="outline" className="glass border-0" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
               </DialogContent>
             </Dialog>
 
