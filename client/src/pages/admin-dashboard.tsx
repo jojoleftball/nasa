@@ -400,17 +400,17 @@ export default function AdminDashboardPage() {
                 </DialogHeader>
                 <ScrollArea className="flex-1 px-3 sm:px-4 md:px-6 overflow-y-auto" type="always">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4 py-3 sm:py-4">
                     <FormField
                       control={form.control}
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-200">Title</FormLabel>
+                          <FormLabel className="text-gray-200 text-sm sm:text-base">Title</FormLabel>
                           <FormControl>
-                            <Input {...field} placeholder="Enter research title" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-title" />
+                            <Input {...field} placeholder="Enter research title" className="glass border-0 text-white placeholder:text-gray-400 text-sm sm:text-base h-9 sm:h-10" data-testid="input-title" />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-xs sm:text-sm" />
                         </FormItem>
                       )}
                     />
@@ -419,26 +419,26 @@ export default function AdminDashboardPage() {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-200">Description</FormLabel>
+                          <FormLabel className="text-gray-200 text-sm sm:text-base">Description</FormLabel>
                           <FormControl>
-                            <Textarea {...field} placeholder="Enter detailed description" rows={6} className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-description" />
+                            <Textarea {...field} placeholder="Enter detailed description" rows={4} className="glass border-0 text-white placeholder:text-gray-400 text-sm sm:text-base min-h-[100px] sm:min-h-[120px] resize-y" data-testid="input-description" />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-xs sm:text-sm" />
                         </FormItem>
                       )}
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                       <FormField
                         control={form.control}
                         name="year"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-gray-200">Year</FormLabel>
+                            <FormLabel className="text-gray-200 text-sm sm:text-base">Year</FormLabel>
                             <FormControl>
-                              <Input {...field} placeholder="2024" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-year" />
+                              <Input {...field} placeholder="2024" className="glass border-0 text-white placeholder:text-gray-400 text-sm sm:text-base h-9 sm:h-10" data-testid="input-year" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-xs sm:text-sm" />
                           </FormItem>
                         )}
                       />
@@ -446,12 +446,12 @@ export default function AdminDashboardPage() {
                         control={form.control}
                         name="authors"
                         render={({ field }) => (
-                          <FormItem className="md:col-span-2">
-                            <FormLabel className="text-gray-200">Authors</FormLabel>
+                          <FormItem className="sm:col-span-2">
+                            <FormLabel className="text-gray-200 text-sm sm:text-base">Authors</FormLabel>
                             <FormControl>
-                              <Input {...field} placeholder="e.g., Dr. Smith, Dr. Johnson" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-authors" />
+                              <Input {...field} placeholder="e.g., Dr. Smith, Dr. Johnson" className="glass border-0 text-white placeholder:text-gray-400 text-sm sm:text-base h-9 sm:h-10" data-testid="input-authors" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-xs sm:text-sm" />
                           </FormItem>
                         )}
                       />
@@ -462,25 +462,25 @@ export default function AdminDashboardPage() {
                       name="institution"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-200">Institution</FormLabel>
+                          <FormLabel className="text-gray-200 text-sm sm:text-base">Institution</FormLabel>
                           <FormControl>
-                            <Input {...field} placeholder="e.g., NASA Ames Research Center" className="glass border-0 text-white placeholder:text-gray-400" data-testid="input-institution" />
+                            <Input {...field} placeholder="e.g., NASA Ames Research Center" className="glass border-0 text-white placeholder:text-gray-400 text-sm sm:text-base h-9 sm:h-10" data-testid="input-institution" />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-xs sm:text-sm" />
                         </FormItem>
                       )}
                     />
                     
                     <div className="space-y-2">
-                      <FormLabel className="text-gray-200">Tags</FormLabel>
-                      <div className="mb-3">
-                        <p className="text-sm text-gray-400 mb-2">Quick add predefined tags:</p>
-                        <div className="flex flex-wrap gap-2">
+                      <FormLabel className="text-gray-200 text-sm sm:text-base">Tags</FormLabel>
+                      <div className="mb-2 sm:mb-3">
+                        <p className="text-xs sm:text-sm text-gray-400 mb-2">Quick add predefined tags:</p>
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           {PREDEFINED_TAGS.map((tag) => (
                             <Badge
                               key={tag}
                               variant="outline"
-                              className="cursor-pointer border-purple-500/50 text-purple-300 hover:bg-purple-600/30 hover:scale-105 transition-transform"
+                              className="cursor-pointer border-purple-500/50 text-purple-300 hover:bg-purple-600/30 hover:scale-105 transition-transform text-xs sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1"
                               onClick={() => addPredefinedTag(tag)}
                               data-testid={`badge-predefined-${tag.toLowerCase().replace(/\s+/g, '-')}`}
                             >
@@ -489,22 +489,22 @@ export default function AdminDashboardPage() {
                           ))}
                         </div>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                           value={tagInput}
                           onChange={(e) => setTagInput(e.target.value)}
                           onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
                           placeholder="Add tag and press Enter"
-                          className="glass border-0 text-white placeholder:text-gray-400"
+                          className="glass border-0 text-white placeholder:text-gray-400 text-sm sm:text-base h-9 sm:h-10 flex-1"
                           data-testid="input-tag"
                         />
-                        <Button type="button" onClick={addTag} variant="outline" className="glass border-0" data-testid="button-add-tag">
+                        <Button type="button" onClick={addTag} variant="outline" className="glass border-0 text-sm sm:text-base h-9 sm:h-10 w-full sm:w-auto" data-testid="button-add-tag">
                           Add
                         </Button>
                       </div>
-                      <div className="flex flex-wrap gap-2 mt-2">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2">
                         {form.watch("tags").map((tag, index) => (
-                          <Badge key={index} className="bg-purple-600/30 text-white" data-testid={`badge-tag-${index}`}>
+                          <Badge key={index} className="bg-purple-600/30 text-white text-xs sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1" data-testid={`badge-tag-${index}`}>
                             {tag}
                             <X className="w-3 h-3 ml-1 cursor-pointer hover:scale-110 transition-transform" onClick={() => removeTag(tag)} />
                           </Badge>
@@ -513,25 +513,25 @@ export default function AdminDashboardPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <FormLabel className="text-gray-200">NASA OSDR Links</FormLabel>
-                      <div className="flex gap-2">
+                      <FormLabel className="text-gray-200 text-sm sm:text-base">NASA OSDR Links</FormLabel>
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                           value={linkInput}
                           onChange={(e) => setLinkInput(e.target.value)}
                           onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addLink())}
                           placeholder="Add NASA OSDR link and press Enter"
-                          className="glass border-0 text-white placeholder:text-gray-400"
+                          className="glass border-0 text-white placeholder:text-gray-400 text-sm sm:text-base h-9 sm:h-10 flex-1"
                           data-testid="input-link"
                         />
-                        <Button type="button" onClick={addLink} variant="outline" className="glass border-0" data-testid="button-add-link">
+                        <Button type="button" onClick={addLink} variant="outline" className="glass border-0 text-sm sm:text-base h-9 sm:h-10 w-full sm:w-auto" data-testid="button-add-link">
                           Add
                         </Button>
                       </div>
-                      <div className="space-y-1 mt-2">
+                      <div className="space-y-1 sm:space-y-1.5 mt-2">
                         {form.watch("nasaOsdrLinks").map((link, index) => (
-                          <div key={index} className="flex items-center gap-2 glass p-2 rounded" data-testid={`link-item-${index}`}>
-                            <span className="text-sm text-gray-300 flex-1 truncate">{link}</span>
-                            <X className="w-4 h-4 cursor-pointer text-gray-400 hover:text-white hover:scale-110 transition-transform" onClick={() => removeLink(link)} />
+                          <div key={index} className="flex items-center gap-2 glass p-2 sm:p-2.5 rounded" data-testid={`link-item-${index}`}>
+                            <span className="text-xs sm:text-sm text-gray-300 flex-1 truncate break-all">{link}</span>
+                            <X className="w-4 h-4 flex-shrink-0 cursor-pointer text-gray-400 hover:text-white hover:scale-110 transition-transform" onClick={() => removeLink(link)} />
                           </div>
                         ))}
                       </div>
@@ -541,10 +541,10 @@ export default function AdminDashboardPage() {
                       control={form.control}
                       name="published"
                       render={({ field }) => (
-                        <FormItem className="flex items-center justify-between rounded-lg glass p-4">
-                          <div className="space-y-0.5">
-                            <FormLabel className="text-gray-200">Published</FormLabel>
-                            <div className="text-sm text-gray-400">Make this research visible to users</div>
+                        <FormItem className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-lg glass p-3 sm:p-4 gap-2 sm:gap-0">
+                          <div className="space-y-0.5 flex-1">
+                            <FormLabel className="text-gray-200 text-sm sm:text-base">Published</FormLabel>
+                            <div className="text-xs sm:text-sm text-gray-400">Make this research visible to users</div>
                           </div>
                           <FormControl>
                             <Switch
@@ -559,14 +559,15 @@ export default function AdminDashboardPage() {
 
                   </form>
                 </Form>
+                <div className="h-4 sm:h-6" />
                 </ScrollArea>
-                <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-white/10 bg-black/20 flex-shrink-0">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <Button type="submit" onClick={form.handleSubmit(onSubmit)} className="flex-1 cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 hover:scale-105 transition-transform" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
-                      {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
-                    </Button>
-                    <Button type="button" variant="outline" className="glass border-0 sm:w-auto w-full" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
+                <div className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 border-t border-white/10 bg-black/20 flex-shrink-0">
+                  <div className="flex flex-col-reverse sm:flex-row gap-2">
+                    <Button type="button" variant="outline" className="glass border-0 sm:w-auto w-full h-9 sm:h-10 text-sm sm:text-base" onClick={() => setIsDialogOpen(false)} data-testid="button-cancel">
                       Cancel
+                    </Button>
+                    <Button type="submit" onClick={form.handleSubmit(onSubmit)} className="flex-1 cosmic-glow bg-gradient-to-r from-purple-600 to-blue-600 hover:scale-105 transition-transform h-9 sm:h-10 text-sm sm:text-base" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit">
+                      {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingResearch ? "Update" : "Create")}
                     </Button>
                   </div>
                 </div>
