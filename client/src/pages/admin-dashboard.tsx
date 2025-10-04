@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun, Search, Filter, Copy, Check } from "lucide-react";
+import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun, Search, Filter, Copy, Check, Menu, FileText, LayoutDashboard, ChevronLeft } from "lucide-react";
 import { useLocation } from "wouter";
 import { AdminAssistant } from "@/components/admin-assistant";
 import { Logo } from "@/components/ui/logo";
@@ -62,6 +62,8 @@ export default function AdminDashboardPage() {
   const [filterBy, setFilterBy] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("newest");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [activeTab, setActiveTab] = useState("research");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('admin-theme') as 'light' | 'dark' || 'dark';
@@ -267,56 +269,105 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen cosmic-bg relative overflow-x-hidden">
+    <div className="min-h-screen cosmic-bg relative overflow-hidden flex">
       <div className="stars"></div>
-      <div className="relative z-10 p-6">
-      <div className="max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-8"
-        >
-          <div className="flex items-center gap-4">
-            <Logo size="lg" showText={false} />
-            <div>
-              <h1 className="text-4xl font-bold cosmic-text-gradient mb-2">Admin Dashboard</h1>
-              <p className="text-gray-300 dark:text-gray-400">Manage research content</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button
-              onClick={toggleTheme}
-              variant="outline"
-              size="icon"
-              className="glass border-0 cosmic-glow hover:scale-110 transition-transform"
-              data-testid="button-theme-toggle"
+      
+      <motion.aside 
+        initial={false}
+        animate={{ width: sidebarCollapsed ? "80px" : "280px" }}
+        className="relative z-20 glass border-r border-white/10 flex flex-col transition-all duration-300"
+      >
+        <div className="p-4 border-b border-white/10 flex items-center justify-between">
+          {!sidebarCollapsed && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-3"
             >
-              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
+              <Logo size="md" showText={false} />
+              <span className="font-bold cosmic-text-gradient">Admin</span>
+            </motion.div>
+          )}
+          <Button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            variant="ghost"
+            size="icon"
+            className="hover:bg-white/10 transition-all"
+            data-testid="button-toggle-sidebar"
+          >
+            {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          </Button>
+        </div>
+
+        <ScrollArea className="flex-1 py-4">
+          <nav className="space-y-2 px-3">
             <Button
-              onClick={() => logoutMutation.mutate()}
-              variant="outline"
-              className="glass border-0 hover:scale-105 transition-transform"
-              data-testid="button-logout"
+              onClick={() => setActiveTab("research")}
+              variant={activeTab === "research" ? "secondary" : "ghost"}
+              className={`w-full justify-start gap-3 transition-all ${
+                activeTab === "research" ? "cosmic-glow bg-purple-600/20" : "hover:bg-white/10"
+              }`}
+              data-testid="nav-research"
             >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
+              <FileText className="w-4 h-4 flex-shrink-0" />
+              {!sidebarCollapsed && <span>Research</span>}
             </Button>
-          </div>
-        </motion.div>
+            
+            <Button
+              onClick={() => setActiveTab("assistant")}
+              variant={activeTab === "assistant" ? "secondary" : "ghost"}
+              className={`w-full justify-start gap-3 transition-all ${
+                activeTab === "assistant" ? "cosmic-glow bg-purple-600/20" : "hover:bg-white/10"
+              }`}
+              data-testid="nav-assistant"
+            >
+              <Bot className="w-4 h-4 flex-shrink-0" />
+              {!sidebarCollapsed && <span>AI Assistant</span>}
+            </Button>
+          </nav>
+        </ScrollArea>
 
-        <Tabs defaultValue="research" className="space-y-6">
-          <TabsList className="glass border-0">
-            <TabsTrigger value="research" className="data-[state=active]:cosmic-glow data-[state=active]:text-white">
-              Research Management
-            </TabsTrigger>
-            <TabsTrigger value="assistant" className="data-[state=active]:cosmic-glow data-[state=active]:text-white">
-              <Bot className="w-4 h-4 mr-2" />
-              AI Assistant
-            </TabsTrigger>
-          </TabsList>
+        <div className="p-3 border-t border-white/10 space-y-2">
+          <Button
+            onClick={toggleTheme}
+            variant="ghost"
+            className="w-full justify-start gap-3 hover:bg-white/10 transition-all"
+            data-testid="button-theme-toggle"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4 flex-shrink-0" /> : <Moon className="w-4 h-4 flex-shrink-0" />}
+            {!sidebarCollapsed && <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>}
+          </Button>
+          
+          <Button
+            onClick={() => logoutMutation.mutate()}
+            variant="ghost"
+            className="w-full justify-start gap-3 hover:bg-white/10 text-red-400 hover:text-red-300 transition-all"
+            data-testid="button-logout"
+          >
+            <LogOut className="w-4 h-4 flex-shrink-0" />
+            {!sidebarCollapsed && <span>Logout</span>}
+          </Button>
+        </div>
+      </motion.aside>
 
-          <TabsContent value="research" className="space-y-6">
+      <div className="flex-1 relative z-10 overflow-auto">
+        <div className="p-4 sm:p-6">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 sm:mb-8"
+          >
+            <h1 className="text-2xl sm:text-4xl font-bold cosmic-text-gradient mb-2">
+              {activeTab === "research" ? "Research Management" : "AI Assistant"}
+            </h1>
+            <p className="text-gray-300 dark:text-gray-400 text-sm sm:text-base">
+              {activeTab === "research" ? "Manage research content" : "Get AI-powered assistance"}
+            </p>
+          </motion.div>
+
+        {activeTab === "research" && (
+          <div className="space-y-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -682,13 +733,15 @@ export default function AdminDashboardPage() {
                 </div>
               </ScrollArea>
             )}
-          </TabsContent>
+          </div>
+        )}
 
-          <TabsContent value="assistant">
+        {activeTab === "assistant" && (
+          <div className="space-y-6">
             <AdminAssistant />
-          </TabsContent>
-        </Tabs>
-      </div>
+          </div>
+        )}
+        </div>
       </div>
     </div>
   );
