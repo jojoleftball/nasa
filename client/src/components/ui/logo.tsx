@@ -41,7 +41,13 @@ export function Logo({
       />
       {showText && (
         <div>
-          <h1 className={cn("text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-purple-600", textClassName)} style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h1 className={cn("text-2xl font-bold", textClassName)} style={{
+            background: 'linear-gradient(135deg, hsl(270, 100%, 75%), hsl(220, 100%, 65%), hsl(270, 100%, 75%))',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            color: 'transparent'
+          }}>
             Biogalactic
           </h1>
         </div>
