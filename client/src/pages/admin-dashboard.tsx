@@ -389,16 +389,16 @@ export default function AdminDashboardPage() {
                   Add Research
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-7xl w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[80vw] max-h-[90vh] sm:max-h-[92vh] md:max-h-[95vh] glass border-0 text-white p-0 flex flex-col">
-                <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-white/10 flex-shrink-0">
-                  <DialogTitle className="text-white cosmic-text-gradient text-xl sm:text-2xl">
+              <DialogContent className="w-[calc(100vw-2rem)] sm:w-[calc(100vw-4rem)] md:w-[min(90vw,1200px)] lg:w-[min(85vw,1400px)] h-[calc(100vh-2rem)] sm:h-[calc(100vh-4rem)] max-h-none glass border-0 text-white p-0 flex flex-col overflow-hidden">
+                <DialogHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 pb-2 sm:pb-3 md:pb-4 border-b border-white/10 flex-shrink-0">
+                  <DialogTitle className="text-white cosmic-text-gradient text-lg sm:text-xl md:text-2xl">
                     {editingResearch ? "Edit Research" : "Add New Research"}
                   </DialogTitle>
-                  <DialogDescription className="text-gray-300 text-sm sm:text-base">
+                  <DialogDescription className="text-gray-300 text-xs sm:text-sm md:text-base">
                     Fill in the details for the research entry
                   </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="flex-1 px-4 sm:px-6" type="always">
+                <ScrollArea className="flex-1 px-3 sm:px-4 md:px-6 overflow-y-auto" type="always">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
                     <FormField
