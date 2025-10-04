@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
-import { Rocket, Brain, Search, BarChart3, MessageCircle, Globe, Database, Sparkles } from "lucide-react";
+import { Brain, Search, BarChart3, MessageCircle, Globe, Database, Sparkles } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 import { 
   CosmicPageWrapper, 
   AnimatedDiv, 
@@ -56,15 +57,12 @@ export default function LandingPage() {
         {/* Hero Section */}
         <div className="container mx-auto px-6 py-16">
           <StaggeredContainer className="text-center mb-16">
-            <AnimatedDiv variants={fadeInUp} delay={0.2} className="flex items-center justify-center gap-3 mb-6">
+            <AnimatedDiv variants={fadeInUp} delay={0.2} className="flex items-center justify-center mb-6">
               <FloatingElement>
-                <GlowingElement className="p-3 rounded-xl bg-primary/20 backdrop-blur-sm border border-primary/30">
-                  <Rocket className="h-10 w-10 text-primary" />
+                <GlowingElement>
+                  <Logo size="xl" textClassName="text-6xl" showText={true} />
                 </GlowingElement>
               </FloatingElement>
-              <h1 className="text-6xl font-bold cosmic-text-gradient">
-                Biogalactic
-              </h1>
             </AnimatedDiv>
             
             <AnimatedDiv variants={fadeInUp} delay={0.4}>
