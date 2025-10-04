@@ -34,9 +34,9 @@ export function Logo({
           className={cn(
             sizeClasses[size],
             "object-contain",
-            "dark:brightness-110 dark:contrast-110",
-            "light:brightness-90 light:contrast-125 light:saturate-150",
-            "mix-blend-screen dark:mix-blend-screen",
+            "brightness-90 contrast-125 saturate-150",
+            "dark:brightness-110 dark:contrast-110 dark:saturate-100",
+            "mix-blend-screen",
             "transition-all duration-300"
           )}
           data-testid="img-logo"
