@@ -11,7 +11,8 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
-import { Loader2, Rocket, Brain, Search, BarChart3, MessageCircle, Shield, Users, Globe } from "lucide-react";
+import { Loader2, Brain, Search, BarChart3, MessageCircle, Shield, Users, Globe } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 
 const loginSchema = z.object({
   usernameOrEmail: z.string().min(1, "Username or email is required"),
@@ -120,16 +121,9 @@ export default function AuthPage() {
           <div className="max-w-lg">
             {/* Project Branding */}
             <div className="mb-12">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 rounded-xl bg-primary/20 backdrop-blur-sm border border-primary/30">
-                  <Rocket className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                    Biogalactic
-                  </h1>
-                  <p className="text-sm text-muted-foreground">Space Biology Research Platform</p>
-                </div>
+              <div className="mb-6">
+                <Logo size="lg" textClassName="text-4xl" showText={true} />
+                <p className="text-sm text-muted-foreground mt-3 ml-1">Space Biology Research Platform</p>
               </div>
               
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
