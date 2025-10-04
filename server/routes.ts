@@ -634,32 +634,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/dashboard/stats", isAuthenticated, async (req, res) => {
     try {
       const osdrStats = await nasaOSDRService.getStatistics();
+      const adminResearch = await storage.getAllAdminResearch(true);
       
+      const categoryStats: Record<string, number> = { ...osdrStats.categoryStats };
+      adminResearch.forEach((research: any) => {
+        if (research.tags && Array.isArray(research.tags)) {
+          research.tags.forEach((tag: string) => {
+            if (!categoryStats[tag]) {
+              categoryStats[tag] = 0;
+            }
+            categoryStats[tag]++;
+          });
+        }
+      });
+
+      const yearlyTrends: Record<string, number> = { ...osdrStats.yearlyTrends };
+      adminResearch.forEach((research: any) => {
+        if (research.year) {
+          if (!yearlyTrends[research.year]) {
+            yearlyTrends[research.year] = 0;
+          }
+          yearlyTrends[research.year]++;
+        }
+      });
+
       const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const monthlyData = [];
       
       for (let i = Math.max(0, currentMonth - 6); i <= currentMonth; i++) {
         const monthName = months[i];
-        const studies = Math.floor((osdrStats.recentStudiesCount || 0) / 7) + Math.floor(Math.random() * 5);
+        const osdrStudies = Math.floor((osdrStats.recentStudiesCount || 0) / 7);
+        
+        const adminMonthlyCount = adminResearch.filter((research: any) => {
+          if (!research.createdAt) return false;
+          const researchDate = new Date(research.createdAt);
+          return researchDate.getMonth() === i && researchDate.getFullYear() === currentYear;
+        }).length;
+        
+        const totalStudies = osdrStudies + adminMonthlyCount;
         monthlyData.push({
           month: monthName,
-          papers: studies * 2 + Math.floor(Math.random() * 10),
-          studies: studies
+          papers: totalStudies * 2,
+          studies: totalStudies
         });
       }
 
+      const currentYearResearch = adminResearch.filter((research: any) => {
+        return research.year === currentYear.toString() || 
+               (research.createdAt && new Date(research.createdAt).getFullYear() === currentYear);
+      }).length;
+
       res.json({
-        totalPapers: osdrStats.totalStudies,
-        recentStudies: osdrStats.recentStudiesCount,
-        activeProjects: Math.floor(osdrStats.totalStudies / 25),
-        categoryStats: osdrStats.categoryStats,
-        monthlyData: monthlyData,
-        researchTrends: osdrStats.yearlyTrends
+        totalPapers: osdrStats.totalStudies + adminResearch.length,
+        recentStudies: osdrStats.recentStudiesCount + currentYearResearch,
+        activeProjects: Math.floor((osdrStats.totalStudies + adminResearch.length) / 25),
+        categoryStats,
+        monthlyData,
+        researchTrends: yearlyTrends
       });
     } catch (error) {
       console.error("Dashboard stats error:", error);
       res.status(500).json({ message: "Failed to fetch stats" });
+    }
+  });
+
+  app.get("/api/filter-options", isAuthenticated, async (req, res) => {
+    try {
+      const adminResearch = await storage.getAllAdminResearch(true);
+      
+      const allTags = new Set<string>();
+      adminResearch.forEach((research: any) => {
+        if (research.tags && Array.isArray(research.tags)) {
+          research.tags.forEach((tag: string) => allTags.add(tag));
+        }
+      });
+
+      const organismKeywords = ['human', 'arabidopsis', 'mouse', 'rat', 'drosophila', 'elegans', 'coli', 'yeast', 'cell culture', 'mammalian', 'plant', 'microbial'];
+      const missionKeywords = ['iss', 'spacex', 'artemis', 'apollo', 'shuttle', 'skylab', 'mir', 'dragon', 'crew'];
+      const researchAreaKeywords = ['health', 'biology', 'microbiology', 'radiation', 'neuroscience', 'bone', 'food', 'sleep', 'cardiovascular', 'culture', 'genetics', 'biotechnology'];
+      const experimentTypeKeywords = ['rna-seq', 'proteomics', 'metabolomics', 'imaging', 'behavioral', 'physiology'];
+      const tissueTypeKeywords = ['muscle', 'bone', 'blood', 'tissue', 'organ', 'cell'];
+
+      const filterOptions = {
+        organisms: Array.from(allTags).filter(tag => 
+          organismKeywords.some(keyword => tag.toLowerCase().includes(keyword))
+        ),
+        missions: Array.from(allTags).filter(tag => 
+          missionKeywords.some(keyword => tag.toLowerCase().includes(keyword))
+        ),
+        researchAreas: Array.from(allTags).filter(tag => 
+          researchAreaKeywords.some(keyword => tag.toLowerCase().includes(keyword))
+        ),
+        experimentTypes: Array.from(allTags).filter(tag => 
+          experimentTypeKeywords.some(keyword => tag.toLowerCase().includes(keyword))
+        ),
+        tissueTypes: Array.from(allTags).filter(tag => 
+          tissueTypeKeywords.some(keyword => tag.toLowerCase().includes(keyword))
+        ),
+        allTags: Array.from(allTags)
+      };
+
+      res.json(filterOptions);
+    } catch (error) {
+      console.error("Filter options error:", error);
+      res.status(500).json({ message: "Failed to fetch filter options" });
     }
   });
 

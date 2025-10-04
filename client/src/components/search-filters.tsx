@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -47,6 +48,15 @@ interface SortOptions {
   secondarySort?: string;
 }
 
+interface FilterOptions {
+  organisms: string[];
+  missions: string[];
+  researchAreas: string[];
+  experimentTypes: string[];
+  tissueTypes: string[];
+  allTags: string[];
+}
+
 export function SearchFilters({ onSearch }: SearchFiltersProps) {
   const [query, setQuery] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -72,6 +82,54 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
     sortOrder: "desc",
     secondarySort: "date"
   });
+
+  const { data: dynamicFilterOptions } = useQuery<FilterOptions>({
+    queryKey: ["/api/filter-options"],
+  });
+
+  const defaultResearchAreas = [
+    "Human Health", "Plant Biology", "Microbiology", "Radiation Biology",
+    "Neuroscience", "Bone Health", "Food Systems", "Sleep Medicine",
+    "Cardiovascular", "Cell Culture", "Genetics", "Biotechnology"
+  ];
+
+  const defaultOrganisms = [
+    "Human", "Arabidopsis", "Mouse", "Rat",
+    "Drosophila", "C. elegans", "E. coli", "Yeast",
+    "Cell Culture", "Mammalian", "Plant", "Microbial"
+  ];
+
+  const defaultExperimentTypes = [
+    "Transcriptomics", "Proteomics", "Metabolomics", "Genomics",
+    "Imaging", "Behavioral", "Physiological", "Biochemical",
+    "Tissue Analysis", "Flight Studies", "Ground Controls"
+  ];
+
+  const defaultMissions = [
+    "ISS", "SpaceX", "Shuttle", "Apollo",
+    "Biosatellite", "Foton", "BION", "STS",
+    "Artemis", "Gateway", "Commercial Crew"
+  ];
+
+  const researchAreas = Array.from(new Set([
+    ...defaultResearchAreas,
+    ...(dynamicFilterOptions?.researchAreas || [])
+  ])).sort();
+
+  const organisms = Array.from(new Set([
+    ...defaultOrganisms,
+    ...(dynamicFilterOptions?.organisms || [])
+  ])).sort();
+
+  const experimentTypes = Array.from(new Set([
+    ...defaultExperimentTypes,
+    ...(dynamicFilterOptions?.experimentTypes || [])
+  ])).sort();
+
+  const missions = Array.from(new Set([
+    ...defaultMissions,
+    ...(dynamicFilterOptions?.missions || [])
+  ])).sort();
 
   const handleSearch = () => {
     onSearch(query, filters, sortOptions);
@@ -313,11 +371,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Research Areas</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {[
-                      "Human Health", "Plant Biology", "Microbiology", "Radiation Biology",
-                      "Neuroscience", "Bone Health", "Food Systems", "Sleep Medicine",
-                      "Cardiovascular", "Cell Culture", "Genetics", "Biotechnology"
-                    ].map((area) => (
+                    {researchAreas.map((area) => (
                       <div key={area} className="flex items-center space-x-2">
                         <Checkbox
                           id={`area-${area}`}
@@ -341,11 +395,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Model Organisms</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {[
-                      "Human", "Arabidopsis", "Mouse", "Rat",
-                      "Drosophila", "C. elegans", "E. coli", "Yeast",
-                      "Cell Culture", "Mammalian", "Plant", "Microbial"
-                    ].map((organism) => (
+                    {organisms.map((organism) => (
                       <div key={organism} className="flex items-center space-x-2">
                         <Checkbox
                           id={`organism-${organism}`}
@@ -369,11 +419,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Experiment Types</Label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {[
-                      "Transcriptomics", "Proteomics", "Metabolomics", "Genomics",
-                      "Imaging", "Behavioral", "Physiological", "Biochemical",
-                      "Tissue Analysis", "Flight Studies", "Ground Controls"
-                    ].map((type) => (
+                    {experimentTypes.map((type) => (
                       <div key={type} className="flex items-center space-x-2">
                         <Checkbox
                           id={`type-${type}`}
@@ -397,11 +443,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Space Missions</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {[
-                      "ISS", "SpaceX", "Shuttle", "Apollo",
-                      "Biosatellite", "Foton", "BION", "STS",
-                      "Artemis", "Gateway", "Commercial Crew"
-                    ].map((mission) => (
+                    {missions.map((mission) => (
                       <div key={mission} className="flex items-center space-x-2">
                         <Checkbox
                           id={`mission-${mission}`}
