@@ -86,7 +86,7 @@ export default function DashboardPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Logo size="md" showText={true} />
+              <Logo size="md" textClassName="text-2xl font-bold" showText={true} />
             </div>
             
             <div className="flex items-center space-x-4">

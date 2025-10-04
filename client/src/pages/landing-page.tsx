@@ -60,7 +60,7 @@ export default function LandingPage() {
             <AnimatedDiv variants={fadeInUp} delay={0.2} className="flex items-center justify-center mb-6">
               <FloatingElement>
                 <GlowingElement>
-                  <Logo size="xl" textClassName="text-6xl" showText={true} />
+                  <Logo size="2xl" textClassName="text-6xl font-extrabold" showText={true} />
                 </GlowingElement>
               </FloatingElement>
             </AnimatedDiv>

@@ -122,8 +122,8 @@ export default function AuthPage() {
             {/* Project Branding */}
             <div className="mb-12">
               <div className="mb-6">
-                <Logo size="lg" textClassName="text-4xl" showText={true} />
-                <p className="text-sm text-muted-foreground mt-3 ml-1">Space Biology Research Platform</p>
+                <Logo size="xl" textClassName="text-5xl font-bold" showText={true} />
+                <p className="text-base text-muted-foreground mt-4 ml-1">Space Biology Research Platform</p>
               </div>
               
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
@@ -177,8 +177,8 @@ export default function AuthPage() {
           <div className="w-full max-w-md">
             {/* Mobile Branding */}
             <div className="flex flex-col items-center mb-8 lg:hidden">
-              <Logo size="md" textClassName="text-3xl" showText={true} />
-              <p className="text-muted-foreground mt-3">
+              <Logo size="lg" textClassName="text-4xl font-bold" showText={true} />
+              <p className="text-muted-foreground mt-4">
                 Access NASA's space biology research platform
               </p>
             </div>

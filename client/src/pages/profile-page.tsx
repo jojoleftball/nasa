@@ -35,7 +35,7 @@ export default function ProfilePage() {
               Back to Dashboard
             </Button>
           </Link>
-          <Logo size="sm" showText={true} />
+          <Logo size="sm" textClassName="text-xl font-bold" showText={true} />
         </div>
 
         <div className="max-w-4xl mx-auto space-y-8">
