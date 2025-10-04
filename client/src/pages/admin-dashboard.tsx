@@ -276,7 +276,7 @@ export default function AdminDashboardPage() {
         >
           <div>
             <h1 className="text-4xl font-bold cosmic-text-gradient mb-2">Admin Dashboard</h1>
-            <p className="text-gray-300 dark:text-gray-400">Manage research content and make it shine</p>
+            <p className="text-gray-300 dark:text-gray-400">Manage research content</p>
           </div>
           <div className="flex items-center gap-3">
             <Button
