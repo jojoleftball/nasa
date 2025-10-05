@@ -78,6 +78,28 @@ function transformAdminResearchToStudyFormat(research: any): any {
   };
 }
 
+function searchInCustomFields(customFields: any, searchTerm: string): boolean {
+  if (!customFields || typeof customFields !== 'object') {
+    return false;
+  }
+  
+  const searchLower = searchTerm.toLowerCase();
+  
+  for (const value of Object.values(customFields)) {
+    if (typeof value === 'string' && value.toLowerCase().includes(searchLower)) {
+      return true;
+    } else if (Array.isArray(value)) {
+      if (value.some((item: any) => 
+        typeof item === 'string' && item.toLowerCase().includes(searchLower)
+      )) {
+        return true;
+      }
+    }
+  }
+  
+  return false;
+}
+
 async function generateInterestBasedResults(interests: string[]) {
   try {
     const allResults: any[] = [];
@@ -93,17 +115,29 @@ async function generateInterestBasedResults(interests: string[]) {
     }
     
     const adminResearch = await storage.getAllAdminResearch(true);
-    const transformedAdminResearch = adminResearch.map(transformAdminResearchToStudyFormat);
+    const filteredAdminResearch = adminResearch.filter((research: any) => {
+      if (!research.tags || !Array.isArray(research.tags) || research.tags.length === 0) {
+        return false;
+      }
+      
+      return research.tags.some((tag: string) =>
+        interests.some((interest: string) =>
+          tag.toLowerCase().includes(interest.toLowerCase()) ||
+          interest.toLowerCase().includes(tag.toLowerCase())
+        )
+      );
+    });
+    
+    const transformedAdminResearch = filteredAdminResearch.map(transformAdminResearchToStudyFormat);
     allResults.push(...transformedAdminResearch);
     
     const uniqueResults = allResults.filter((study, index, self) =>
       index === self.findIndex(s => s.id === study.id)
     );
     
-    return uniqueResults.slice(0, 10); // Return top 10 results
+    return uniqueResults.slice(0, 20);
   } catch (error) {
     console.error('Error generating interest-based results:', error);
-    // Fallback to recent studies if interest-based search fails
     try {
       return await nasaOSDRService.getRecentStudies(10);
     } catch (fallbackError) {
@@ -331,7 +365,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         filteredResults = filteredResults.filter(study =>
           filters.organism.some((org: string) =>
             study.organism?.toLowerCase().includes(org.toLowerCase()) ||
-            study.tags?.some((tag: string) => tag.toLowerCase().includes(org.toLowerCase()))
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(org.toLowerCase())) ||
+            (study.isAdminCreated && searchInCustomFields(study.customFields, org))
           )
         );
       }
@@ -340,7 +375,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         filteredResults = filteredResults.filter(study =>
           filters.experimentType.some((type: string) =>
             study.assayType?.toLowerCase().includes(type.toLowerCase()) ||
-            study.tags?.some((tag: string) => tag.toLowerCase().includes(type.toLowerCase()))
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(type.toLowerCase())) ||
+            (study.isAdminCreated && searchInCustomFields(study.customFields, type))
           )
         );
       }
@@ -350,7 +386,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           filters.researchArea.some((area: string) =>
             study.title?.toLowerCase().includes(area.toLowerCase()) ||
             study.abstract?.toLowerCase().includes(area.toLowerCase()) ||
-            study.tags?.some((tag: string) => tag.toLowerCase().includes(area.toLowerCase()))
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(area.toLowerCase())) ||
+            (study.isAdminCreated && searchInCustomFields(study.customFields, area))
           )
         );
       }
@@ -360,7 +397,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           filters.mission.some((mission: string) =>
             study.missionName?.toLowerCase().includes(mission.toLowerCase()) ||
             study.title?.toLowerCase().includes(mission.toLowerCase()) ||
-            study.abstract?.toLowerCase().includes(mission.toLowerCase())
+            study.abstract?.toLowerCase().includes(mission.toLowerCase()) ||
+            (study.isAdminCreated && searchInCustomFields(study.customFields, mission))
           )
         );
       }
@@ -369,7 +407,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         filteredResults = filteredResults.filter(study =>
           filters.tissueType.some((tissue: string) =>
             study.tissueType?.toLowerCase().includes(tissue.toLowerCase()) ||
-            study.tags?.some((tag: string) => tag.toLowerCase().includes(tissue.toLowerCase()))
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(tissue.toLowerCase())) ||
+            (study.isAdminCreated && searchInCustomFields(study.customFields, tissue))
           )
         );
       }
@@ -382,7 +421,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           study.abstract?.toLowerCase().includes(searchQuery) ||
           study.tags?.some((tag: string) => tag.toLowerCase().includes(searchQuery)) ||
           study.authors?.some((author: string) => author.toLowerCase().includes(searchQuery)) ||
-          study.institution?.toLowerCase().includes(searchQuery)
+          study.institution?.toLowerCase().includes(searchQuery) ||
+          (study.isAdminCreated && searchInCustomFields(study.customFields, searchQuery))
         );
       }
 
@@ -391,7 +431,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           filters.keywords.some((keyword: string) =>
             study.title?.toLowerCase().includes(keyword.toLowerCase()) ||
             study.abstract?.toLowerCase().includes(keyword.toLowerCase()) ||
-            study.tags?.some((tag: string) => tag.toLowerCase().includes(keyword.toLowerCase()))
+            study.tags?.some((tag: string) => tag.toLowerCase().includes(keyword.toLowerCase())) ||
+            (study.isAdminCreated && searchInCustomFields(study.customFields, keyword))
           )
         );
       }
@@ -697,32 +738,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const adminResearch = await storage.getAllAdminResearch(true);
       
       const allTags = new Set<string>();
+      const customFieldValues = new Set<string>();
+      
       adminResearch.forEach((research: any) => {
         if (research.tags && Array.isArray(research.tags)) {
           research.tags.forEach((tag: string) => allTags.add(tag));
         }
+        
+        if (research.customFields && typeof research.customFields === 'object') {
+          Object.values(research.customFields).forEach((value: any) => {
+            if (typeof value === 'string' && value.trim()) {
+              customFieldValues.add(value.trim());
+            } else if (Array.isArray(value)) {
+              value.forEach((item: any) => {
+                if (typeof item === 'string' && item.trim()) {
+                  customFieldValues.add(item.trim());
+                }
+              });
+            }
+          });
+        }
       });
 
-      const organismKeywords = ['human', 'arabidopsis', 'mouse', 'rat', 'drosophila', 'elegans', 'coli', 'yeast', 'cell culture', 'mammalian', 'plant', 'microbial'];
-      const missionKeywords = ['iss', 'spacex', 'artemis', 'apollo', 'shuttle', 'skylab', 'mir', 'dragon', 'crew'];
-      const researchAreaKeywords = ['health', 'biology', 'microbiology', 'radiation', 'neuroscience', 'bone', 'food', 'sleep', 'cardiovascular', 'culture', 'genetics', 'biotechnology'];
-      const experimentTypeKeywords = ['rna-seq', 'proteomics', 'metabolomics', 'imaging', 'behavioral', 'physiology'];
-      const tissueTypeKeywords = ['muscle', 'bone', 'blood', 'tissue', 'organ', 'cell'];
+      const organismKeywords = ['human', 'arabidopsis', 'mouse', 'rat', 'drosophila', 'elegans', 'coli', 'yeast', 'cell culture', 'mammalian', 'plant', 'microbial', 'organism'];
+      const missionKeywords = ['iss', 'spacex', 'artemis', 'apollo', 'shuttle', 'skylab', 'mir', 'dragon', 'crew', 'mission', 'spaceflight', 'expedition'];
+      const researchAreaKeywords = ['health', 'biology', 'microbiology', 'radiation', 'neuroscience', 'bone', 'food', 'sleep', 'cardiovascular', 'culture', 'genetics', 'biotechnology', 'medicine', 'physiology'];
+      const experimentTypeKeywords = ['rna-seq', 'proteomics', 'metabolomics', 'imaging', 'behavioral', 'physiology', 'transcriptomics', 'genomics', 'assay', 'sequencing'];
+      const tissueTypeKeywords = ['muscle', 'bone', 'blood', 'tissue', 'organ', 'cell', 'brain', 'heart', 'liver', 'kidney'];
+
+      const allSearchableValues = new Set([...Array.from(allTags), ...Array.from(customFieldValues)]);
 
       const filterOptions = {
-        organisms: Array.from(allTags).filter(tag => 
+        organisms: Array.from(allSearchableValues).filter(tag => 
           organismKeywords.some(keyword => tag.toLowerCase().includes(keyword))
         ),
-        missions: Array.from(allTags).filter(tag => 
+        missions: Array.from(allSearchableValues).filter(tag => 
           missionKeywords.some(keyword => tag.toLowerCase().includes(keyword))
         ),
-        researchAreas: Array.from(allTags).filter(tag => 
+        researchAreas: Array.from(allSearchableValues).filter(tag => 
           researchAreaKeywords.some(keyword => tag.toLowerCase().includes(keyword))
         ),
-        experimentTypes: Array.from(allTags).filter(tag => 
+        experimentTypes: Array.from(allSearchableValues).filter(tag => 
           experimentTypeKeywords.some(keyword => tag.toLowerCase().includes(keyword))
         ),
-        tissueTypes: Array.from(allTags).filter(tag => 
+        tissueTypes: Array.from(allSearchableValues).filter(tag => 
           tissueTypeKeywords.some(keyword => tag.toLowerCase().includes(keyword))
         ),
         allTags: Array.from(allTags)
