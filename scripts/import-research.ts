@@ -37,23 +37,23 @@ function parseResearchFile(filePath: string): ResearchEntry[] {
     for (let j = 1; j < lines.length; j++) {
       const line = lines[j].trim();
       
-      if (line.startsWith('**Description**:')) {
-        description = line.replace('**Description**:', '').trim();
-      } else if (line.startsWith('**Year**:')) {
-        year = line.replace('**Year**:', '').trim();
-      } else if (line.startsWith('**Authors/Scientists**:') || line.startsWith('**Authors**:')) {
-        authors = line.replace('**Authors/Scientists**:', '').replace('**Authors**:', '').trim();
-      } else if (line.startsWith('**Institution**:')) {
-        institution = line.replace('**Institution**:', '').trim();
-      } else if (line.startsWith('**Mission**:')) {
-        mission = line.replace('**Mission**:', '').trim();
-      } else if (line.startsWith('**OSD number**:') || line.startsWith('**OSD Number**:')) {
-        osdStudyNumber = line.replace('**OSD number**:', '').replace('**OSD Number**:', '').trim();
-      } else if (line.startsWith('**Tags**:')) {
-        const tagString = line.replace('**Tags**:', '').trim();
+      if (line.startsWith('**Description**:') || line.startsWith('Description:')) {
+        description = line.replace('**Description**:', '').replace('Description:', '').trim();
+      } else if (line.startsWith('**Year**:') || line.startsWith('Year:')) {
+        year = line.replace('**Year**:', '').replace('Year:', '').trim();
+      } else if (line.startsWith('**Authors/Scientists**:') || line.startsWith('**Authors**:') || line.startsWith('Authors/Scientists:') || line.startsWith('Authors:')) {
+        authors = line.replace('**Authors/Scientists**:', '').replace('**Authors**:', '').replace('Authors/Scientists:', '').replace('Authors:', '').trim();
+      } else if (line.startsWith('**Institution**:') || line.startsWith('Institution:')) {
+        institution = line.replace('**Institution**:', '').replace('Institution:', '').trim();
+      } else if (line.startsWith('**Mission**:') || line.startsWith('Mission:')) {
+        mission = line.replace('**Mission**:', '').replace('Mission:', '').trim();
+      } else if (line.startsWith('**OSD number**:') || line.startsWith('**OSD Number**:') || line.startsWith('OSD number:') || line.startsWith('OSD Number:')) {
+        osdStudyNumber = line.replace('**OSD number**:', '').replace('**OSD Number**:', '').replace('OSD number:', '').replace('OSD Number:', '').trim();
+      } else if (line.startsWith('**Tags**:') || line.startsWith('Tags:')) {
+        const tagString = line.replace('**Tags**:', '').replace('Tags:', '').trim();
         tags = tagString.split(',').map(t => t.trim()).filter(t => t.length > 0);
-      } else if (line.startsWith('**OSD link**:') || line.startsWith('**OSD Link**:')) {
-        const link = line.replace('**OSD link**:', '').replace('**OSD Link**:', '').trim();
+      } else if (line.startsWith('**OSD link**:') || line.startsWith('**OSD Link**:') || line.startsWith('OSD link:') || line.startsWith('OSD Link:')) {
+        const link = line.replace('**OSD link**:', '').replace('**OSD Link**:', '').replace('OSD link:', '').replace('OSD Link:', '').trim();
         if (link) nasaOsdrLinks.push(link);
       }
     }
@@ -84,13 +84,11 @@ function parseResearchFile(filePath: string): ResearchEntry[] {
 }
 
 async function importResearch() {
-  const cellBiologyPath = path.join(process.cwd(), 'cellbiology.txt');
   const geneticsPath = path.join(process.cwd(), 'genetics.txt');
   
-  const cellBiologyEntries = parseResearchFile(cellBiologyPath);
   const geneticsEntries = parseResearchFile(geneticsPath);
   
-  const allEntries = [...cellBiologyEntries, ...geneticsEntries];
+  const allEntries = [...geneticsEntries];
   
   console.log(`Found ${allEntries.length} research entries to import`);
   
