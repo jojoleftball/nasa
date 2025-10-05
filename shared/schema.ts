@@ -96,6 +96,7 @@ export const adminResearch = pgTable("admin_research", {
   year: text("year"),
   authors: text("authors"),
   institution: text("institution"),
+  osdStudyNumber: text("osd_study_number"),
   tags: jsonb("tags").$type<string[]>().default([]),
   nasaOsdrLinks: jsonb("nasa_osdr_links").$type<string[]>().default([]),
   customFields: jsonb("custom_fields").$type<Record<string, any>>().default({}),

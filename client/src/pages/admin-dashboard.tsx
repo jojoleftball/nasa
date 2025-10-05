@@ -41,6 +41,7 @@ const researchSchema = z.object({
   year: z.string().optional(),
   authors: z.string().optional(),
   institution: z.string().optional(),
+  osdStudyNumber: z.string().optional(),
   tags: z.array(z.string()).default([]),
   nasaOsdrLinks: z.array(z.string()).default([]),
   published: z.boolean().default(false),
@@ -100,6 +101,7 @@ export default function AdminDashboardPage() {
       year: "",
       authors: "",
       institution: "",
+      osdStudyNumber: "",
       tags: [],
       nasaOsdrLinks: [],
       published: false,
@@ -181,6 +183,7 @@ export default function AdminDashboardPage() {
       year: item.year || "",
       authors: item.authors || "",
       institution: item.institution || "",
+      osdStudyNumber: item.osdStudyNumber || "",
       tags: item.tags || [],
       nasaOsdrLinks: item.nasaOsdrLinks || [],
       published: item.published,
@@ -592,6 +595,12 @@ export default function AdminDashboardPage() {
                                 <span className="truncate">{item.authors}</span>
                               </div>
                             )}
+                            {item.osdStudyNumber && (
+                              <div className="flex items-center gap-2 text-gray-400">
+                                <span className="font-semibold">OSD Study:</span>
+                                <span className="font-mono text-purple-400">{item.osdStudyNumber}</span>
+                              </div>
+                            )}
                             {item.institution && (
                               <div className="flex items-center gap-2 text-gray-400 sm:col-span-2">
                                 <span className="font-semibold">Institution:</span>
@@ -712,6 +721,20 @@ export default function AdminDashboardPage() {
                           <FormLabel className="text-gray-200 text-base font-medium">Institution</FormLabel>
                           <FormControl>
                             <Input {...field} placeholder="e.g., NASA Ames Research Center" className="glass border-0 text-white placeholder:text-gray-400 h-11" data-testid="input-institution" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="osdStudyNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-200 text-base font-medium">OSD Study Number</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="e.g., OSD-204" className="glass border-0 text-white placeholder:text-gray-400 h-11" data-testid="input-osd-study-number" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

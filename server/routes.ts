@@ -21,7 +21,8 @@ const advancedFiltersSchema = z.object({
     start: z.string().optional().default(""),
     end: z.string().optional().default("")
   }).optional().default({ start: "", end: "" }),
-  keywords: z.array(z.string()).optional().default([])
+  keywords: z.array(z.string()).optional().default([]),
+  osdStudyNumber: z.string().optional().default("")
 });
 
 const sortOptionsSchema = z.object({
@@ -41,7 +42,8 @@ const searchRequestSchema = z.object({
     researchArea: [],
     publicationStatus: "All Status",
     customDateRange: { start: "", end: "" },
-    keywords: []
+    keywords: [],
+    osdStudyNumber: ""
   }),
   sortOptions: sortOptionsSchema.optional(),
   interests: z.array(z.string()).optional()
@@ -75,6 +77,7 @@ function transformAdminResearchToStudyFormat(research: any): any {
     isAdminCreated: true,
     customFields: research.customFields,
     nasaOsdrLinks: research.nasaOsdrLinks || [],
+    osdStudyNumber: research.osdStudyNumber || null,
   };
 }
 
@@ -446,6 +449,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
             study.nasaOsdrLinks?.some((link: string) => link.toLowerCase().includes(keyword.toLowerCase())) ||
             (study.isAdminCreated && searchInCustomFields(study.customFields, keyword))
           )
+        );
+      }
+
+      if (filters.osdStudyNumber && filters.osdStudyNumber.trim()) {
+        const osdNumber = filters.osdStudyNumber.trim().toUpperCase();
+        filteredResults = filteredResults.filter(study =>
+          study.osdStudyNumber?.toUpperCase().includes(osdNumber) ||
+          study.id?.toUpperCase().includes(osdNumber) ||
+          study.title?.toUpperCase().includes(osdNumber)
         );
       }
 

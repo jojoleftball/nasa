@@ -32,7 +32,8 @@ export default function DashboardPage() {
     researchArea: [],
     publicationStatus: "All Status",
     customDateRange: { start: "", end: "" },
-    keywords: []
+    keywords: [],
+    osdStudyNumber: ""
   });
   const [sortOptions, setSortOptions] = useState({
     sortBy: "relevance",

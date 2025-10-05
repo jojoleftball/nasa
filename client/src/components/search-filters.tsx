@@ -40,6 +40,7 @@ interface AdvancedFilters {
     end: string;
   };
   keywords: string[];
+  osdStudyNumber: string;
 }
 
 interface SortOptions {
@@ -74,7 +75,8 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
       start: "",
       end: ""
     },
-    keywords: []
+    keywords: [],
+    osdStudyNumber: ""
   });
   
   const [sortOptions, setSortOptions] = useState<SortOptions>({
@@ -156,6 +158,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
       active.push(`Custom Date: ${filters.customDateRange.start} - ${filters.customDateRange.end}`);
     }
     if (filters.keywords.length > 0) active.push(`Keywords: ${filters.keywords.join(", ")}`);
+    if (filters.osdStudyNumber) active.push(`OSD Study: ${filters.osdStudyNumber}`);
     
     setActiveFilters(active);
   };
@@ -181,6 +184,8 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
       newFilters.customDateRange = { start: "", end: "" };
     } else if (filterToRemove.startsWith("Keywords:")) {
       newFilters.keywords = [];
+    } else if (filterToRemove.startsWith("OSD Study:")) {
+      newFilters.osdStudyNumber = "";
     }
     
     setFilters(newFilters);
@@ -197,7 +202,8 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
       researchArea: [],
       publicationStatus: "All Status",
       customDateRange: { start: "", end: "" },
-      keywords: []
+      keywords: [],
+      osdStudyNumber: ""
     };
     setFilters(clearedFilters);
     setActiveFilters([]);
@@ -517,6 +523,21 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                       </SelectContent>
                     </Select>
                   </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium">OSD Study Number</Label>
+                  <Input
+                    placeholder="e.g., OSD-204"
+                    value={filters.osdStudyNumber}
+                    onChange={(e) => setFilters({ ...filters, osdStudyNumber: e.target.value })}
+                    data-testid="input-osd-study-number"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Search for specific NASA OSDR study numbers
+                  </p>
                 </div>
 
                 <div className="flex justify-between pt-4">
