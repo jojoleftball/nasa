@@ -137,8 +137,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to update profile" });
     }
   });
-
-  // Update user password
   app.put("/api/user/password", requireAuth, async (req, res) => {
     try {
       const validatedData = updatePasswordSchema.parse(req.body);
@@ -166,7 +164,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Update username
   app.put("/api/user/username", requireAuth, async (req, res) => {
     try {
       const validatedData = updateUsernameSchema.parse(req.body);
@@ -198,7 +195,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get detailed study metadata
   app.get("/api/study/:studyId/metadata", requireAuth, async (req, res) => {
     try {
       const { studyId } = req.params;
@@ -207,7 +203,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Study ID is required" });
       }
 
-      // Try v2 API first, fallback to v1
       let metadata = await nasaOSDRService.getStudyMetadataV2(studyId);
       
       if (!metadata) {
@@ -272,22 +267,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Use the enhanced search with filters
       const searchFilters = {
         query: query && query.trim() ? query.trim() : undefined,
         organism: filters.organism && filters.organism.length > 0 ? filters.organism : undefined,
         assayType: filters.experimentType && filters.experimentType.length > 0 ? filters.experimentType : undefined,
         mission: filters.mission && filters.mission.length > 0 ? filters.mission : undefined,
         tissueType: filters.tissueType && filters.tissueType.length > 0 ? filters.tissueType : undefined,
-        yearRange: undefined, // We'll apply year filtering post-search for now
-        // Note: researchArea is handled via post-search filtering since it's more of a semantic search
+        yearRange: undefined,
         dataType: undefined,
         limit: 30
       };
 
       let osdrResults: any[] = [];
       
-      // Try the enhanced v2 API first if we have specific filters, fallback to basic search if needed
       if (searchFilters.organism || searchFilters.assayType || searchFilters.mission || searchFilters.tissueType) {
         osdrResults = await nasaOSDRService.searchStudiesAdvanced(searchFilters);
       } else if (query && query.trim()) {

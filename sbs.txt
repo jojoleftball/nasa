@@ -1,0 +1,664 @@
+
+# BIOGALACTIC - SPACE BIOLOGY RESEARCH PLATFORM
+# COMPREHENSIVE PROJECT DOCUMENTATION (STEP-BY-STEP)
+
+================================================================================
+PROJECT OVERVIEW
+================================================================================
+
+Biogalactic is a full-stack web application that provides an AI-powered platform
+for exploring NASA's Open Science Data Repository (OSDR) space biology research
+database. The platform enables researchers, students, and space biology enthusiasts
+to search, visualize, and interact with real NASA research data through an
+intuitive cosmic-themed interface.
+
+================================================================================
+PROJECT NAME & BRANDING
+================================================================================
+- Project Name: Biogalactic
+- Tagline: "Space Biology Research Platform"
+- AI Assistant Name: Ria (customizable per user)
+- Theme: Cosmic/Space with dark purple-blue tones and galaxy gradients
+
+================================================================================
+LANGUAGES USED
+================================================================================
+
+1. TypeScript (Primary Language)
+   - Used for both frontend and backend development
+   - Provides type safety and better developer experience
+   - Version: Latest with ES modules
+
+2. SQL
+   - PostgreSQL database queries
+   - Drizzle ORM schema definitions
+   - Database migrations
+
+3. CSS
+   - Tailwind CSS utility classes
+   - Custom CSS for cosmic animations and effects
+   - CSS variables for theming
+
+4. HTML
+   - JSX/TSX templates in React components
+   - Semantic HTML5 structure
+
+================================================================================
+TECHNOLOGY STACK
+================================================================================
+
+FRONTEND:
+- React 18 (UI Library)
+- TypeScript (Type-safe JavaScript)
+- Vite (Build tool and dev server)
+- Wouter (Lightweight routing)
+- TanStack Query / React Query (Server state management)
+- React Hook Form (Form handling)
+- Zod (Schema validation)
+- Tailwind CSS (Styling framework)
+- shadcn/ui (Component library built on Radix UI)
+- Radix UI (Accessible component primitives)
+- Lucide React (Icon library)
+- Recharts (Data visualization)
+
+BACKEND:
+- Node.js (Runtime environment)
+- Express.js (Web framework)
+- TypeScript (Type-safe development)
+- Passport.js (Authentication middleware)
+- Express Session (Session management)
+
+DATABASE & ORM:
+- PostgreSQL (Relational database)
+- Neon Database (Serverless PostgreSQL provider)
+- Drizzle ORM (Type-safe SQL ORM)
+- Drizzle Kit (Migration tool)
+- connect-pg-simple (PostgreSQL session store)
+
+SECURITY:
+- Crypto module (Password hashing with scrypt)
+- Session-based authentication
+- HTTP-only cookies
+- CSRF protection
+
+EXTERNAL APIS:
+- Google Gemini AI API (AI chatbot assistant)
+- NASA OSDR API (Space biology research data)
+
+================================================================================
+PROJECT ARCHITECTURE
+================================================================================
+
+FULL-STACK MONOREPO STRUCTURE:
+/
+├── client/                 # Frontend React application
+│   ├── src/
+│   │   ├── components/     # React components
+│   │   ├── pages/          # Page components
+│   │   ├── hooks/          # Custom React hooks
+│   │   ├── lib/            # Utility functions
+│   │   └── App.tsx         # Root component
+│   └── index.html          # HTML entry point
+├── server/                 # Backend Express application
+│   ├── auth.ts             # User authentication
+│   ├── admin-auth.ts       # Admin authentication
+│   ├── routes.ts           # API routes
+│   ├── admin-routes.ts     # Admin API routes
+│   ├── gemini.ts           # AI chatbot logic
+│   ├── admin-gemini.ts     # Admin AI assistant
+│   ├── nasa-osdr.ts        # NASA API integration
+│   ├── storage.ts          # Database operations
+│   ├── db.ts               # Database connection
+│   └── index.ts            # Server entry point
+├── shared/                 # Shared code (frontend & backend)
+│   └── schema.ts           # Database schema & types
+└── migrations/             # Database migrations
+
+================================================================================
+DATABASE SCHEMA
+================================================================================
+
+TABLES:
+
+1. users
+   - id (UUID primary key)
+   - username (unique)
+   - email (unique)
+   - password (hashed)
+   - firstName
+   - lastName
+   - displayName
+   - profilePicture
+   - coverImage
+   - bio
+   - interests (JSON array)
+   - chatbotName (default: "Ria")
+   - createdAt
+   - updatedAt
+
+2. searches
+   - id (UUID primary key)
+   - userId (foreign key to users)
+   - query
+   - filters (JSON object)
+   - results (JSON array)
+   - createdAt
+
+3. favorites
+   - id (UUID primary key)
+   - userId (foreign key to users)
+   - studyId
+   - studyTitle
+   - studyData (JSON object)
+   - createdAt
+
+4. chat_sessions
+   - id (UUID primary key)
+   - userId (foreign key to users)
+   - messages (JSON array)
+   - createdAt
+   - updatedAt
+
+5. admins
+   - id (UUID primary key)
+   - username (unique)
+   - password (hashed)
+   - createdAt
+   - updatedAt
+
+6. admin_research
+   - id (UUID primary key)
+   - title
+   - description
+   - year
+   - authors
+   - institution
+   - tags (JSON array)
+   - nasaOsdrLinks (JSON array)
+   - customFields (JSON object)
+   - published (boolean)
+   - createdBy (foreign key to admins)
+   - createdAt
+   - updatedAt
+
+================================================================================
+KEY FEATURES IMPLEMENTED
+================================================================================
+
+1. USER AUTHENTICATION & AUTHORIZATION
+   - Registration with username, email, password
+   - Login with username/email and password
+   - Session-based authentication using PostgreSQL store
+   - Password hashing with scrypt + salt
+   - Protected routes requiring authentication
+   - Logout functionality
+
+2. ADMIN PANEL
+   - Separate admin authentication system
+   - Default admin account (username: admin, password: noone)
+   - Admin dashboard for managing research entries
+   - Create, read, update, delete admin research
+   - Publish/unpublish research visibility
+   - AI assistant for content creation help
+
+3. USER PROFILE MANAGEMENT
+   - Update first name, last name, display name
+   - Update bio and profile picture
+   - Update cover image
+   - Manage research interests
+   - Change chatbot name
+   - Change username (with password verification)
+   - Change password (with current password verification)
+
+4. NASA OSDR INTEGRATION
+   - Real-time search of NASA research database
+   - Comprehensive studies database (300+ studies cached)
+   - Advanced filtering capabilities:
+     * Year range filters
+     * Organism filters
+     * Experiment type filters
+     * Mission filters
+     * Tissue type filters
+     * Research area filters
+     * Custom date range
+     * Keywords search
+   - Study metadata retrieval
+   - Interest-based study recommendations
+   - Statistics and analytics from NASA data
+   - Pagination support for large datasets
+   - Caching mechanism for performance
+
+5. ADVANCED SEARCH FUNCTIONALITY
+   - Text-based search
+   - Multi-filter search with AND/OR logic
+   - Sort options (relevance, date, title, author, citations)
+   - Secondary sorting
+   - Search history tracking
+   - Search suggestions powered by AI
+   - Real-time filter options based on available data
+
+6. AI CHATBOT ASSISTANT (RIA)
+   - Powered by Google Gemini AI
+   - Multiple conversation modes:
+     * Research Assistant
+     * Study Analyzer
+     * Data Explorer
+     * Methodology Expert
+   - Context-aware responses
+   - Persistent chat history per user
+   - Integration with user interests
+   - Real-time NASA data enhancement
+   - Personalized recommendations
+   - Study summarization
+   - Research pathway generation
+   - Study comparison analysis
+
+7. FAVORITES SYSTEM
+   - Save favorite research studies
+   - View all favorites
+   - Remove favorites
+   - Favorites integrated into AI context
+
+8. DATA VISUALIZATION
+   - Dashboard statistics
+   - Category distribution charts
+   - Monthly trends visualization
+   - Yearly research trends
+   - Recharts library integration
+
+9. RESEARCH RESULTS DISPLAY
+   - Grid/list view toggle
+   - Study cards with metadata
+   - Quick actions (favorite, view details)
+   - Pagination support
+   - Loading states and skeletons
+
+10. THEME SYSTEM
+    - Dark mode (default)
+    - Light mode
+    - System preference detection
+    - Persistent theme preference
+    - Cosmic design with animations
+
+================================================================================
+API ENDPOINTS
+================================================================================
+
+USER AUTHENTICATION:
+POST   /api/register           - Register new user
+POST   /api/login              - Login user
+POST   /api/logout             - Logout user
+GET    /api/user               - Get current user
+
+USER PROFILE:
+PUT    /api/user/profile       - Update user profile
+PUT    /api/user/password      - Update password
+PUT    /api/user/username      - Update username
+
+RESEARCH & SEARCH:
+POST   /api/search                        - Search studies
+GET    /api/search/suggestions            - Get search suggestions
+POST   /api/search/advanced-suggestions   - Get AI-powered suggestions
+GET    /api/study/:studyId/metadata       - Get study details
+GET    /api/filter-options                - Get available filter options
+
+FAVORITES:
+POST   /api/favorites          - Add favorite
+GET    /api/favorites          - Get user favorites
+DELETE /api/favorites/:studyId - Remove favorite
+
+AI CHATBOT:
+POST   /api/chat               - Send message to chatbot
+GET    /api/chat/history       - Get chat history
+POST   /api/study/summarize    - Summarize study
+POST   /api/studies/compare    - Compare studies
+POST   /api/research/pathway   - Generate research pathway
+
+ANALYTICS:
+GET    /api/dashboard/stats    - Get dashboard statistics
+
+ADMIN AUTHENTICATION:
+POST   /api/admin/login        - Admin login
+POST   /api/admin/logout       - Admin logout
+GET    /api/admin/user         - Get current admin
+
+ADMIN RESEARCH MANAGEMENT:
+GET    /api/admin/research         - Get all admin research
+GET    /api/admin/research/:id     - Get specific research
+POST   /api/admin/research         - Create research
+PATCH  /api/admin/research/:id     - Update research
+DELETE /api/admin/research/:id     - Delete research
+POST   /api/admin/assistant        - Admin AI assistant
+
+================================================================================
+EXTERNAL API INTEGRATIONS
+================================================================================
+
+1. NASA OSDR API
+   - Base URL: https://osdr.nasa.gov/osdr/data/
+   - API URL: https://visualization.osdr.nasa.gov/biodata/api/
+   - Endpoints used:
+     * /search - Search studies
+     * /osd/meta/{id} - Get study metadata
+   - Features:
+     * Full-text search
+     * Filter-based search
+     * Metadata retrieval
+     * Statistics aggregation
+
+2. Google Gemini AI API
+   - Model: gemini-2.5-flash
+   - Used for:
+     * Chatbot conversations
+     * Study summarization
+     * Search suggestions
+     * Research pathway generation
+     * Study comparison analysis
+     * Admin content assistance
+   - Temperature settings: 0.4-0.7 depending on use case
+   - Max tokens: 200-1500 depending on task
+
+================================================================================
+SECURITY MEASURES
+================================================================================
+
+1. Password Security
+   - Scrypt hashing algorithm
+   - Random salt generation (16 bytes)
+   - 64-byte derived keys
+   - Timing-safe comparison
+
+2. Session Security
+   - HTTP-only cookies
+   - Secure cookies in production
+   - 7-day session expiry
+   - PostgreSQL-backed session store
+   - SameSite: lax
+
+3. Input Validation
+   - Zod schema validation
+   - Server-side validation
+   - Type-safe API contracts
+
+4. Authentication
+   - Session-based authentication
+   - Separate admin authentication
+   - Protected API routes
+   - CSRF protection via session
+
+================================================================================
+PERFORMANCE OPTIMIZATIONS
+================================================================================
+
+1. Caching Strategies
+   - NASA studies database cache (24-hour TTL)
+   - Statistics cache (6-hour TTL)
+   - Background refresh mechanism
+   - Stale-while-revalidate pattern
+
+2. Database Optimizations
+   - Indexed columns (username, email)
+   - JSONB for flexible data storage
+   - Connection pooling
+
+3. Frontend Optimizations
+   - React Query for server state caching
+   - Lazy loading of routes
+   - Optimistic updates
+   - Debounced search inputs
+
+4. API Optimizations
+   - Pagination support
+   - Concurrent API requests
+   - Rate limiting awareness
+   - Retry mechanisms with exponential backoff
+
+================================================================================
+DEVELOPMENT WORKFLOW
+================================================================================
+
+1. Local Development
+   - Command: npm run dev
+   - Port: 5000 (backend + frontend)
+   - Hot module replacement (HMR)
+   - TypeScript type checking
+
+2. Build Process
+   - Command: npm run build
+   - Vite builds frontend
+   - esbuild bundles backend
+   - Output: dist/ directory
+
+3. Production Deployment
+   - Command: npm run start
+   - Serves built files
+   - Environment: production
+   - Port: 5000
+
+4. Database Management
+   - Command: npm run db:push
+   - Drizzle Kit migrations
+   - Schema synchronization
+
+================================================================================
+ENVIRONMENT VARIABLES REQUIRED
+================================================================================
+
+Required:
+- DATABASE_URL              # Neon PostgreSQL connection string
+- GEMINI_API_KEY           # Google Gemini AI API key
+- SESSION_SECRET           # Session encryption secret
+
+Optional:
+- NODE_ENV                 # development | production
+- PORT                     # Server port (default: 5000)
+
+================================================================================
+USER INTERFACE PAGES
+================================================================================
+
+1. Landing Page (/)
+   - Hero section with branding
+   - Feature highlights
+   - Call-to-action buttons
+   - Responsive design
+
+2. Authentication Page (/auth)
+   - Login form
+   - Registration form
+   - Tab switching
+   - Error handling
+
+3. Interests Selection (/interests)
+   - New user onboarding
+   - Multi-select interests
+   - Personalization setup
+
+4. Dashboard (/dashboard)
+   - Search interface
+   - Advanced filters sidebar
+   - Research results grid/list
+   - AI chatbot sidebar
+   - Statistics overview
+   - Getting started guide
+
+5. Profile Page (/profile)
+   - Profile header with cover image
+   - Profile information form
+   - Username change form
+   - Password change form
+   - Account settings
+
+6. Admin Login (/admin)
+   - Admin authentication form
+   - Separate from user login
+
+7. Admin Dashboard (/admin/dashboard)
+   - Research management interface
+   - Create/edit research forms
+   - AI assistant for content help
+   - Publish/unpublish controls
+
+8. Not Found Page (404)
+   - Custom error page
+   - Navigation links
+
+================================================================================
+KEY COMPONENT ARCHITECTURE
+================================================================================
+
+1. Chatbot Component
+   - Collapsible sidebar
+   - Message history
+   - Input form
+   - Mode selector
+   - Context awareness
+   - Loading states
+
+2. Search Filters Component
+   - Collapsible sections
+   - Multiple filter types
+   - Clear filters option
+   - Apply/reset controls
+
+3. Research Results Component
+   - Grid/list view toggle
+   - Study cards
+   - Pagination
+   - Sorting controls
+   - Empty states
+
+4. Profile Forms
+   - Profile information form
+   - Password change form
+   - Username change form
+   - Image upload handling
+
+5. Visualization Sidebar
+   - Charts display
+   - Statistics cards
+   - Trends visualization
+
+================================================================================
+DESIGN SYSTEM
+================================================================================
+
+1. Color Palette
+   - Primary: Purple/Blue cosmic tones
+   - Background: Dark with gradients
+   - Accent: Bright purples and blues
+   - Text: High contrast for readability
+
+2. Typography
+   - Font: System fonts
+   - Headings: Bold, large
+   - Body: Regular weight
+   - Code: Monospace
+
+3. Components
+   - shadcn/ui component library
+   - Radix UI primitives
+   - Glass morphism effects
+   - Animated backgrounds
+   - Gradient overlays
+
+4. Animations
+   - CSS star field animation
+   - Smooth transitions
+   - Loading skeletons
+   - Hover effects
+
+================================================================================
+TESTING & QUALITY ASSURANCE
+================================================================================
+
+1. Type Safety
+   - TypeScript strict mode
+   - Shared types between frontend/backend
+   - Zod schema validation
+
+2. Error Handling
+   - Try-catch blocks
+   - Error boundaries
+   - User-friendly error messages
+   - Logging for debugging
+
+3. Code Quality
+   - Consistent code style
+   - Modular architecture
+   - Separation of concerns
+   - Reusable components
+
+================================================================================
+DEPLOYMENT CONFIGURATION
+================================================================================
+
+Platform: Replit
+- Autoscale deployment
+- Build command: npm run build
+- Run command: npm run start
+- Port forwarding: 5000 → 80/443
+- Environment variable management
+- PostgreSQL database integration
+
+================================================================================
+FUTURE ENHANCEMENT POSSIBILITIES
+================================================================================
+
+1. Advanced Features
+   - Research collaboration tools
+   - Annotation and note-taking
+   - Export data functionality
+   - Advanced visualizations
+   - Study recommendations ML model
+
+2. User Experience
+   - Mobile app
+   - Offline support
+   - Real-time notifications
+   - User achievements/badges
+
+3. Admin Features
+   - Analytics dashboard
+   - User management
+   - Content moderation
+   - Bulk operations
+
+4. Integration
+   - More space research databases
+   - Academic citation tools
+   - Social sharing
+   - API for third-party access
+
+================================================================================
+PROJECT MILESTONES ACHIEVED
+================================================================================
+
+✓ Full-stack application setup
+✓ User authentication system
+✓ Admin authentication system
+✓ PostgreSQL database integration
+✓ NASA OSDR API integration
+✓ Google Gemini AI integration
+✓ Advanced search with filters
+✓ AI chatbot assistant
+✓ User profile management
+✓ Favorites system
+✓ Data visualization
+✓ Responsive design
+✓ Theme system
+✓ Session management
+✓ Admin research management
+✓ Search history tracking
+✓ Statistics dashboard
+✓ Study metadata retrieval
+✓ Interest-based recommendations
+✓ Comprehensive caching system
+
+================================================================================
+END OF DOCUMENTATION
+================================================================================
+
+This documentation represents the complete state of the Biogalactic project
+as of the current version. The project is a fully functional, production-ready
+web application for exploring NASA space biology research with AI assistance.

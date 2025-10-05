@@ -112,7 +112,6 @@ export class DatabaseStorage implements IStorage {
   async updateUser(id: string, updates: UpdateUser): Promise<User> {
     const updateData: any = { updatedAt: new Date() };
     
-    // Handle all profile fields
     if (updates.firstName !== undefined) {
       updateData.firstName = updates.firstName;
     }
@@ -147,7 +146,6 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateUserPassword(id: string, currentPassword: string, newPassword: string): Promise<User> {
-    // First verify the current password
     const user = await this.getUser(id);
     if (!user) {
       throw new Error('User not found');
@@ -158,7 +156,6 @@ export class DatabaseStorage implements IStorage {
       throw new Error('Current password is incorrect');
     }
     
-    // Hash the new password using the same method as auth.ts
     const hashedNewPassword = await hashPassword(newPassword);
     
     const [updatedUser] = await db
@@ -174,7 +171,6 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateUserUsername(id: string, newUsername: string, password: string): Promise<User> {
-    // First verify the password for security
     const user = await this.getUser(id);
     if (!user) {
       throw new Error('User not found');
@@ -185,7 +181,6 @@ export class DatabaseStorage implements IStorage {
       throw new Error('Password is incorrect');
     }
     
-    // Check if username is already taken
     const existingUser = await this.getUserByUsername(newUsername);
     if (existingUser && existingUser.id !== id) {
       throw new Error('Username is already taken');
