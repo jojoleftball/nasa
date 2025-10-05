@@ -1,6 +1,3 @@
-
-BIOGALACTIC - Space Biology Research Platform
-
 Biogalactic is a revolutionary full-stack web application that democratizes access to NASA's Open Science Data Repository (OSDR), transforming how researchers and students explore space biology. With an intuitive cosmic-themed interface and AI-powered insights, it bridges the gap between complex space research data and accessible scientific discovery.
 
 KEY FEATURES:
