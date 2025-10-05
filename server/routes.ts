@@ -366,6 +366,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           filters.organism.some((org: string) =>
             study.organism?.toLowerCase().includes(org.toLowerCase()) ||
             study.tags?.some((tag: string) => tag.toLowerCase().includes(org.toLowerCase())) ||
+            study.title?.toLowerCase().includes(org.toLowerCase()) ||
+            study.abstract?.toLowerCase().includes(org.toLowerCase()) ||
             (study.isAdminCreated && searchInCustomFields(study.customFields, org))
           )
         );
@@ -376,6 +378,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           filters.experimentType.some((type: string) =>
             study.assayType?.toLowerCase().includes(type.toLowerCase()) ||
             study.tags?.some((tag: string) => tag.toLowerCase().includes(type.toLowerCase())) ||
+            study.title?.toLowerCase().includes(type.toLowerCase()) ||
+            study.abstract?.toLowerCase().includes(type.toLowerCase()) ||
             (study.isAdminCreated && searchInCustomFields(study.customFields, type))
           )
         );
@@ -408,6 +412,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           filters.tissueType.some((tissue: string) =>
             study.tissueType?.toLowerCase().includes(tissue.toLowerCase()) ||
             study.tags?.some((tag: string) => tag.toLowerCase().includes(tissue.toLowerCase())) ||
+            study.title?.toLowerCase().includes(tissue.toLowerCase()) ||
+            study.abstract?.toLowerCase().includes(tissue.toLowerCase()) ||
             (study.isAdminCreated && searchInCustomFields(study.customFields, tissue))
           )
         );
@@ -422,6 +428,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           study.tags?.some((tag: string) => tag.toLowerCase().includes(searchQuery)) ||
           study.authors?.some((author: string) => author.toLowerCase().includes(searchQuery)) ||
           study.institution?.toLowerCase().includes(searchQuery) ||
+          study.year?.toString().includes(searchQuery) ||
+          study.nasaOsdrLinks?.some((link: string) => link.toLowerCase().includes(searchQuery)) ||
           (study.isAdminCreated && searchInCustomFields(study.customFields, searchQuery))
         );
       }
@@ -432,6 +440,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
             study.title?.toLowerCase().includes(keyword.toLowerCase()) ||
             study.abstract?.toLowerCase().includes(keyword.toLowerCase()) ||
             study.tags?.some((tag: string) => tag.toLowerCase().includes(keyword.toLowerCase())) ||
+            study.authors?.some((author: string) => author.toLowerCase().includes(keyword.toLowerCase())) ||
+            study.institution?.toLowerCase().includes(keyword.toLowerCase()) ||
+            study.year?.toString().includes(keyword.toLowerCase()) ||
+            study.nasaOsdrLinks?.some((link: string) => link.toLowerCase().includes(keyword.toLowerCase())) ||
             (study.isAdminCreated && searchInCustomFields(study.customFields, keyword))
           )
         );
