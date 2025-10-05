@@ -322,7 +322,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         osdrResults = await nasaOSDRService.getRecentStudies(30);
       }
 
-      const adminResearch = await storage.getAllAdminResearch(true);
+      const adminResearch = await storage.getAllAdminResearch(false);
       const transformedAdminResearch = adminResearch.map(transformAdminResearchToStudyFormat);
       const allResults = [...osdrResults, ...transformedAdminResearch];
 
