@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, AreaChart, Area } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, AreaChart, Area, RadialBarChart, RadialBar, Legend } from "recharts";
 import { apiRequest } from "@/lib/queryClient";
-import { TrendingUp, Database, Users, Calendar, Activity, Beaker, Rocket, Brain } from "lucide-react";
+import { TrendingUp, Database, Users, Calendar, Activity, Beaker, Rocket, Brain, Building2, CheckCircle2, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const chartConfig = {
@@ -15,9 +15,18 @@ const chartConfig = {
     label: "Studies", 
     color: "hsl(var(--secondary))",
   },
+  nasa: {
+    label: "NASA Studies",
+    color: "#8884d8",
+  },
+  admin: {
+    label: "Admin Studies",
+    color: "#82ca9d",
+  },
 };
 
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#8dd1e1', '#d084d0', '#ffb347', '#87ceeb'];
+const RADIAL_COLORS = ['#10b981', '#f59e0b'];
 
 export function VisualizationSidebar() {
   const { data: stats } = useQuery({
@@ -39,6 +48,19 @@ export function VisualizationSidebar() {
     year,
     studies: count,
   })) : [];
+
+  const topResearchAreas = stats?.topResearchAreas || [];
+
+  const publicationData = stats?.publicationStatus ? [
+    { name: 'Published', value: stats.publicationStatus.published, fill: RADIAL_COLORS[0] },
+    { name: 'Unpublished', value: stats.publicationStatus.unpublished, fill: RADIAL_COLORS[1] }
+  ] : [];
+
+  const institutionData = stats?.institutionStats ? 
+    Object.entries(stats.institutionStats)
+      .sort(([, a], [, b]) => (b as number) - (a as number))
+      .slice(0, 5)
+      .map(([name, value]) => ({ name, value })) : [];
 
   const statCards = [
     { icon: Database, value: stats?.totalPapers || 2847, label: "Total Studies", color: "text-primary" },
@@ -117,7 +139,7 @@ export function VisualizationSidebar() {
           <CardHeader>
             <CardTitle className="text-sm flex items-center gap-2">
               <Activity className="h-4 w-4" />
-              2025 Monthly Activity
+              2025 Monthly Activity (NASA vs Admin)
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -127,10 +149,18 @@ export function VisualizationSidebar() {
                 <YAxis />
                 <Area
                   type="monotone"
-                  dataKey="papers"
+                  dataKey="nasa"
                   stackId="1"
-                  stroke="var(--color-papers)"
-                  fill="var(--color-papers)"
+                  stroke="var(--color-nasa)"
+                  fill="var(--color-nasa)"
+                  fillOpacity={0.6}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="admin"
+                  stackId="1"
+                  stroke="var(--color-admin)"
+                  fill="var(--color-admin)"
                   fillOpacity={0.6}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
@@ -170,6 +200,96 @@ export function VisualizationSidebar() {
           </CardContent>
         </Card>
       </motion.div>
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Card className="glass border-0">
+          <CardHeader>
+            <CardTitle className="text-sm flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Top Research Areas
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-[220px]">
+              <BarChart data={topResearchAreas} layout="vertical">
+                <XAxis type="number" />
+                <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 10 }} />
+                <Bar dataKey="value" fill="#8884d8" radius={[0, 4, 4, 0]} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {publicationData.length > 0 && publicationData.some(d => d.value > 0) && (
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Card className="glass border-0">
+            <CardHeader>
+              <CardTitle className="text-sm flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4" />
+                Publication Status
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="h-[200px]">
+                <PieChart>
+                  <Pie
+                    data={publicationData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={50}
+                    outerRadius={80}
+                    dataKey="value"
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    labelLine={false}
+                  >
+                    {publicationData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                </PieChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+
+      {institutionData.length > 0 && (
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Card className="glass border-0">
+            <CardHeader>
+              <CardTitle className="text-sm flex items-center gap-2">
+                <Building2 className="h-4 w-4" />
+                Top Institutions
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="h-[180px]">
+                <BarChart data={institutionData}>
+                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} tick={{ fontSize: 9 }} />
+                  <YAxis />
+                  <Bar dataKey="value" fill="#82ca9d" radius={[4, 4, 0, 0]} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
     </div>
   );
 }

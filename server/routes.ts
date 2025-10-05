@@ -78,6 +78,7 @@ function transformAdminResearchToStudyFormat(research: any): any {
     customFields: research.customFields,
     nasaOsdrLinks: research.nasaOsdrLinks || [],
     osdStudyNumber: research.osdStudyNumber || null,
+    published: research.published || false,
   };
 }
 
@@ -466,6 +467,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         );
       }
 
+      if (filters.publicationStatus && filters.publicationStatus !== "All Status") {
+        if (filters.publicationStatus === "Published") {
+          filteredResults = filteredResults.filter(study => 
+            !study.isAdminCreated || (study.isAdminCreated && study.published)
+          );
+        } else if (filters.publicationStatus === "Unpublished") {
+          filteredResults = filteredResults.filter(study => 
+            study.isAdminCreated && !study.published
+          );
+        }
+      }
+
       if (sortOptions && sortOptions.sortBy) {
         filteredResults.sort((a, b) => {
           let comparison = 0;
@@ -695,7 +708,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/dashboard/stats", isAuthenticated, async (req, res) => {
     try {
-      const osdrStats = await nasaOSDRService.getStatistics();
+      let osdrStats;
+      try {
+        osdrStats = await nasaOSDRService.getStatistics();
+      } catch (osdrError) {
+        console.error('NASA OSDR statistics error, using empty stats:', osdrError);
+        osdrStats = {
+          totalStudies: 0,
+          categoryStats: {},
+          yearlyTrends: {},
+          recentStudiesCount: 0,
+          monthlyData: [],
+          researchTrends: {}
+        };
+      }
+      
       const adminResearch = await storage.getAllAdminResearch(true);
       
       const categoryStats: Record<string, number> = { ...osdrStats.categoryStats };
@@ -748,13 +775,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
                (research.createdAt && new Date(research.createdAt).getFullYear() === currentYear);
       }).length;
 
+      const publicationStatus = {
+        published: adminResearch.filter((r: any) => r.published).length,
+        unpublished: adminResearch.filter((r: any) => !r.published).length
+      };
+
+      const institutionStats: Record<string, number> = {};
+      adminResearch.forEach((research: any) => {
+        if (research.institution) {
+          if (!institutionStats[research.institution]) {
+            institutionStats[research.institution] = 0;
+          }
+          institutionStats[research.institution]++;
+        }
+      });
+
+      const topResearchAreas = Object.entries(categoryStats)
+        .sort(([, a], [, b]) => (b as number) - (a as number))
+        .slice(0, 8)
+        .map(([name, value]) => ({ name, value }));
+
+      const monthlyDataEnhanced = monthlyData.map((month: any) => {
+        const adminCount = adminResearch.filter((research: any) => {
+          if (!research.createdAt) return false;
+          const researchDate = new Date(research.createdAt);
+          const monthIndex = months.indexOf(month.month);
+          return researchDate.getMonth() === monthIndex && researchDate.getFullYear() === currentYear;
+        }).length;
+        
+        const nasaCount = month.studies - adminCount;
+        
+        return {
+          ...month,
+          nasa: Math.max(0, nasaCount),
+          admin: adminCount,
+          total: month.studies
+        };
+      });
+
       res.json({
         totalPapers: osdrStats.totalStudies + adminResearch.length,
         recentStudies: osdrStats.recentStudiesCount + currentYearResearch,
         activeProjects: Math.floor((osdrStats.totalStudies + adminResearch.length) / 25),
         categoryStats,
-        monthlyData,
-        researchTrends: yearlyTrends
+        monthlyData: monthlyDataEnhanced,
+        researchTrends: yearlyTrends,
+        publicationStatus,
+        institutionStats,
+        topResearchAreas,
+        adminResearchCount: adminResearch.length,
+        nasaResearchCount: osdrStats.totalStudies
       });
     } catch (error) {
       console.error("Dashboard stats error:", error);

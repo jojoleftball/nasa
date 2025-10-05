@@ -540,35 +540,30 @@ export default function AdminDashboardPage() {
                       transition={{ duration: 0.4, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
                       layout
                     >
-                      <Card className="cosmic-card overflow-hidden">
-                        <CardHeader className="pb-3">
-                          <div className="flex items-start justify-between gap-4">
+                      <Card className="cosmic-card overflow-hidden hover:border-purple-500/30 transition-all">
+                        <CardHeader className="pb-2 pt-3">
+                          <div className="flex items-start justify-between gap-3">
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-2">
-                                <motion.div
-                                  whileHover={{ rotate: 360 }}
-                                  transition={{ duration: 0.6 }}
-                                >
-                                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                                </motion.div>
-                                <CardTitle className="cosmic-text-gradient text-xl truncate">{item.title}</CardTitle>
+                              <div className="flex items-center gap-2 mb-1">
+                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 flex-shrink-0" />
+                                <CardTitle className="cosmic-text-gradient text-base truncate">{item.title}</CardTitle>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
-                                <span className="font-mono text-xs">{item.id}</span>
+                              <div className="flex items-center gap-2 text-xs text-gray-500">
+                                <span className="font-mono">{item.id}</span>
                                 <Button
                                   variant="ghost"
                                   size="icon"
                                   onClick={() => copyToClipboard(item.id)}
-                                  className="h-6 w-6 hover:bg-white/10"
+                                  className="h-5 w-5 hover:bg-white/10"
                                   data-testid={`button-copy-${item.id}`}
                                 >
-                                  {copiedId === item.id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                                  {copiedId === item.id ? <Check className="w-2.5 h-2.5" /> : <Copy className="w-2.5 h-2.5" />}
                                 </Button>
                               </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1.5 flex-shrink-0">
                               {item.published && (
-                                <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0" data-testid={`badge-published-${item.id}`}>
+                                <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 text-xs px-2 py-0.5" data-testid={`badge-published-${item.id}`}>
                                   Published
                                 </Badge>
                               )}
@@ -576,78 +571,65 @@ export default function AdminDashboardPage() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => handleEdit(item)}
-                                className="hover:bg-purple-500/20 hover:text-purple-300 h-9 w-9"
+                                className="hover:bg-purple-500/20 hover:text-purple-300 h-8 w-8 rounded-md"
                                 data-testid={`button-edit-${item.id}`}
                               >
-                                <Edit className="w-4 h-4" />
+                                <Edit className="w-3.5 h-3.5" />
                               </Button>
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => handleDelete(item.id)}
-                                className="hover:bg-red-500/20 hover:text-red-300 h-9 w-9"
+                                className="hover:bg-red-500/20 hover:text-red-300 h-8 w-8 rounded-md"
                                 data-testid={`button-delete-${item.id}`}
                               >
-                                <Trash2 className="w-4 h-4" />
+                                <Trash2 className="w-3.5 h-3.5" />
                               </Button>
                             </div>
                           </div>
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                          <p className="text-gray-300 dark:text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                        <CardContent className="space-y-2 pt-2 pb-3">
+                          <p className="text-gray-300 dark:text-gray-400 text-xs leading-relaxed line-clamp-2">{item.description}</p>
                           
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
                             {item.year && (
-                              <div className="flex items-center gap-2 text-gray-400">
+                              <div className="flex items-center gap-1.5 text-gray-400">
                                 <span className="font-semibold">Year:</span>
                                 <span>{item.year}</span>
                               </div>
                             )}
                             {item.authors && (
-                              <div className="flex items-center gap-2 text-gray-400">
+                              <div className="flex items-center gap-1.5 text-gray-400">
                                 <span className="font-semibold">Authors:</span>
-                                <span className="truncate">{item.authors}</span>
+                                <span className="truncate max-w-[150px]">{item.authors}</span>
                               </div>
                             )}
                             {item.osdStudyNumber && (
-                              <div className="flex items-center gap-2 text-gray-400">
-                                <span className="font-semibold">OSD Study:</span>
+                              <div className="flex items-center gap-1.5 text-gray-400">
+                                <span className="font-semibold">OSD:</span>
                                 <span className="font-mono text-purple-400">{item.osdStudyNumber}</span>
                               </div>
                             )}
                             {item.institution && (
-                              <div className="flex items-center gap-2 text-gray-400 sm:col-span-2">
+                              <div className="flex items-center gap-1.5 text-gray-400">
                                 <span className="font-semibold">Institution:</span>
-                                <span className="truncate">{item.institution}</span>
+                                <span className="truncate max-w-[200px]">{item.institution}</span>
                               </div>
                             )}
                           </div>
 
                           {item.tags && item.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                              {item.tags.map((tag: string, tagIndex: number) => (
-                                <Badge key={tagIndex} className="bg-gradient-to-r from-purple-600/40 to-blue-600/40 text-white border border-purple-500/30" data-testid={`badge-tag-${item.id}-${tagIndex}`}>
+                            <div className="flex flex-wrap gap-1.5">
+                              {item.tags.slice(0, 5).map((tag: string, tagIndex: number) => (
+                                <Badge key={tagIndex} className="bg-gradient-to-r from-purple-600/40 to-blue-600/40 text-white border border-purple-500/30 text-xs px-2 py-0" data-testid={`badge-tag-${item.id}-${tagIndex}`}>
                                   {tag}
                                 </Badge>
                               ))}
-                            </div>
-                          )}
-
-                          {item.nasaOsdrLinks && item.nasaOsdrLinks.length > 0 && (
-                            <div className="space-y-2">
-                              <p className="text-sm font-semibold text-gray-400">NASA OSDR Links:</p>
-                              {item.nasaOsdrLinks.map((link: string, linkIndex: number) => (
-                                <a
-                                  key={linkIndex}
-                                  href={link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="block text-blue-400 hover:text-blue-300 text-sm truncate transition-colors"
-                                  data-testid={`link-osdr-${item.id}-${linkIndex}`}
-                                >
-                                  {link}
-                                </a>
-                              ))}
+                              {item.tags.length > 5 && (
+                                <Badge className="bg-gray-600/40 text-white border border-gray-500/30 text-xs px-2 py-0">
+                                  +{item.tags.length - 5} more
+                                </Badge>
+                              )}
                             </div>
                           )}
                         </CardContent>
