@@ -106,6 +106,15 @@ export const adminResearch = pgTable("admin_research", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const researchSuggestions = pgTable("research_suggestions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  researchId: text("research_id").notNull(),
+  userId: varchar("user_id").references(() => users.id),
+  type: text("type").notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   email: true,
@@ -156,6 +165,11 @@ export const updateAdminResearchSchema = createInsertSchema(adminResearch).omit(
   updatedAt: true,
 }).partial();
 
+export const insertResearchSuggestionSchema = createInsertSchema(researchSuggestions).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type UpdateUser = z.infer<typeof updateUserSchema>;
 export type UpdatePassword = z.infer<typeof updatePasswordSchema>;
@@ -169,3 +183,5 @@ export type InsertAdmin = z.infer<typeof insertAdminSchema>;
 export type AdminResearch = typeof adminResearch.$inferSelect;
 export type InsertAdminResearch = z.infer<typeof insertAdminResearchSchema>;
 export type UpdateAdminResearch = z.infer<typeof updateAdminResearchSchema>;
+export type ResearchSuggestion = typeof researchSuggestions.$inferSelect;
+export type InsertResearchSuggestion = z.infer<typeof insertResearchSuggestionSchema>;
