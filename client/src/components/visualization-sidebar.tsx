@@ -63,7 +63,7 @@ export function VisualizationSidebar() {
       .map(([name, value]) => ({ name, value })) : [];
 
   const statCards = [
-    { icon: Database, value: stats?.totalPapers || 2847, label: "Total Studies", color: "text-primary" },
+    { icon: Database, value: stats?.totalPapers || 483, label: "Total Studies", color: "text-primary" },
     { icon: TrendingUp, value: stats?.recentStudies || 156, label: "2025 Studies", color: "text-green-500" },
     { icon: Rocket, value: stats?.activeProjects || 47, label: "Active Projects", color: "text-blue-500" },
     { icon: Activity, value: "Sept", label: "2025", color: "text-purple-500" }
