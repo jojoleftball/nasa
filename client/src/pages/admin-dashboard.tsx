@@ -911,9 +911,29 @@ export default function AdminDashboardPage() {
 }
 
 function SuggestionsTab() {
+  const { toast } = useToast();
   const { data: suggestions = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/admin/suggestions"],
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest("DELETE", `/api/admin/suggestions/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/suggestions"] });
+      toast({ title: "Success", description: "Suggestion deleted successfully!" });
+    },
+    onError: (error: any) => {
+      toast({ variant: "destructive", title: "Error", description: error.message });
+    },
+  });
+
+  function handleDelete(id: string) {
+    if (confirm("Are you sure you want to delete this suggestion?")) {
+      deleteMutation.mutate(id);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -975,16 +995,27 @@ function SuggestionsTab() {
                     User ID: {suggestion.userId} • {new Date(suggestion.createdAt).toLocaleString()}
                   </CardDescription>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(suggestion.researchId);
-                  }}
-                  data-testid={`button-copy-research-${suggestion.id}`}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(suggestion.researchId);
+                    }}
+                    data-testid={`button-copy-research-${suggestion.id}`}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDelete(suggestion.id)}
+                    className="hover:bg-red-500/20 hover:text-red-400"
+                    data-testid={`button-delete-suggestion-${suggestion.id}`}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
