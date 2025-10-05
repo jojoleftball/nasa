@@ -317,12 +317,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       let osdrResults: any[] = [];
       
-      if (searchFilters.organism || searchFilters.assayType || searchFilters.mission || searchFilters.tissueType) {
-        osdrResults = await nasaOSDRService.searchStudiesAdvanced(searchFilters);
-      } else if (query && query.trim()) {
-        osdrResults = await nasaOSDRService.searchStudies(query.trim(), 30);
-      } else {
-        osdrResults = await nasaOSDRService.getRecentStudies(30);
+      try {
+        if (searchFilters.organism || searchFilters.assayType || searchFilters.mission || searchFilters.tissueType) {
+          osdrResults = await nasaOSDRService.searchStudiesAdvanced(searchFilters);
+        } else if (query && query.trim()) {
+          osdrResults = await nasaOSDRService.searchStudies(query.trim(), 30);
+        } else {
+          osdrResults = await nasaOSDRService.getRecentStudies(30);
+        }
+      } catch (nasaError) {
+        console.error('NASA OSDR API error, continuing with admin research only:', nasaError);
+        osdrResults = [];
       }
 
       const adminResearch = await storage.getAllAdminResearch(false);
