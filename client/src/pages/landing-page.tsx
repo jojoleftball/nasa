@@ -39,7 +39,7 @@ export default function LandingPage() {
               <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto"></div>
             </GlowingElement>
             <p className="text-center mt-4 text-muted-foreground">
-              Loading cosmic experience...
+              Loading experience...
             </p>
           </AnimatedDiv>
         </div>
@@ -198,7 +198,7 @@ export default function LandingPage() {
             </AnimatedCard>
           </AnimatedDiv>
 
-          {/* Mission Statement */}
+          {}
           <AnimatedDiv variants={slideInRight} delay={0.4} className="text-center">
             <AnimatedCard className="glass border-0 max-w-4xl mx-auto cosmic-border shimmer-effect">
               <CardContent className="p-8">
