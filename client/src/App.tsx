@@ -14,6 +14,7 @@ import DashboardPage from "@/pages/dashboard-page";
 import ProfilePage from "@/pages/profile-page";
 import AdminLoginPage from "@/pages/admin-login";
 import AdminDashboardPage from "@/pages/admin-dashboard";
+import ResearchDetailPage from "@/pages/research-detail";
 import NotFoundPage from "@/pages/not-found";
 
 function Router() {
@@ -31,6 +32,11 @@ function Router() {
       <Route path="/dashboard">
         <ProtectedRoute>
           <DashboardPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/research/:id">
+        <ProtectedRoute>
+          <ResearchDetailPage />
         </ProtectedRoute>
       </Route>
       <Route path="/profile">
