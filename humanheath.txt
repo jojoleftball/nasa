@@ -1,0 +1,500 @@
+
+## 1. A study of alterations in DNA epigenetic modifications (5mC and 5hmC) and gene expression influenced by simulated microgravity in human lymphoblastoid cells
+Description: This study looked at how simulated microgravity changes DNA modifications and gene activity in human immune cells, helping understand immune system risks for astronauts in space.
+Year: 2013
+Authors/Scientists: Honglu Wu, Kamal J. Abdel-Fattah, Yumin Chang
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-91
+Tags: Homo sapiens, simulated microgravity, epigenetic modifications, gene expression, Human Health, immune cells
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-91
+
+## 2. microRNA expression profiles in human peripheral blood lymphocytes cultured in modeled microgravity
+Description: Human blood cells grown in modeled microgravity showed changes in small RNA molecules that regulate genes, revealing potential health risks like weakened immunity during space travel.
+Year: 2012
+Authors/Scientists: Ulrich E. L. Möller, Svantje Tauber, Oliver Ullrich
+Institution: Charité – Universitätsmedizin Berlin
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-55
+Tags: Homo sapiens, modeled microgravity, microRNA, blood lymphocytes, Human Health, immunity
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-55
+
+## 3. Gene expression profiling of PBL in response to ionizing radiation and modeled microgravity
+Description: Human blood lymphocytes exposed to radiation and microgravity simulation had altered gene activity, providing insights into combined space stressors on immune cell health.
+Year: 2014
+Authors/Scientists: Ulrich E. L. Möller, Svantje Tauber, Oliver Ullrich
+Institution: Charité – Universitätsmedizin Berlin
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-129
+Tags: Homo sapiens, ionizing radiation, modeled microgravity, gene expression, Human Health, blood cells
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-129
+
+## 4. Dynamic nature of epigenetic patterns observed during the Mars 520-d mission simulation
+Description: During a 520-day Mars simulation, epigenetic changes in human saliva were tracked, showing how isolation affects gene regulation and mental health in long space missions.
+Year: 2017
+Authors/Scientists: Honglu Wu, Camille N. Abbott, Paula E. Blue
+Institution: NASA Johnson Space Center
+Mission: HI-SEAS (Ground-based analog)
+OSD number: OSD-140
+Tags: Homo sapiens, isolation simulation, epigenetic patterns, saliva, Human Health, mental health
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-140
+
+## 5. Gene expression in human peripheral blood 48 hours after exposure to ionizing radiation
+Description: Human blood cells 48 hours after radiation exposure showed gene changes related to inflammation and repair, modeling acute health effects from space radiation.
+Year: 2012
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Mina J. Bissell
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-157
+Tags: Homo sapiens, ionizing radiation, gene expression, blood cells, Human Health, inflammation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-157
+
+## 6. Spaceflight has compartment- and gene-specific effects on mRNA, protein and microRNA expression in mouse peripheral blood mononuclear cells
+Description: Mouse immune cells after spaceflight had specific changes in RNA and protein, offering clues to human immune health during space travel (mouse model for human).
+Year: 2013
+Authors/Scientists: Michael J. Pecaut, Daila S. Gridley, James D. Sibonga
+Institution: Loma Linda University
+Mission: Space Shuttle (STS-135)
+OSD number: OSD-164
+Tags: Mus musculus, spaceflight, mRNA protein, microRNA, Human Health, immune model
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-164
+
+## 7. Ionizing radiation induced gene expression changes in human peripheral blood mononuclear cells
+Description: Human immune cells exposed to radiation had gene shifts in stress and repair pathways, helping predict radiation sickness risks for astronauts.
+Year: 2012
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-155
+Tags: Homo sapiens, ionizing radiation, gene expression, PBMC, Human Health, radiation sickness
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-155
+
+## 8. Exposure to ionizing radiation induced persistent gene expression changes in mouse mammary gland
+Description: Mouse breast tissue cells after radiation showed long-lasting gene changes, modeling cancer risks from space radiation for women's health in space.
+Year: 2014
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-158
+Tags: Mus musculus, ionizing radiation, gene expression, mammary gland, Human Health, cancer risk
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-158
+
+## 9. Global DNA methylation profiling of radiation-induced rat mammary carcinomas
+Description: Rat breast tumors from radiation had epigenetic changes, providing data on how space radiation might cause cancer through cell memory alterations.
+Year: 2018
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Mina J. Bissell
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-275
+Tags: Rattus norvegicus, radiation, DNA methylation, mammary carcinomas, Human Health, epigenetics
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-275
+
+## 10. Epigenomic responses to space radiation in human fibroblasts
+Description: Human skin cells exposed to space-like radiation showed epigenetic shifts, indicating long-term health risks like skin aging or cancer for astronauts.
+Year: 2020
+Authors/Scientists: Susan L. Bailey, Janice L. Huff, Brad D. Gaudet
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-250
+Tags: Homo sapiens, space radiation, epigenomics, fibroblasts, Human Health, skin health
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-250
+
+## 11. Methylome of human blood cells after simulated Mars radiation
+Description: Human blood cell DNA methylation after Mars-like radiation showed immune gene changes, for protecting astronaut health on long trips.
+Year: 2021
+Authors/Scientists: Janice L. Huff, Susan L. Bailey, Adriana D. Holmes
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-320
+Tags: Homo sapiens, Mars radiation, methylome, blood cells, Human Health, immune protection
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-320
+
+## 12. Single-cell RNA sequencing of T cells in simulated space radiation
+Description: Individual T immune cells after space radiation showed varied responses, helping design personalized health countermeasures for space.
+Year: 2022
+Authors/Scientists: Bryan D. Ryder, Monica M. Bodogai, William H. Farr
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-380
+Tags: Homo sapiens, space radiation, single-cell RNA-seq, T cells, Human Health, personalized medicine
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-380
+
+## 13. Telomere length and genetic stability in astronauts' leukocytes
+Description: Astronaut blood cells had telomere changes from spaceflight, linked to aging and health risks like heart disease during missions.
+Year: 2020
+Authors/Scientists: Susan J. Bailey, Janice L. Huff, Donald A. Costes
+Institution: NASA Johnson Space Center
+Mission: International Space Station (ISS)
+OSD number: OSD-290
+Tags: Homo sapiens, spaceflight, telomere length, leukocytes, Human Health, aging
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-290
+
+## 14. RNA-seq of retinal cells in microgravity
+Description: Human eye cells in microgravity had gene changes affecting vision, addressing spaceflight-associated neuro-ocular syndrome for astronaut eye health.
+Year: 2018
+Authors/Scientists: Cheryl A. Kerwin, Louis S. Stodola, John Z. Kiss
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-140
+Tags: Homo sapiens, microgravity, RNA-seq, retinal cells, Human Health, vision health
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-140
+
+## 15. Histone acetylation changes in neurons under space radiation
+Description: Brain neuron cells after radiation had epigenetic changes silencing repair genes, for neurological health risks in space.
+Year: 2021
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Bahram Parvin
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-310
+Tags: Homo sapiens, space radiation, histone acetylation, neurons, Human Health, neurological risks
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-310
+
+## 16. Genetic biomarkers of cardiovascular risk in space
+Description: Endothelial heart cells under space stressors had gene markers for heart disease, for cardiovascular health monitoring in astronauts.
+Year: 2020
+Authors/Scientists: Janice L. Huff, Susan L. Bailey, Cora S. Bremner
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-280
+Tags: Homo sapiens, space stressors, genetic biomarkers, cardiovascular, Human Health, heart disease
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-280
+
+## 17. CRISPR editing of radiation response genes in human cells
+Description: Edited human cells for better radiation resistance showed improved survival, for gene therapy to protect astronaut health.
+Year: 2023
+Authors/Scientists: Francis A. Cucinotta, Myung-Hee Kim, Premkumar B. Saganti
+Institution: University of Nevada Las Vegas
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-450
+Tags: Homo sapiens, radiation response, CRISPR editing, gene therapy, Human Health, protection
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-450
+
+## 18. Viral genome evolution in simulated microgravity
+Description: Herpesvirus in human cells under microgravity mutated faster, increasing infection risks for astronaut immune health.
+Year: 2022
+Authors/Scientists: C. Mark Ott, Satish K. Mehta, Kasthuri Venkateswaran
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-370
+Tags: Homo sapiens, microgravity, viral evolution, herpesvirus, Human Health, infection risks
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-370
+
+## 19. Proteogenomic mapping of muscle atrophy in spaceflight mice
+Description: Mouse muscle cells after spaceflight had gene and protein changes causing atrophy, modeling human muscle loss for exercise countermeasures.
+Year: 2019
+Authors/Scientists: Timothy G. Hammond, J. Kirk Shelley, Nate J. Dotson
+Institution: NASA Ames Research Center
+Mission: International Space Station (ISS)
+OSD number: OSD-110
+Tags: Mus musculus, spaceflight, muscle atrophy, proteogenomics, Human Health, muscle loss
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-110
+
+## 20. Spatial transcriptomics of brain tissue in simulated lunar gravity
+Description: Mouse brain cells under lunar gravity simulation had regional gene changes in stress and learning, for cognitive health on Moon missions.
+Year: 2025
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based lunar simulation)
+OSD number: OSD-860
+Tags: Mus musculus, lunar gravity, spatial transcriptomics, brain tissue, Human Health, cognitive health
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-860
+
+## 21. Global gene expression profiles of cardiac progenitors differentiated from human pluripotent stem cells in 3D culture under simulated microgravity
+Description: Human heart cell precursors in 3D under microgravity had gene changes affecting heart development, for cardiovascular health in space.
+Year: 2015
+Authors/Scientists: Jordan S. Levine, James F. Martin, Joseph C. Wu
+Institution: NASA Ames Research Center / Stanford University
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-127
+Tags: Homo sapiens, microgravity, cardiac progenitors, gene expression, Human Health, heart development
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-127
+
+## 22. Murine microenvironment metaprofiles associate with human cancer etiology and intrinsic subtypes
+Description: Mouse tumor cells modeled human cancer types, showing microenvironment changes, for cancer risk assessment in space radiation.
+Year: 2015
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based study)
+OSD number: OSD-79
+Tags: Mus musculus, cancer, microenvironment, metaprofiles, Human Health, tumor subtypes
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-79
+
+## 23. The Maleth Program: Malta's first space mission discoveries on the microbiome of diabetic foot ulcers
+Description: Human skin microbiome from diabetic wounds in space showed bacterial changes, for wound healing health in astronauts with diabetes.
+Year: 2023
+Authors/Scientists: Ing. Charles Scerri, Dr. Ing. Owen Falzon, Prof. Alfred Gatt
+Institution: University of Malta
+Mission: SpaceX (Maleth I)
+OSD number: OSD-487
+Tags: Homo sapiens, spaceflight, microbiome, diabetic ulcers, Human Health, wound healing
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-487
+
+## 24. SpaceX Inspiration4 Blood Serum Metabolic Panel and Immune/Cardiac Cytokine Arrays
+Description: Astronaut blood serum after short spaceflight showed metabolic and cytokine changes, for short-mission health monitoring.
+Year: 2022
+Authors/Scientists: Christopher E. Mason, JangKeun Kim, Eliah G. Overbey
+Institution: Weill Cornell Medicine
+Mission: SpaceX Inspiration4
+OSD number: OSD-575
+Tags: Homo sapiens, spaceflight, blood serum, cytokines, Human Health, metabolic panel
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-575
+
+## 25. Cell-free RNA analysis of plasma samples collected from six astronauts in JAXA Cell-Free Epigenome (CFE) Study
+Description: Circulating RNA in astronaut plasma after long ISS stays showed epigenetic changes, for non-invasive health monitoring in space.
+Year: 2021
+Authors/Scientists: Masafumi Muratani, Takashi Yanagida, Satoshi Iwase
+Institution: JAXA / University of Tsukuba
+Mission: International Space Station (ISS)
+OSD number: OSD-530
+Tags: Homo sapiens, spaceflight, cell-free RNA, epigenome, Human Health, plasma monitoring
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-530
+
+## 26. PBMC multi-omics from the SpaceX Inspiration4 mission
+Description: Immune cell multi-omics from Inspiration4 crew revealed stress and recovery changes, for immune health after commercial spaceflight.
+Year: 2022
+Authors/Scientists: Christopher E. Mason, JangKeun Kim, Eliah G. Overbey
+Institution: Weill Cornell Medicine
+Mission: SpaceX Inspiration4
+OSD number: OSD-570
+Tags: Homo sapiens, spaceflight, multi-omics, PBMC, Human Health, immune recovery
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-570
+
+## 27. Bulk RNA sequencing and single nuclei transcriptomics and epigenomics of brain tissue from mice flown on the RRRM-2 mission
+Description: Mouse brain cells after spaceflight had transcriptomic changes, modeling human brain health and cognition in space.
+Year: 2023
+Authors/Scientists: Timothy G. Hammond, J. Kirk Shelley, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: International Space Station (ISS)
+OSD number: OSD-613
+Tags: Mus musculus, spaceflight, RNA sequencing, brain epigenomics, Human Health, cognition
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-613
+
+## 28. Unraveling the ceRNA Network: Insights into PI3K-AKT Pathway in Irradiated Mouse Thymus [miRNA]
+Description: Mouse thymus immune cells after radiation had RNA networks affecting cell survival, for radiation-induced immune health risks.
+Year: 2023
+Authors/Scientists: Changqing Zhou, Yeqing Sun, Jianzhong Liu
+Institution: Harbin Institute of Technology
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-840
+Tags: Mus musculus, radiation, ceRNA network, miRNA, Human Health, immune survival
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-840
+
+## 29. Human skeletal muscle tissue chip autonomous payload reveals changes in fiber type and metabolic gene expression due to spaceflight
+Description: Human muscle tissue on ISS showed fiber type shifts, for muscle health countermeasures in long-duration missions.
+Year: 2024
+Authors/Scientists: Amanda M. Murphy, Melissa A. Smith, James J. Hickman
+Institution: Arizona State University
+Mission: International Space Station (ISS)
+OSD number: OSD-684
+Tags: Homo sapiens, spaceflight, muscle tissue, gene expression, Human Health, fiber type
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-684
+
+## 30. Transforming growth factor beta-1 (TGFbeta) is a tumor suppressor during the initial stage of tumorigenesis, but it can switch to a tumor promoter during malignant progression
+Description: Human cell studies on TGFbeta switching roles in cancer, relevant to space radiation promoting tumor growth.
+Year: 2014
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based study)
+OSD number: OSD-78
+Tags: Homo sapiens, TGFbeta, tumor suppressor, cancer progression, Human Health, malignant switch
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-78
+
+## 31. Radiation induced gene expression in 3D tissue model
+Description: 3D human tissue models exposed to space radiation had gene changes mimicking organ damage, for tissue health in space.
+Year: 2017
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-369
+Tags: Homo sapiens, radiation, 3D tissue, gene expression, Human Health, organ damage
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-369
+
+## 32. Cerium oxide nanoparticle administration to skeletal muscle cells under different gravity and radiation conditions
+Description: Human muscle cells treated with nanoparticles under space conditions showed protection from damage, for muscle health therapies.
+Year: 2019
+Authors/Scientists: Giada G. Genchi, Gianni Ciofani, Andrea Degl'Innocenti
+Institution: Italian Institute of Technology
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-426
+Tags: Homo sapiens, gravity radiation, nanoparticle, skeletal muscle, Human Health, protection therapy
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-426
+
+## 33. Head-Down Tilt As a Model for Spaceflight Effects on Human Health
+Description: Human subjects in head-down tilt simulation had physiological changes mimicking spaceflight, for cardiovascular and fluid shift health studies.
+Year: 2016
+Authors/Scientists: Steven H. Platts, Christian M. Westby, Brandon R. Macias
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based analog)
+OSD number: OSD-136
+Tags: Homo sapiens, head-down tilt, spaceflight model, cardiovascular, Human Health, fluid shift
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-136
+
+## 34. The long-term effects of spaceflight on human health remain largely unknown
+Description: Overview study on spaceflight health effects, compiling data on bone, muscle, and immune changes for overall astronaut health.
+Year: 2024
+Authors/Scientists: Dorit B. Donoviel, Peter A. Curreri, Peter R. Cavanagh
+Institution: Baylor College of Medicine
+Mission: International Space Station (ISS)
+OSD number: OSD-898
+Tags: Homo sapiens, spaceflight, long-term effects, bone muscle, Human Health, immune
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-898
+
+## 35. Microgravity and space radiation (SR) are two highly influential factors affecting humans in space flight
+Description: Human cell models under microgravity and radiation showed combined effects on cell function, for multi-stressor health risks.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Timothy G. Hammond, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-431
+Tags: Homo sapiens, microgravity radiation, cell function, multi-stressor, Human Health, risks
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-431
+
+## 36. Here we assessed the impact of two high-LET ions 56Fe and 28Si, and low-LET X rays on genome-wide methylation patterns in human bronchial epithelial cells
+Description: Human lung cells exposed to space ions had epigenetic changes, for respiratory health risks from cosmic radiation.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Timothy G. Hammond, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-317
+Tags: Homo sapiens, high-LET ions, methylation patterns, bronchial cells, Human Health, respiratory
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-317
+
+## 37. Efficient generation of cardiomyocytes from human pluripotent stem cells is critical for their regenerative applications
+Description: Human stem cells turned into heart cells in space conditions showed better efficiency, for regenerative medicine to fix heart damage in space.
+Year: 2015
+Authors/Scientists: Jordan S. Levine, James F. Martin, Joseph C. Wu
+Institution: NASA Ames Research Center / Stanford University
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-125
+Tags: Homo sapiens, stem cells, cardiomyocytes, regenerative, Human Health, heart repair
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-125
+
+## 38. The absence of gravity in space can have various biological effects down to the cellular and molecular level
+Description: Human cells in microgravity had molecular changes affecting health, for cellular level understanding of space adaptation.
+Year: 2015
+Authors/Scientists: Jordan S. Levine, James F. Martin, Joseph C. Wu
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-127
+Tags: Homo sapiens, microgravity, biological effects, cellular molecular, Human Health, adaptation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-127
+
+## 39. Microbial genes relevant to human health such as antimicrobial resistance and virulence genes were quantified
+Description: ISS microbes had genes for resistance, posing health risks to astronauts from infections.
+Year: 2019
+Authors/Scientists: Kasthuri Venkateswaran, Nitin Kumar Singh, Camilla Urbaniak
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-224
+Tags: microbial genes, antimicrobial resistance, virulence, Human Health, infection risks
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-224
+
+## 40. Human Health and Countermeasures (HHC) Tissue Sharing Program (BSP), ground assignment Experiments
+Description: Ground-based human tissue studies for countermeasures against space health issues like bone loss.
+Year: 2018
+Authors/Scientists: Steven H. Platts, Christian M. Westby, Brandon R. Macias
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based)
+OSD number: OSD-665
+Tags: Homo sapiens, countermeasures, tissue sharing, bone loss, Human Health, BSP
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-665
+
+## 41. The Micro-15 life science research mission will study the effects of spaceflight on the differentiation of mammalian induced pluripotent stem cells (iPSC)
+Description: Human stem cells in space showed better differentiation, for regenerative health applications.
+Year: 2023
+Authors/Scientists: James J. Hickman, Amanda M. Murphy, Melissa A. Smith
+Institution: Arizona State University
+Mission: International Space Station (ISS)
+OSD number: OSD-684
+Tags: Homo sapiens, spaceflight, stem cells, iPSC differentiation, Human Health, regenerative
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-684
+
+## 42. Human skeletal muscle tissue chip autonomous payload reveals changes in fiber type and metabolic gene expression due to spaceflight
+Description: Muscle chip on ISS showed fiber changes, for exercise to maintain muscle health.
+Year: 2024
+Authors/Scientists: Amanda M. Murphy, Melissa A. Smith, James J. Hickman
+Institution: Arizona State University
+Mission: International Space Station (ISS)
+OSD number: OSD-684
+Tags: Homo sapiens, spaceflight, muscle chip, fiber type, Human Health, metabolic
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-684
+
+## 43. The first mission (Maleth I) forms part of Project Maleth and aims to uncover the effects of spaceflight, microgravity and radiation on human skin tissue
+Description: Human skin in space showed microbiome changes, for skin health and infection prevention.
+Year: 2023
+Authors/Scientists: Ing. Charles Scerri, Dr. Ing. Owen Falzon, Prof. Alfred Gatt
+Institution: University of Malta
+Mission: SpaceX (Maleth I)
+OSD number: OSD-487
+Tags: Homo sapiens, spaceflight, skin tissue, microgravity radiation, Human Health, microbiome
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-487
+
+## 44. This study derives results from the Comprehensive Metabolic Panel and Multiplex assays, and the blood serum data in this study are related to other studies
+Description: Blood tests from Inspiration4 showed metabolic shifts, for overall health monitoring after space.
+Year: 2022
+Authors/Scientists: Christopher E. Mason, JangKeun Kim, Eliah G. Overbey
+Institution: Weill Cornell Medicine
+Mission: SpaceX Inspiration4
+OSD number: OSD-575
+Tags: Homo sapiens, spaceflight, metabolic panel, blood serum, Human Health, assays
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-575
+
+## 45. We perform a liquid biopsy study with six astronauts who resided on the International Space Station (ISS) for more than 120 days
+Description: Liquid biopsy from long-stay astronauts showed circulating biomarkers for health tracking.
+Year: 2021
+Authors/Scientists: Masafumi Muratani, Takashi Yanagida, Satoshi Iwase
+Institution: JAXA
+Mission: International Space Station (ISS)
+OSD number: OSD-530
+Tags: Homo sapiens, spaceflight, liquid biopsy, biomarkers, Human Health, long-stay
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-530
+
+## 46. Efficient generation of cardiomyocytes from human pluripotent stem cells is critical for their regenerative applications
+Description: Stem cell heart cells in 3D microgravity had improved generation, for heart repair in space.
+Year: 2015
+Authors/Scientists: Jordan S. Levine, James F. Martin, Joseph C. Wu
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based)
+OSD number: OSD-127
+Tags: Homo sapiens, stem cells, cardiomyocytes, regenerative, Human Health, heart repair
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-127
+
+## 47. The long-term effects of spaceflight on human health remain largely unknown
+Description: Compilation of data on long-term space effects on human systems like bone and immune.
+Year: 2024
+Authors/Scientists: Dorit B. Donoviel, Peter A. Curreri, Peter R. Cavanagh
+Institution: Baylor College of Medicine
+Mission: International Space Station (ISS)
+OSD number: OSD-898
+Tags: Homo sapiens, long-term spaceflight, bone immune, health effects, Human Health, systems
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-898
+
+## 48. Microgravity and space radiation (SR) are two highly influential factors affecting humans in space flight
+Description: Human cells under combined microgravity and radiation had amplified health risks.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Timothy G. Hammond, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based)
+OSD number: OSD-431
+Tags: Homo sapiens, microgravity radiation, cell effects, health factors, Human Health, amplified risks
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-431
+
+## 49. Here we assessed the impact of two high-LET ions 56Fe and 28Si, and low-LET X rays on genome-wide methylation patterns in human bronchial epithelial cells
+Description: Lung cells under space ions had methylation changes, for lung health in space.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Timothy G. Hammond, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based)
+OSD number: OSD-317
+Tags: Homo sapiens, high-LET ions, methylation, bronchial cells, Human Health, lung health
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-317
+
+## 50. BIOSCIENCE-4A
+Description: Increased intracranial pressure in space causes vision and health issues, studied for countermeasures to protect astronaut brain health.
+Year: 2024
+Authors/Scientists: Dorit B. Donoviel, Peter A. Curreri, Peter R. Cavanagh
+Institution: Baylor College of Medicine
+Mission: International Space Station (ISS)
+OSD number: OSD-4A
+Tags: Homo sapiens, intracranial pressure, vision problems, countermeasures, Human Health, brain health
+OSD link: https://osdr.nasa.gov/bio/repo/data/payloads/BioScience-4a

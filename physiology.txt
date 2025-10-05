@@ -1,0 +1,501 @@
+R
+
+## 1. Effect of hindlimb unloading on healing of medial collateral ligaments in rats
+Description: Rat ligament physiology was studied under hindlimb unloading simulating microgravity, showing delayed healing and altered tissue matrix interactions, relevant to injury recovery in space.
+Year: 2004
+Authors/Scientists: Juan Li, Peter C. Johnson, David A. Hart
+Institution: University of Calgary (NASA collaboration)
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-19
+Tags: Rattus norvegicus, hindlimb suspension, ligament physiology, transcription profiling, Physiology, injury recovery
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-19
+
+## 2. Martian regolith as a substrate for plant growth
+Description: Wheat plant physiology in Martian regolith simulant revealed limited nutrient uptake and stress responses, informing physiological adaptations for extraterrestrial agriculture.
+Year: 2019
+Authors/Scientists: John Z. Kiss, Anna-Lisa Paul, Robert J. Ferl
+Institution: University of Florida
+Mission: Ground Simulation (Mars Mission Preparation)
+OSD number: OSD-22
+Tags: Triticum aestivum, regolith, plant physiology, nutrient uptake, Physiology, agriculture
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-22
+
+## 3. Spaceflight effects on plant development
+Description: Arabidopsis plant physiology under ISS microgravity showed changes in cell wall structure and gravity sensing, essential for physiological growth in space habitats.
+Year: 2016
+Authors/Scientists: Simon Gilroy, Sarah E. Wyatt, John Z. Kiss
+Institution: University of Wisconsin-Madison
+Mission: International Space Station (ISS)
+OSD number: OSD-38
+Tags: Arabidopsis thaliana, microgravity, plant physiology, cell wall, Physiology, gravity sensing
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-38
+
+## 4. Gene expression profiling of C. elegans under various thermal conditions
+Description: C. elegans worm physiology under low temperatures simulating space transport displayed metabolic shifts and stress responses at the organism level.
+Year: 2010
+Authors/Scientists: Nathaniel J. Szewczyk, Akira Higashibata, Shuji Honda
+Institution: University of Nottingham (NASA collaboration)
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-40
+Tags: Caenorhabditis elegans, temperature stress, worm physiology, transcription profiling, Physiology, metabolism
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-40
+
+## 5. Microgravity effect on C. elegans N2/VC (CERISE 8days)
+Description: C. elegans physiology in ISS microgravity altered muscle and neuronal functions, providing model for multi-cellular physiological adaptations.
+Year: 2012
+Authors/Scientists: Akira Higashibata, Nathaniel J. Szewczyk, Timothy G. Hammond
+Institution: JAXA / NASA Ames Research Center
+Mission: International Space Station (ISS)
+OSD number: OSD-41
+Tags: Caenorhabditis elegans, microgravity, worm physiology, muscle function, Physiology, neuronal
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-41
+
+## 6. Rodent Research-1 liver data
+Description: Mouse liver physiology post-spaceflight showed metabolic and oxidative stress changes, modeling organ-level physiological impacts of microgravity.
+Year: 2015
+Authors/Scientists: Timothy G. Hammond, J. Kirk Shelley, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: International Space Station (ISS)
+OSD number: OSD-47
+Tags: Mus musculus, spaceflight, liver physiology, oxidative stress, Physiology, metabolism
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-47
+
+## 7. Microbial Observatory (ISS-MO): Study of BSL-2 bacterial isolates from the International Space Station
+Description: Bacterial physiology on ISS surfaces adapted to microgravity, affecting pathogenicity and resistance, with implications for crew physiological health.
+Year: 2016
+Authors/Scientists: Kasthuri Venkateswaran, C. Mark Ott, Satish K. Mehta
+Institution: NASA Jet Propulsion Laboratory / NASA Johnson Space Center
+Mission: International Space Station (ISS)
+OSD number: OSD-67
+Tags: bacterial isolates, microgravity, microbial physiology, genome sequencing, Physiology, pathogenicity
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-67
+
+## 8. Bacillus subtilis strains at low-pressure: 5 kPa versus 101 kPa growth
+Description: Bacillus physiology at low pressure simulating Mars altered growth and gene expression, for bacterial physiological responses in extraterrestrial environments.
+Year: 2014
+Authors/Scientists: Wayne L. Nicholson, Douglas S. Clark, Patricia Fajardo-Cavazos
+Institution: University of Florida
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-81
+Tags: Bacillus subtilis, low pressure, bacterial physiology, transcription profiling, Physiology, Mars simulation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-81
+
+## 9. A study of alterations in DNA epigenetic modifications (5mC and 5hmC) and gene expression influenced by simulated microgravity in human lymphoblastoid cells
+Description: Human immune cell physiology under simulated microgravity showed epigenetic and gene changes, affecting physiological immune function in space.
+Year: 2013
+Authors/Scientists: Honglu Wu, Kamal J. Abdel-Fattah, Yumin Chang
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-91
+Tags: Homo sapiens, simulated microgravity, immune physiology, epigenetics, Physiology, gene expression
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-91
+
+## 10. Gene-expression profiling of Saccharomyces cerevisiae irradiated by high-LET radiations
+Description: Yeast physiology exposed to high-LET radiation displayed DNA repair and cycle alterations, modeling eukaryotic physiological responses to cosmic rays.
+Year: 2007
+Authors/Scientists: Cheryl A. Kerwin, Louis S. Stodola, Sylvia Y. Roneker
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation simulation)
+OSD number: OSD-97
+Tags: Saccharomyces cerevisiae, high-LET radiation, yeast physiology, transcription profiling, Physiology, DNA repair
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-97
+
+## 11. Rodent Research-1 (CASIS): Mouse liver expression data
+Description: Mouse liver physiology after spaceflight revealed lipid metabolism and inflammation shifts, for mammalian physiological organ responses.
+Year: 2015
+Authors/Scientists: Timothy G. Hammond, J. Kirk Shelley, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: International Space Station (ISS)
+OSD number: OSD-101
+Tags: Mus musculus, spaceflight, liver physiology, inflammation, Physiology, lipid metabolism
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-101
+
+## 12. Rodent Research-2 (CASIS): Mouse liver expression data
+Description: Extended spaceflight altered mouse liver physiological signaling and stress responses, advancing understanding of long-mission physiological impacts.
+Year: 2016
+Authors/Scientists: Timothy G. Hammond, J. Kirk Shelley, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: International Space Station (ISS)
+OSD number: OSD-104
+Tags: Mus musculus, spaceflight, liver physiology, stress response, Physiology, signaling
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-104
+
+## 13. Genetic dissection of the Arabidopsis spaceflight transcriptome
+Description: Arabidopsis plant physiology in spaceflight identified essential gene responses for physiological adaptation, focusing on light signaling.
+Year: 2017
+Authors/Scientists: Robert J. Ferl, Anna-Lisa Paul, Timothy L. McKay
+Institution: University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-120
+Tags: Arabidopsis thaliana, spaceflight, plant physiology, light signaling, Physiology, adaptation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-120
+
+## 14. Spaceflight Alters Expression of MicroRNAs in the Plant Arabidopsis thaliana
+Description: MicroRNA changes in Arabidopsis physiology during spaceflight affected development and stress, for regulatory physiological processes in microgravity.
+Year: 2014
+Authors/Scientists: Robert J. Ferl, Anna-Lisa Paul, Gina Hernandez
+Institution: University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-121
+Tags: Arabidopsis thaliana, spaceflight, plant physiology, microRNA, Physiology, stress
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-121
+
+## 15. Whole genome sequencing and assembly of Eukaryotic microbes isolated from ISS environmental surface, Kirovograd region soil, Chernobyl Nuclear Power Plant and Chernobyl Exclusion Zone
+Description: Fungal physiology from ISS and extreme sites compared radiation tolerance, for physiological adaptations in harsh space-like environments.
+Year: 2017
+Authors/Scientists: Ekaterina Dadachova, George A. Georgiou, Olena A. Kovalchuk
+Institution: Albert Einstein College of Medicine
+Mission: International Space Station (ISS)
+OSD number: OSD-132
+Tags: eukaryotic microbes, radiation, fungal physiology, genome sequencing, Physiology, tolerance
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-132
+
+## 16. Exposure to ionizing radiation induced persistent gene expression changes in mouse mammary gland
+Description: Mouse mammary gland physiology post-radiation showed persistent matrix and immune changes, modeling long-term physiological effects.
+Year: 2014
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-158
+Tags: Mus musculus, ionizing radiation, mammary physiology, gene expression, Physiology, immune
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-158
+
+## 17. Spaceflight has compartment- and gene-specific effects on mRNA, protein and microRNA expression in mouse peripheral blood mononuclear cells
+Description: Mouse PBMC physiological compartment changes post-spaceflight affected mRNA and protein, for immune physiological modeling.
+Year: 2013
+Authors/Scientists: Michael J. Pecaut, Daila S. Gridley, George A. Chlup
+Institution: Loma Linda University
+Mission: Space Shuttle (STS-135)
+OSD number: OSD-164
+Tags: Mus musculus, spaceflight, PBMC physiology, mRNA protein, Physiology, immune
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-164
+
+## 18. Draft Genome Sequences of Two Fusarium oxysporum Isolates Cultured from Infected Zinnia hybrida Plants Grown on the International Space Station
+Description: Fungal physiology infecting Zinnia plants on ISS showed enhanced virulence in microgravity, for plant-pathogen physiological interactions.
+Year: 2018
+Authors/Scientists: Stephanie A. Carpenter, Luis A. Videla, Anna-Lisa Paul
+Institution: University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-177
+Tags: Fusarium oxysporum, spaceflight, fungal physiology, genome sequencing, Physiology, virulence
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-177
+
+## 19. Gene expression changes in human thyroid cells during simulated microgravity
+Description: Human thyroid physiological hormone regulation altered in simulated microgravity, for endocrine physiological impacts.
+Year: 2018
+Authors/Scientists: Jack J.W.A. van Loon, Mirella Buers, Adriana van de Poel
+Institution: Dutch Experiment Support Center (ZARM)
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-150
+Tags: Homo sapiens, simulated microgravity, thyroid physiology, gene expression, Physiology, hormone
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-150
+
+## 20. Ionizing radiation induced gene expression changes in human peripheral blood mononuclear cells
+Description: Human PBMC physiological responses to radiation showed dose-dependent gene shifts, for immune physiological radiation effects.
+Year: 2012
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-155
+Tags: Homo sapiens, ionizing radiation, PBMC physiology, gene expression, Physiology, dose response
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-155
+
+## 21. Draft Genome Sequences of Acinetobacter and Bacillus Strains Isolated from Spacecraft-Associated Surfaces
+Description: Bacterial physiological resistance to UV and peroxide in spacecraft environments, for microbial physiological adaptations.
+Year: 2017
+Authors/Scientists: Nitin Kumar Singh, Kasthuri Venkateswaran, Clay A. Ergun
+Institution: NASA Jet Propulsion Laboratory
+Mission: N/A (Ground-based spacecraft simulation)
+OSD number: OSD-263
+Tags: Acinetobacter, Bacillus, bacterial physiology, genome sequencing, Physiology, resistance
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-263
+
+## 22. Global DNA methylation profiling of radiation-induced rat mammary carcinomas
+Description: Rat mammary physiological epigenetic changes from radiation affected cancer pathways, for physiological carcinogenesis.
+Year: 2018
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Mina J. Bissell
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-275
+Tags: Rattus norvegicus, radiation, mammary physiology, DNA methylation, Physiology, epigenetics
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-275
+
+## 23. Draft Genome sequences of Rhodotorula mucilaginosa isolated from the International space station
+Description: Yeast physiological lipid metabolism and stress responses on ISS, for fungal physiological impacts on air quality.
+Year: 2020
+Authors/Scientists: Clay A. Ergun, Nitin Kumar Singh, Kasthuri Venkateswaran
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-293
+Tags: Rhodotorula mucilaginosa, spaceflight, yeast physiology, genome sequencing, Physiology, stress
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-293
+
+## 24. Draft Genome Sequences of Sphingomonas sp. Isolated from the International Space Station
+Description: Bacterial physiological biofilm and degradation on ISS, for contaminant physiological management.
+Year: 2020
+Authors/Scientists: Nitin Kumar Singh, Kasthuri Venkateswaran, Clay A. Ergun
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-298
+Tags: Sphingomonas, spaceflight, bacterial physiology, biofilm, Physiology, degradation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-298
+
+## 25. Lower eukaryotic isolates belonging to class Tremellomycetes isolated from International Space Station Genome sequencing and assembly
+Description: Yeast physiological polysaccharide degradation on ISS, for fungal physiological threats.
+Year: 2020
+Authors/Scientists: Clay A. Ergun, Nitin Kumar Singh, Kasthuri Venkateswaran
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-290
+Tags: Tremellomycetes, spaceflight, yeast physiology, genome sequencing, Physiology, degradation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-290
+
+## 26. Draft Genome Sequences of Members of the family Methylobacteriaceae Associated with the International Space Station
+Description: Bacterial physiological metabolism and UV resistance on ISS, for colonizing physiological processes.
+Year: 2021
+Authors/Scientists: Nitin Kumar Singh, Kasthuri Venkateswaran, Clay A. Ergun
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-300
+Tags: Methylobacteriaceae, spaceflight, bacterial physiology, UV resistance, Physiology, metabolism
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-300
+
+## 27. ISS Enterobacteriales Genomes
+Description: Bacterial physiological resistance and virulence on ISS, for microbial physiological health risks.
+Year: 2020
+Authors/Scientists: Kasthuri Venkateswaran, Nitin Kumar Singh, Camilla Urbaniak
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-302
+Tags: Enterobacteriales, spaceflight, bacterial physiology, virulence, Physiology, resistance
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-302
+
+## 28. ISS Bacillus Genomes
+Description: Spore-forming bacterial physiological radiation resistance on ISS, for persistent physiological adaptations.
+Year: 2020
+Authors/Scientists: Kasthuri Venkateswaran, Nitin Kumar Singh, Clay A. Ergun
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-303
+Tags: Bacillus, spaceflight, bacterial physiology, spore formation, Physiology, radiation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-303
+
+## 29. Draft Genome Sequences of novel Agrobacterium genomospecies 3 Associated from the International Space Station
+Description: Bacterial physiological plant interaction on ISS, for symbiotic physiological processes.
+Year: 2022
+Authors/Scientists: Nitin Kumar Singh, Kasthuri Venkateswaran, Clay A. Ergun
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-306
+Tags: Agrobacterium, spaceflight, bacterial physiology, plant interaction, Physiology, symbiosis
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-306
+
+## 30. Comparative Genomic Analysis of Klebsiella Exposed to Various Space Conditions at the International Space Station
+Description: Klebsiella physiological capsule changes on ISS, for pathogen physiological adaptations.
+Year: 2020
+Authors/Scientists: Kasthuri Venkateswaran, Nitin Kumar Singh, Camilla Urbaniak
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-309
+Tags: Klebsiella, spaceflight, bacterial physiology, capsule biosynthesis, Physiology, pathogen
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-309
+
+## 31. Part two: ISS Enterobacteriales
+Description: Bacterial physiological adaptation for survival on ISS, for microbial physiological evolution.
+Year: 2020
+Authors/Scientists: Kasthuri Venkateswaran, Nitin Kumar Singh, Camilla Urbaniak
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-311
+Tags: Enterobacteriales, spaceflight, bacterial physiology, adaptation, Physiology, evolution
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-311
+
+## 32. Unfolded Protein Response in Plants During Spaceflight
+Description: Arabidopsis plant physiological protein stress responses in spaceflight, for adaptation physiology.
+Year: 2020
+Authors/Scientists: Anna-Lisa Paul, Robert J. Ferl, Patrick H. Brown
+Institution: University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-321
+Tags: Arabidopsis thaliana, spaceflight, plant physiology, protein response, Physiology, stress
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-321
+
+## 33. Radiation induced gene expression in 3D tissue model
+Description: 3D human tissue physiological gene changes from alpha particles, for tissue physiological radiation effects.
+Year: 2017
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-369
+Tags: Homo sapiens, radiation, tissue physiology, gene expression, Physiology, 3D model
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-369
+
+## 34. Microbial diversity in leafy greens grown in space
+Description: Microbial physiological diversity on ISS-grown lettuce, for food safety physiological interactions.
+Year: 2021
+Authors/Scientists: Christina M. Khodadad, Anna-Lisa Paul, Robert J. Ferl
+Institution: NASA Kennedy Space Center / University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-385
+Tags: Lactuca sativa, spaceflight, microbial physiology, diversity, Physiology, food safety
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-385
+
+## 35. Seed sanitization effects on plant microbiome in space
+Description: Plant physiological microbiome persistence from sanitized seeds on ISS, for safe production physiology.
+Year: 2021
+Authors/Scientists: Christina M. Khodadad, Anna-Lisa Paul, Robert J. Ferl
+Institution: NASA Kennedy Space Center / University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-386
+Tags: Lactuca sativa, spaceflight, plant physiology, microbiome, Physiology, sanitization
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-386
+
+## 36. Draft Genomes of Fungi Isolated from the International Space Station during the Microbial Tracking-2 Experiment
+Description: Fungal physiological melanin and oxidative responses on ISS, for radiation physiological resistance.
+Year: 2021
+Authors/Scientists: Kasthuri Venkateswaran, Nitin Kumar Singh, Camilla Urbaniak
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-400
+Tags: fungal genomes, spaceflight, fungal physiology, melanin, Physiology, oxidative stress
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-400
+
+## 37. Spatial microbial communities on leafy greens in Veggie system
+Description: Microbial physiological distribution on ISS Veggie greens, for crop physiological safety.
+Year: 2022
+Authors/Scientists: Christina M. Khodadad, Anna-Lisa Paul, Robert J. Ferl
+Institution: NASA Kennedy Space Center / University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-413
+Tags: Lactuca sativa, spaceflight, microbial physiology, communities, Physiology, Veggie system
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-413
+
+## 38. Cerium oxide nanoparticle administration to skeletal muscle cells under different gravity and radiation conditions
+Description: Human skeletal muscle physiological protection from nanoparticles under space conditions, for countermeasure physiology.
+Year: 2019
+Authors/Scientists: Giada G. Genchi, Gianni Ciofani, Andrea Degl'Innocenti
+Institution: Italian Institute of Technology
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-426
+Tags: Homo sapiens, gravity radiation, muscle physiology, nanoparticle, Physiology, protection
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-426
+
+## 39. Draft genome sequence of Klebsiella quasipneumoniae subsp. similipneumoniae strain IF3SW-P1 isolated from the International Space Station
+Description: Klebsiella bacterial physiological virulence on ISS, for pathogen physiological changes.
+Year: 2022
+Authors/Scientists: Nitin Kumar Singh, Kasthuri Venkateswaran, Clay A. Ergun
+Institution: NASA Jet Propulsion Laboratory
+Mission: International Space Station (ISS)
+OSD number: OSD-470
+Tags: Klebsiella quasipneumoniae, spaceflight, bacterial physiology, genome sequencing, Physiology, virulence
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-470
+
+## 40. Plant responses to gravity treatments in space
+Description: Arabidopsis seedling physiological growth to gravity on ISS, for horticulture physiological responses.
+Year: 2020
+Authors/Scientists: Anna-Lisa Paul, Robert J. Ferl, John Z. Kiss
+Institution: University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-480
+Tags: Arabidopsis thaliana, gravity, plant physiology, growth, Physiology, seedlings
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-480
+
+## 41. Fungal Diversity associated with space-craft assembly facility (SAF)
+Description: Fungal physiological diversity in cleanrooms, for contamination physiological risks.
+Year: 2022
+Authors/Scientists: Kasthuri Venkateswaran, Nitin Kumar Singh, Sayera Yasmin
+Institution: NASA Jet Propulsion Laboratory
+Mission: N/A (Ground-based cleanroom study)
+OSD number: OSD-497
+Tags: fungal diversity, cleanroom, fungal physiology, genome sequencing, Physiology, contamination
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-497
+
+## 42. Integrated RNA and protein analysis of plants in space
+Description: Arabidopsis physiological RNA and protein integration from ISS, for adaptation physiological mechanisms.
+Year: 2019
+Authors/Scientists: Anna-Lisa Paul, Robert J. Ferl, Norman G. Lewis
+Institution: University of Florida / Washington State University
+Mission: International Space Station (ISS)
+OSD number: OSD-522
+Tags: Arabidopsis thaliana, spaceflight, plant physiology, RNA protein, Physiology, adaptation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-522
+
+## 43. Cell-free RNA analysis of plasma samples collected from six astronauts in JAXA Cell-Free Epigenome (CFE) Study
+Description: Astronaut plasma physiological cell-free RNA changes post-ISS, for non-invasive physiological monitoring.
+Year: 2021
+Authors/Scientists: Masafumi Muratani, Takashi Yanagida, Satoshi Iwase
+Institution: JAXA / University of Tsukuba
+Mission: International Space Station (ISS)
+OSD number: OSD-530
+Tags: Homo sapiens, spaceflight, plasma physiology, cell-free RNA, Physiology, epigenome
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-530
+
+## 44. PBMC multi-omics from the SpaceX Inspiration4 mission
+Description: PBMC physiological multi-omics from Inspiration4, for short-duration physiological immune changes.
+Year: 2022
+Authors/Scientists: Christopher E. Mason, JangKeun Kim, Eliah G. Overbey
+Institution: Weill Cornell Medicine
+Mission: SpaceX Inspiration4
+OSD number: OSD-570
+Tags: Homo sapiens, spaceflight, PBMC physiology, multi-omics, Physiology, immune
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-570
+
+## 45. Bulk RNA sequencing and single nuclei transcriptomics and epigenomics of brain tissue from mice flown on the RRRM-2 mission
+Description: Mouse brain physiological transcriptomics post-spaceflight, modeling neural physiological changes.
+Year: 2023
+Authors/Scientists: Timothy G. Hammond, J. Kirk Shelley, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: International Space Station (ISS)
+OSD number: OSD-613
+Tags: Mus musculus, spaceflight, brain physiology, RNA sequencing, Physiology, epigenomics
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-613
+
+## 46. Microgravity impacts on plant cell wall architecture
+Description: Arabidopsis physiological cell wall changes in microgravity, for structural physiological adaptations.
+Year: 2021
+Authors/Scientists: Anna-Lisa Paul, Robert J. Ferl, Norman G. Lewis
+Institution: University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-615
+Tags: Arabidopsis thaliana, microgravity, cell wall physiology, glycomic, Physiology, structure
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-615
+
+## 47. Microgravity effects on dwarf wheat leaf morphology
+Description: Dwarf wheat leaf physiological morphology and metabolism in microgravity, for crop physiological optimization.
+Year: 2019
+Authors/Scientists: John Z. Kiss, Anna-Lisa Paul, Robert J. Ferl
+Institution: University of Florida
+Mission: International Space Station (ISS)
+OSD number: OSD-622
+Tags: Triticum aestivum, microgravity, leaf physiology, morphology, Physiology, metabolism
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-622
+
+## 48. Unraveling the ceRNA Network: Insights into PI3K-AKT Pathway in Irradiated Mouse Thymus [miRNA]
+Description: Mouse thymus physiological RNA networks post-radiation, for immune physiological injury mechanisms.
+Year: 2023
+Authors/Scientists: Changqing Zhou, Yeqing Sun, Jianzhong Liu
+Institution: Harbin Institute of Technology
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-840
+Tags: Mus musculus, radiation, thymus physiology, ceRNA network, Physiology, miRNA
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-840
+
+## 49. Effects of lunar materials on plants
+Description: Plant physiological toxicity to lunar material, for lunar agriculture physiological planning.
+Year: 2024
+Authors/Scientists: Anna-Lisa Paul, Robert J. Ferl, Stephen M. Elardo
+Institution: University of Florida
+Mission: Ground Simulation (Lunar Mission Preparation)
+OSD number: OSD-855
+Tags: plant species, lunar materials, plant physiology, toxicity, Physiology, germination
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-855
+
+## 50. Effect of simulated lunar soil on lettuce growth
+Description: Lettuce physiological growth in simulated lunar soil, for sustainable food physiological production on Moon.
+Year: 2024
+Authors/Scientists: Anna-Lisa Paul, Robert J. Ferl, Stephen M. Elardo
+Institution: University of Florida
+Mission: Ground Simulation (Lunar Mission Preparation)
+OSD number: OSD-856
+Tags: Lactuca sativa, lunar soil, plant physiology, growth, Physiology, food production
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-856

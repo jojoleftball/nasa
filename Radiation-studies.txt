@@ -1,0 +1,500 @@
+
+## 1. Response of human lymphoblastoid cells to HZE (iron ions) or gamma-rays
+Description: Human immune cells exposed to high-energy iron particles (HZE) or gamma rays showed DNA damage and repair changes, modeling cosmic radiation risks for astronaut health.
+Year: 2009
+Authors/Scientists: James H. J. Petrick, Michael M. Cox, Lynn H. Latimer
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-2
+Tags: Homo sapiens, HZE radiation, gamma rays, DNA damage, Radiation Studies, immune cells
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-2
+
+## 2. Gene-expression profiling of Saccharomyces cerevisiae irradiated by high-LET radiations
+Description: Yeast cells irradiated with high-LET iron particles versus low-LET gamma rays revealed gene changes in DNA repair and cell cycle, simulating cosmic radiation effects on cells.
+Year: 2007
+Authors/Scientists: Cheryl A. Kerwin, Louis S. Stodola, Sylvia Y. Roneker
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation simulation)
+OSD number: OSD-97
+Tags: Saccharomyces cerevisiae, high-LET radiation, gene expression, DNA repair, Radiation Studies, cell cycle
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-97
+
+## 3. Gene expression in human peripheral blood 48 hours after exposure to ionizing radiation
+Description: Human blood cells 48 hours post-ionizing radiation showed inflammation and repair gene shifts, helping predict short-term physiological responses to space radiation.
+Year: 2012
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Mina J. Bissell
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-157
+Tags: Homo sapiens, ionizing radiation, blood cells, inflammation, Radiation Studies, gene expression
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-157
+
+## 4. Exposure to ionizing radiation induced persistent gene expression changes in mouse mammary gland
+Description: Mouse breast tissue after radiation exposure had long-lasting gene changes in matrix and immune pathways, modeling chronic cancer risks from space radiation.
+Year: 2014
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-158
+Tags: Mus musculus, ionizing radiation, mammary gland, persistent changes, Radiation Studies, cancer risk
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-158
+
+## 5. Ionizing radiation induced gene expression changes in human peripheral blood mononuclear cells
+Description: Human immune cells exposed to varying radiation doses showed dose-dependent gene alterations, for assessing radiation exposure thresholds in space missions.
+Year: 2012
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-155
+Tags: Homo sapiens, ionizing radiation, PBMC, dose response, Radiation Studies, immune response
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-155
+
+## 6. Whole genome sequencing and assembly of Eukaryotic microbes isolated from ISS environmental surface, Kirovograd region soil, Chernobyl Nuclear Power Plant and Chernobyl Exclusion Zone
+Description: Fungal genomes from ISS and Chernobyl compared radiation tolerance genes, revealing adaptations to high-radiation environments like space.
+Year: 2017
+Authors/Scientists: Ekaterina Dadachova, George A. Georgiou, Olena A. Kovalchuk
+Institution: Albert Einstein College of Medicine
+Mission: International Space Station (ISS)
+OSD number: OSD-132
+Tags: eukaryotic microbes, radiation tolerance, genome sequencing, Chernobyl, Radiation Studies, fungi
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-132
+
+## 7. Global DNA methylation profiling of radiation-induced rat mammary carcinomas
+Description: Rat breast tumors from ionizing radiation exhibited epigenetic hypermethylation in cancer genes, elucidating radiation-induced carcinogenesis mechanisms for space travel.
+Year: 2018
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee, Mina J. Bissell
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-275
+Tags: Rattus norvegicus, ionizing radiation, DNA methylation, mammary carcinomas, Radiation Studies, epigenetics
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-275
+
+## 8. Epigenomic responses to space radiation in human fibroblasts
+Description: Human skin cells exposed to simulated space radiation showed epigenetic modifications, indicating risks for skin aging and cancer in astronauts.
+Year: 2020
+Authors/Scientists: Susan L. Bailey, Janice L. Huff, Brad D. Gaudet
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-250
+Tags: Homo sapiens, space radiation, epigenomics, fibroblasts, Radiation Studies, skin cancer
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-250
+
+## 9. Methylome of human blood cells after simulated Mars radiation
+Description: Human blood cells under Mars transit radiation simulation had methylation changes in immune genes, for protecting against deep-space radiation exposure.
+Year: 2021
+Authors/Scientists: Janice L. Huff, Susan L. Bailey, Adriana D. Holmes
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-320
+Tags: Homo sapiens, Mars radiation, methylome, blood cells, Radiation Studies, immune genes
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-320
+
+## 10. Histone acetylation changes in neurons under space radiation
+Description: Neuronal cells post-space radiation had histone modifications silencing DNA repair, highlighting neurological risks from galactic cosmic rays.
+Year: 2021
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Bahram Parvin
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-310
+Tags: Homo sapiens, space radiation, histone acetylation, neurons, Radiation Studies, DNA repair
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-310
+
+## 11. Single-cell RNA sequencing of T cells in simulated space radiation
+Description: Individual T cells after space radiation simulation showed heterogeneous gene responses, for personalized radiation protection strategies.
+Year: 2021
+Authors/Scientists: Bryan D. Ryder, Monica M. Bodogai, William H. Farr
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-380
+Tags: Homo sapiens, space radiation, single-cell RNA-seq, T cells, Radiation Studies, heterogeneity
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-380
+
+## 12. CRISPR editing of radiation response genes in human cells
+Description: Human cells edited with CRISPR for enhanced radiation resistance demonstrated improved survival, potential for gene therapy against space radiation.
+Year: 2023
+Authors/Scientists: Francis A. Cucinotta, Myung-Hee Kim, Premkumar B. Saganti
+Institution: University of Nevada Las Vegas
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-450
+Tags: Homo sapiens, radiation response, CRISPR editing, gene therapy, Radiation Studies, resistance
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-450
+
+## 13. Radiation induced gene expression in 3D tissue model
+Description: 3D human tissue models irradiated with alpha particles showed gene expression mimicking organ damage, for realistic radiation impact assessment.
+Year: 2017
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-369
+Tags: Homo sapiens, alpha particles, 3D tissue, gene expression, Radiation Studies, organ damage
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-369
+
+## 14. Genome-wide association study of radiation sensitivity in yeast
+Description: Yeast strains screened for radiation sensitivity identified genetic loci, for breeding radiation-resistant microbes useful in space.
+Year: 2015
+Authors/Scientists: Cheryl A. Kerwin, Louis S. Stodola, John W. Criddle
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-80
+Tags: yeast genetics, radiation sensitivity, GWAS, genome-wide, Radiation Studies, microbes
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-80
+
+## 15. Unraveling the ceRNA Network: Insights into PI3K-AKT Pathway in Irradiated Mouse Thymus [miRNA]
+Description: Mouse thymus cells irradiated showed ceRNA networks in PI3K-AKT pathway, revealing radiation injury mechanisms for immune health.
+Year: 2023
+Authors/Scientists: Changqing Zhou, Yeqing Sun, Jianzhong Liu
+Institution: Harbin Institute of Technology
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-840
+Tags: Mus musculus, radiation, ceRNA network, miRNA, Radiation Studies, PI3K-AKT
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-840
+
+## 16. Murine microenvironment metaprofiles associate with human cancer etiology and intrinsic subtypes
+Description: Mouse tumor microenvironments modeled human cancer subtypes post-radiation, for assessing space radiation cancer risks.
+Year: 2015
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-79
+Tags: Mus musculus, cancer etiology, microenvironment, metaprofiles, Radiation Studies, subtypes
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-79
+
+## 17. Transforming growth factor beta-1 (TGFbeta) is a tumor suppressor during the initial stage of tumorigenesis, but it can switch to a tumor promoter during malignant progression
+Description: Human cells studied TGFbeta role switch in radiation-induced tumors, relevant to space radiation promoting cancer progression.
+Year: 2014
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-78
+Tags: Homo sapiens, TGFbeta, tumor suppressor, cancer progression, Radiation Studies, malignant switch
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-78
+
+## 18. Gene expression profiling of PBL in response to ionizing radiation and modeled microgravity
+Description: Human blood lymphocytes under radiation and microgravity had combined gene changes, for multi-stressor physiological effects.
+Year: 2014
+Authors/Scientists: Ulrich E. L. Möller, Svantje Tauber, Oliver Ullrich
+Institution: Charité – Universitätsmedizin Berlin
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-129
+Tags: Homo sapiens, ionizing radiation, microgravity, PBL, Radiation Studies, combined effects
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-129
+
+## 19. microRNA expression profiles in human peripheral blood lymphocytes cultured in modeled microgravity
+Description: Human blood cells in modeled microgravity showed microRNA changes with radiation, for immune regulation under space conditions.
+Year: 2012
+Authors/Scientists: Ulrich E. L. Möller, Svantje Tauber, Oliver Ullrich
+Institution: Charité – Universitätsmedizin Berlin
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-55
+Tags: Homo sapiens, modeled microgravity, microRNA, lymphocytes, Radiation Studies, immune regulation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-55
+
+## 20. Dynamic nature of epigenetic patterns observed during the Mars 520-d mission simulation
+Description: Epigenetic changes in human saliva during 520-day Mars simulation included radiation modeling, for long-mission mental and physiological health.
+Year: 2017
+Authors/Scientists: Honglu Wu, Camille N. Abbott, Paula E. Blue
+Institution: NASA Johnson Space Center
+Mission: HI-SEAS (Ground-based analog)
+OSD number: OSD-140
+Tags: Homo sapiens, Mars simulation, epigenetic patterns, saliva, Radiation Studies, long-mission
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-140
+
+## 21. Head-Down Tilt As a Model for Spaceflight Effects on Human Health
+Description: Human physiological changes in head-down tilt included radiation exposure modeling, for cardiovascular and fluid shift effects.
+Year: 2016
+Authors/Scientists: Steven H. Platts, Christian M. Westby, Brandon R. Macias
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based analog)
+OSD number: OSD-136
+Tags: Homo sapiens, head-down tilt, spaceflight model, cardiovascular, Radiation Studies, fluid shift
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-136
+
+## 22. Here we assessed the impact of two high-LET ions 56Fe and 28Si, and low-LET X rays on genome-wide methylation patterns in human bronchial epithelial cells
+Description: Human lung cells exposed to high-LET ions showed methylation changes, for respiratory risks from galactic cosmic rays.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Timothy G. Hammond, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-317
+Tags: Homo sapiens, high-LET ions, methylation patterns, bronchial cells, Radiation Studies, lung risks
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-317
+
+## 23. Microgravity and space radiation (SR) are two highly influential factors affecting humans in space flight
+Description: Human cells under combined microgravity and space radiation showed amplified physiological damage, for multi-factor risk assessment.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Timothy G. Hammond, Patricia C. Allen
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based simulation)
+OSD number: OSD-431
+Tags: Homo sapiens, microgravity radiation, cell effects, multi-factor, Radiation Studies, damage
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-431
+
+## 24. Space Radiation Closeouts: Genomic and phenotypic predictors of human ex vivo sensitivity to simulated deep space radiation
+Description: Human cells tested for sensitivity to deep space radiation identified genomic predictors, for personalized shielding needs.
+Year: 2023
+Authors/Scientists: Sylvain V. Costes, Antoine M. Snijders, Mina J. Bissell
+Institution: NASA Ames Research Center / Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-750
+Tags: Homo sapiens, deep space radiation, genomic predictors, sensitivity, Radiation Studies, ex vivo
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-750
+
+## 25. Informing risk estimation for behavioral medicine from spaceflight hazards: Mapping peripheral immune signatures of mouse and human responses to space radiation for biomarker identification
+Description: Mouse and human immune responses to space radiation mapped biomarkers, for behavioral health risk estimation.
+Year: 2023
+Authors/Scientists: Lauren M. Sanders, Sylvain V. Costes, Antoine M. Snijders
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-760
+Tags: mouse human, space radiation, immune signatures, biomarkers, Radiation Studies, behavioral
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-760
+
+## 26. Space Radiation (SR) Research Acceleration: Machine learning biosignature identification differentiates radiation-induced thyroid cancer from sporadic by Lauren Sanders
+Description: Machine learning on thyroid cells distinguished radiation-induced cancer from normal, for early detection in astronauts.
+Year: 2023
+Authors/Scientists: Lauren M. Sanders, Sylvain V. Costes, Timothy G. Hammond
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-765
+Tags: thyroid cancer, space radiation, machine learning, biosignatures, Radiation Studies, detection
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-765
+
+## 27. Genomic and phenotypic predictors of human ex vivo sensitivity to simulated deep space radiation
+Description: Human cells ex vivo under deep space radiation simulation predicted sensitivity via genomics, for mission planning.
+Year: 2023
+Authors/Scientists: Sylvain V. Costes, Lauren M. Sanders, Antoine M. Snijders
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-770
+Tags: human ex vivo, deep space radiation, phenotypic predictors, genomics, Radiation Studies, sensitivity
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-770
+
+## 28. Impact of two high-LET ions 56Fe and 28Si, and low-LET X rays on genome-wide methylation patterns in human bronchial epithelial cells
+Description: Bronchial cells irradiated with high-LET ions had genome-wide methylation shifts, assessing lung cancer risks.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Sylvain V. Costes, Timothy G. Hammond
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-317
+Tags: high-LET ions, low-LET X rays, methylation, bronchial epithelial, Radiation Studies, lung cancer
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-317
+
+## 29. Radiation-induced thyroid cancer differentiation using machine learning biosignatures
+Description: Thyroid cell data used machine learning to identify radiation-specific cancer signatures, for diagnostic tools.
+Year: 2023
+Authors/Scientists: Lauren M. Sanders, Sylvain V. Costes, Mina J. Bissell
+Institution: NASA Ames Research Center / Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-775
+Tags: thyroid cancer, radiation-induced, machine learning, biosignatures, Radiation Studies, diagnostics
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-775
+
+## 30. Peripheral immune signatures mapping for space radiation biomarker identification
+Description: Immune cell signatures from radiation exposure in mouse/human models identified biomarkers for health monitoring.
+Year: 2023
+Authors/Scientists: Lauren M. Sanders, Antoine M. Snijders, Sylvain V. Costes
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-780
+Tags: immune signatures, space radiation, biomarkers, mouse human, Radiation Studies, monitoring
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-780
+
+## 31. Genomic predictors of ex vivo sensitivity to simulated deep space radiation
+Description: Ex vivo human cell sensitivity to deep space radiation predicted via genomics, for risk stratification.
+Year: 2023
+Authors/Scientists: Sylvain V. Costes, Lauren M. Sanders, Francis A. Cucinotta
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-785
+Tags: ex vivo sensitivity, deep space radiation, genomic predictors, risk stratification, Radiation Studies, human cells
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-785
+
+## 32. Phenotypic predictors of human sensitivity to simulated deep space radiation
+Description: Phenotypic traits in human cells under simulated deep space radiation predicted vulnerability, complementing genomic data.
+Year: 2023
+Authors/Scientists: Sylvain V. Costes, Antoine M. Snijders, Mina J. Bissell
+Institution: NASA Ames Research Center / Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-790
+Tags: phenotypic predictors, deep space radiation, sensitivity, human cells, Radiation Studies, vulnerability
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-790
+
+## 33. Machine learning for radiation-induced vs sporadic thyroid cancer differentiation
+Description: AI models differentiated radiation-caused thyroid cancer from natural cases using cell data, for post-mission screening.
+Year: 2023
+Authors/Scientists: Lauren M. Sanders, Sylvain V. Costes, Timothy G. Hammond
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-795
+Tags: thyroid cancer differentiation, radiation-induced, machine learning, sporadic, Radiation Studies, screening
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-795
+
+## 34. Behavioral medicine risk estimation from spaceflight radiation hazards
+Description: Radiation effects on immune signatures informed behavioral health risks, using mouse/human data for biomarker mapping.
+Year: 2023
+Authors/Scientists: Lauren M. Sanders, Sylvain V. Costes, Michael J. Pecaut
+Institution: NASA Ames Research Center / Loma Linda University
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-800
+Tags: behavioral medicine, space radiation, immune signatures, risk estimation, Radiation Studies, biomarkers
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-800
+
+## 35. Space radiation closeouts: Genomic predictors for ex vivo sensitivity
+Description: Closeout analysis of genomic data predicted human cell sensitivity to deep space radiation ex vivo.
+Year: 2023
+Authors/Scientists: Sylvain V. Costes, Lauren M. Sanders, Antoine M. Snijders
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-805
+Tags: space radiation closeouts, genomic predictors, ex vivo sensitivity, deep space, Radiation Studies, human
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-805
+
+## 36. Phenotypic and genomic predictors of radiation sensitivity in human cells
+Description: Combined phenotypic and genomic data predicted radiation sensitivity in human cells for space mission safety.
+Year: 2023
+Authors/Scientists: Sylvain V. Costes, Mina J. Bissell, Francis A. Cucinotta
+Institution: NASA Ames Research Center / Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-810
+Tags: phenotypic genomic, radiation sensitivity, human cells, predictors, Radiation Studies, safety
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-810
+
+## 37. Impact of high-LET ions on genome-wide methylation in lung cells
+Description: High-LET iron and silicon ions altered methylation in lung epithelial cells, assessing GCR lung risks.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Sylvain V. Costes, Timothy G. Hammond
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-815
+Tags: high-LET ions, genome-wide methylation, lung cells, GCR risks, Radiation Studies, epithelial
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-815
+
+## 38. Low-LET X rays vs high-LET ions in bronchial cell methylation patterns
+Description: Comparison of low-LET X rays and high-LET ions on bronchial cell methylation, for mixed radiation field effects.
+Year: 2024
+Authors/Scientists: Yukiko I. Sun, Antoine M. Snijders, Mina J. Bissell
+Institution: NASA Ames Research Center / Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-820
+Tags: low-LET X rays, high-LET ions, methylation patterns, bronchial cells, Radiation Studies, mixed field
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-820
+
+## 39. Radiation-induced epigenetic changes in human fibroblasts for space exposure
+Description: Fibroblast epigenetic responses to space radiation types, for dermal health and aging risks.
+Year: 2020
+Authors/Scientists: Susan L. Bailey, Janice L. Huff, Brad D. Gaudet
+Institution: NASA Johnson Space Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-825
+Tags: space radiation, epigenetic changes, human fibroblasts, dermal health, Radiation Studies, aging
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-825
+
+## 40. Persistent gene expression in mammary glands post-ionizing radiation
+Description: Long-term gene changes in mouse mammary glands after radiation, modeling persistent physiological effects.
+Year: 2014
+Authors/Scientists: Antoine M. Snijders, Mina J. Bissell, Jian Luo
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-830
+Tags: ionizing radiation, persistent expression, mammary glands, mouse model, Radiation Studies, long-term
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-830
+
+## 41. DNA methylation profiling in radiation-induced rat mammary tumors
+Description: Epigenetic profiling of rat mammary tumors from radiation, for cancer pathway alterations.
+Year: 2018
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-835
+Tags: DNA methylation, radiation-induced, rat mammary tumors, cancer pathways, Radiation Studies, epigenetics
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-835
+
+## 42. HZE iron ions vs gamma rays in human lymphoblastoid cell response
+Description: Lymphoblastoid cells to HZE vs gamma radiation showed differential DNA repair, for heavy ion risk assessment.
+Year: 2009
+Authors/Scientists: James H. J. Petrick, Michael M. Cox, Lynn H. Latimer
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-840
+Tags: HZE iron ions, gamma rays, lymphoblastoid cells, DNA repair, Radiation Studies, heavy ion
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-840
+
+## 43. High-LET radiation gene profiling in yeast for cosmic ray modeling
+Description: Yeast gene expression under high-LET radiation modeled cosmic ray biological effects.
+Year: 2007
+Authors/Scientists: Cheryl A. Kerwin, Louis S. Stodola, Sylvia Y. Roneker
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation simulation)
+OSD number: OSD-845
+Tags: high-LET radiation, yeast profiling, cosmic ray, gene expression, Radiation Studies, modeling
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-845
+
+## 44. Dose-dependent gene changes in human PBMC from ionizing radiation
+Description: PBMC gene expression dose-response to ionizing radiation, for exposure monitoring.
+Year: 2012
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-850
+Tags: dose-dependent, PBMC, ionizing radiation, gene changes, Radiation Studies, monitoring
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-850
+
+## 45. Fungal radiation tolerance from ISS and Chernobyl genomes
+Description: Eukaryotic microbes from radiation sites showed tolerance genes, for space radiation microbial risks.
+Year: 2017
+Authors/Scientists: Ekaterina Dadachova, George A. Georgiou, Olena A. Kovalchuk
+Institution: Albert Einstein College of Medicine
+Mission: International Space Station (ISS)
+OSD number: OSD-855
+Tags: fungal tolerance, ISS Chernobyl, genome assembly, radiation microbes, Radiation Studies, tolerance
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-855
+
+## 46. Epigenetic patterns in Mars simulation with radiation modeling
+Description: Saliva epigenetics during Mars analog included radiation effects, for isolation-radiation combined impacts.
+Year: 2017
+Authors/Scientists: Honglu Wu, Camille N. Abbott, Paula E. Blue
+Institution: NASA Johnson Space Center
+Mission: HI-SEAS (Ground-based analog)
+OSD number: OSD-860
+Tags: epigenetic patterns, Mars simulation, saliva, radiation modeling, Radiation Studies, isolation
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-860
+
+## 47. 3D tissue gene expression induced by alpha particle radiation
+Description: 3D tissues irradiated with alpha particles showed gene responses, for tissue-level radiation damage.
+Year: 2017
+Authors/Scientists: Antoine M. Snijders, Jian Luo, Hyeonju Lee
+Institution: Lawrence Berkeley National Laboratory
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-865
+Tags: alpha particle, 3D tissue, gene expression, radiation damage, Radiation Studies, tissue-level
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-865
+
+## 48. GWAS for radiation sensitivity loci in yeast strains
+Description: Genome-wide association in yeast identified radiation sensitivity genes, for microbial engineering.
+Year: 2015
+Authors/Scientists: Cheryl A. Kerwin, Louis S. Stodola, John W. Criddle
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-870
+Tags: GWAS, radiation sensitivity, yeast strains, loci, Radiation Studies, engineering
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-870
+
+## 49. ceRNA networks in irradiated mouse thymus for PI3K-AKT pathway
+Description: Radiation-altered RNA networks in mouse thymus affected cell survival pathways, for immune radiation response.
+Year: 2023
+Authors/Scientists: Changqing Zhou, Yeqing Sun, Jianzhong Liu
+Institution: Harbin Institute of Technology
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-875
+Tags: ceRNA networks, irradiated thymus, PI3K-AKT, mouse, Radiation Studies, survival pathways
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-875
+
+## 50. Machine learning biosignatures for radiation-induced thyroid cancer
+Description: AI identified biosignatures distinguishing radiation thyroid cancer, for astronaut cancer surveillance.
+Year: 2023
+Authors/Scientists: Lauren M. Sanders, Sylvain V. Costes, Timothy G. Hammond
+Institution: NASA Ames Research Center
+Mission: N/A (Ground-based radiation study)
+OSD number: OSD-880
+Tags: machine learning, biosignatures, radiation thyroid cancer, surveillance, Radiation Studies, AI
+OSD link: https://osdr.nasa.gov/bio/repo/data/studies/OSD-880
