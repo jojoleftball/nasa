@@ -103,4 +103,14 @@ export function setupAdminRoutes(app: Express) {
       res.status(500).json({ message: "Internal server error" });
     }
   });
+
+  app.delete("/api/admin/suggestions/:id", requireAdminAuth, async (req, res) => {
+    try {
+      await storage.deleteResearchSuggestion(req.params.id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting suggestion:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
 }
