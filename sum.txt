@@ -1,10 +1,8 @@
 
-BIOGALACTIC - Space Biology Research Platform
-
-Biogalactic is a revolutionary full-stack web application that democratizes access to NASA's Open Science Data Repository (OSDR), transforming how researchers and students explore space biology. With an intuitive cosmic-themed interface and AI-powered insights, it bridges the gap between complex space research data and accessible scientific discovery.
+Biogalactic is a revolutionary full-stack web application that democratizes access to NASA's Open Science Data Repository, transforming how researchers and students explore space biology. With an intuitive cosmic-themed interface and AI-powered insights, it bridges the gap between complex space research data and accessible scientific discovery.
 
 KEY FEATURES:
 The platform offers an AI Research Assistant named "Ria" powered by Google Gemini for interpreting research data. Advanced search capabilities include filters for organism, experiment type, mission, year, and tissue type. Real-time data visualization displays research trends and statistics. Direct integration with NASA OSDR API provides access to authentic research papers. An admin panel enables curating featured research entries. User authentication supports personalized interests and favorites, while chat history persistence and research pathway recommendations enhance the experience.
 
-WHY BIOGALACTIC STANDS OUT:
-The platform uniquely combines real NASA OSDR data with admin-curated content, creating a comprehensive knowledge hub for space biology. Its AI assistant doesn't just search—it understands context, suggests related studies, and helps users discover research pathways they might never have found through traditional methods. The elegant cosmic interface transforms data exploration into an immersive experience, making cutting-edge space biology research accessible to everyone from students to professional researchers. With persistent chat history and personalized recommendations, Biogalactic becomes smarter with each interaction.
+WHY IT STANDS OUT:
+The platform uniquely combines real NASA OSDR data with admin-curated content, creating a comprehensive knowledge hub for space biology. Its AI assistant understands context, suggests related studies, and helps users discover research pathways they might never have found through traditional methods. The elegant cosmic interface transforms data exploration into an immersive experience, making cutting-edge space biology research accessible to everyone.
