@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -53,7 +52,6 @@ type ResearchFormValues = z.infer<typeof researchSchema>;
 export default function AdminDashboardPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingResearch, setEditingResearch] = useState<any>(null);
   const [tagInput, setTagInput] = useState("");
   const [linkInput, setLinkInput] = useState("");
@@ -63,7 +61,7 @@ export default function AdminDashboardPage() {
   const [sortBy, setSortBy] = useState<string>("newest");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeTab, setActiveTab] = useState("research");
+  const [activeTab, setActiveTab] = useState("research-list");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('admin-theme') as 'light' | 'dark' || 'dark';
@@ -117,7 +115,7 @@ export default function AdminDashboardPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/research"] });
       toast({ title: "Success", description: "Research created successfully!" });
-      setIsDialogOpen(false);
+      setActiveTab("research-list");
       form.reset();
     },
     onError: (error: any) => {
@@ -133,7 +131,7 @@ export default function AdminDashboardPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/research"] });
       toast({ title: "Success", description: "Research updated successfully!" });
-      setIsDialogOpen(false);
+      setActiveTab("research-list");
       setEditingResearch(null);
       form.reset();
     },
@@ -188,7 +186,7 @@ export default function AdminDashboardPage() {
       published: item.published,
       customFields: item.customFields || {},
     });
-    setIsDialogOpen(true);
+    setActiveTab("add-research");
   }
 
   function addPredefinedTag(tag: string) {
@@ -346,17 +344,35 @@ export default function AdminDashboardPage() {
         <ScrollArea className="flex-1 py-6">
           <nav className="space-y-2 px-3">
             <Button
-              onClick={() => setActiveTab("research")}
-              variant={activeTab === "research" ? "secondary" : "ghost"}
+              onClick={() => setActiveTab("research-list")}
+              variant={activeTab === "research-list" ? "secondary" : "ghost"}
               className={`w-full justify-start gap-3 transition-all duration-300 rounded-lg ${
-                activeTab === "research" 
+                activeTab === "research-list" 
                   ? "cosmic-glow-gentle bg-gradient-to-r from-purple-600/30 to-blue-600/30 dark:from-purple-600/30 dark:to-blue-600/30" 
                   : "hover:bg-white/10 dark:hover:bg-white/10"
               }`}
-              data-testid="nav-research"
+              data-testid="nav-research-list"
             >
               <FileText className="w-4 h-4 flex-shrink-0" />
-              {!sidebarCollapsed && <span className="font-medium">Research</span>}
+              {!sidebarCollapsed && <span className="font-medium">Research List</span>}
+            </Button>
+            
+            <Button
+              onClick={() => {
+                setActiveTab("add-research");
+                setEditingResearch(null);
+                form.reset();
+              }}
+              variant={activeTab === "add-research" ? "secondary" : "ghost"}
+              className={`w-full justify-start gap-3 transition-all duration-300 rounded-lg ${
+                activeTab === "add-research" 
+                  ? "cosmic-glow-gentle bg-gradient-to-r from-purple-600/30 to-blue-600/30 dark:from-purple-600/30 dark:to-blue-600/30" 
+                  : "hover:bg-white/10 dark:hover:bg-white/10"
+              }`}
+              data-testid="nav-add-research"
+            >
+              <Plus className="w-4 h-4 flex-shrink-0" />
+              {!sidebarCollapsed && <span className="font-medium">Add Research</span>}
             </Button>
             
             <Button
@@ -419,15 +435,15 @@ export default function AdminDashboardPage() {
                 <Sparkles className="w-8 h-8 text-purple-400" />
               </motion.div>
               <h1 className="text-3xl sm:text-5xl font-bold cosmic-text-gradient">
-                {activeTab === "research" ? "Research Management" : "AI Assistant"}
+                {activeTab === "research-list" ? "Research List" : activeTab === "add-research" ? "Add Research" : "AI Assistant"}
               </h1>
             </div>
             <p className="text-gray-400 dark:text-gray-400 text-base sm:text-lg ml-11">
-              {activeTab === "research" ? "Manage and organize your space research content" : "Get AI-powered assistance for content management"}
+              {activeTab === "research-list" ? "View and manage your space research content" : activeTab === "add-research" ? "Add new research or edit existing entries" : "Get AI-powered assistance for content management"}
             </p>
           </motion.div>
 
-        {activeTab === "research" && (
+        {activeTab === "research-list" && (
           <div className="space-y-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -489,37 +505,148 @@ export default function AdminDashboardPage() {
               </div>
             </motion.div>
 
-            <Dialog open={isDialogOpen} onOpenChange={(open) => {
-              setIsDialogOpen(open);
-              if (!open) {
-                setEditingResearch(null);
-                form.reset();
-              }
-            }}>
-              <DialogTrigger asChild>
-                <motion.div 
-                  whileHover={{ scale: 1.02 }} 
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Button className="glow-button text-white border-0 h-12 px-6 text-base font-medium" data-testid="button-add-research">
-                    <Plus className="w-5 h-5 mr-2" />
-                    Add Research
-                  </Button>
-                </motion.div>
-              </DialogTrigger>
-              <DialogContent className="w-[calc(100vw-2rem)] sm:w-[calc(100vw-4rem)] md:w-[min(90vw,1200px)] lg:w-[min(85vw,1400px)] h-[calc(100vh-2rem)] sm:h-[calc(100vh-4rem)] max-h-none glass border-0 text-white p-0 flex flex-col overflow-hidden">
-                <DialogHeader className="px-6 pt-6 pb-4 border-b border-white/10 dark:border-white/10 flex-shrink-0">
-                  <DialogTitle className="text-white cosmic-text-gradient text-2xl font-bold">
-                    {editingResearch ? "Edit Research" : "Add New Research"}
-                  </DialogTitle>
-                  <DialogDescription className="text-gray-300 dark:text-gray-400 text-base">
-                    Fill in the details for the research entry
-                  </DialogDescription>
-                </DialogHeader>
-                <ScrollArea className="flex-1 px-6 overflow-y-auto" type="always">
+            <AnimatePresence mode="popLayout">
+              {isLoading ? (
+                <div className="grid gap-4 sm:gap-6">
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="loading-cosmic h-48 rounded-lg"></div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid gap-4 sm:gap-6">
+                  {filteredAndSortedResearch().map((item: any, index) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.4, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      layout
+                    >
+                      <Card className="cosmic-card overflow-hidden">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-2">
+                                <motion.div
+                                  whileHover={{ rotate: 360 }}
+                                  transition={{ duration: 0.6 }}
+                                >
+                                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                                </motion.div>
+                                <CardTitle className="cosmic-text-gradient text-xl truncate">{item.title}</CardTitle>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
+                                <span className="font-mono text-xs">{item.id}</span>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => copyToClipboard(item.id)}
+                                  className="h-6 w-6 hover:bg-white/10"
+                                  data-testid={`button-copy-${item.id}`}
+                                >
+                                  {copiedId === item.id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {item.published && (
+                                <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0" data-testid={`badge-published-${item.id}`}>
+                                  Published
+                                </Badge>
+                              )}
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleEdit(item)}
+                                className="hover:bg-purple-500/20 hover:text-purple-300 h-9 w-9"
+                                data-testid={`button-edit-${item.id}`}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleDelete(item.id)}
+                                className="hover:bg-red-500/20 hover:text-red-300 h-9 w-9"
+                                data-testid={`button-delete-${item.id}`}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-gray-300 dark:text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            {item.year && (
+                              <div className="flex items-center gap-2 text-gray-400">
+                                <span className="font-semibold">Year:</span>
+                                <span>{item.year}</span>
+                              </div>
+                            )}
+                            {item.authors && (
+                              <div className="flex items-center gap-2 text-gray-400">
+                                <span className="font-semibold">Authors:</span>
+                                <span className="truncate">{item.authors}</span>
+                              </div>
+                            )}
+                            {item.institution && (
+                              <div className="flex items-center gap-2 text-gray-400 sm:col-span-2">
+                                <span className="font-semibold">Institution:</span>
+                                <span className="truncate">{item.institution}</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {item.tags && item.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-2">
+                              {item.tags.map((tag: string, tagIndex: number) => (
+                                <Badge key={tagIndex} className="bg-gradient-to-r from-purple-600/40 to-blue-600/40 text-white border border-purple-500/30" data-testid={`badge-tag-${item.id}-${tagIndex}`}>
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
+
+                          {item.nasaOsdrLinks && item.nasaOsdrLinks.length > 0 && (
+                            <div className="space-y-2">
+                              <p className="text-sm font-semibold text-gray-400">NASA OSDR Links:</p>
+                              {item.nasaOsdrLinks.map((link: string, linkIndex: number) => (
+                                <a
+                                  key={linkIndex}
+                                  href={link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block text-blue-400 hover:text-blue-300 text-sm truncate transition-colors"
+                                  data-testid={`link-osdr-${item.id}-${linkIndex}`}
+                                >
+                                  {link}
+                                </a>
+                              ))}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {activeTab === "add-research" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <Card className="cosmic-card border-0">
+              <CardContent className="p-6">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 py-4">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <FormField
                       control={form.control}
                       name="title"
@@ -533,6 +660,7 @@ export default function AdminDashboardPage() {
                         </FormItem>
                       )}
                     />
+                    
                     <FormField
                       control={form.control}
                       name="description"
@@ -701,8 +829,18 @@ export default function AdminDashboardPage() {
                       )}
                     />
 
-                    <div className="flex justify-end gap-3 pt-4 sticky bottom-0 bg-gradient-to-t from-[hsl(var(--card))] to-transparent pb-2">
-                      <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="glass border-0 h-11 px-6" data-testid="button-cancel">
+                    <div className="flex justify-end gap-3 pt-4">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={() => {
+                          setActiveTab("research-list");
+                          setEditingResearch(null);
+                          form.reset();
+                        }} 
+                        className="glass border-0 h-11 px-6" 
+                        data-testid="button-cancel"
+                      >
                         Cancel
                       </Button>
                       <Button type="submit" className="glow-button text-white border-0 h-11 px-8" data-testid="button-submit">
@@ -711,140 +849,9 @@ export default function AdminDashboardPage() {
                     </div>
                   </form>
                 </Form>
-                </ScrollArea>
-              </DialogContent>
-            </Dialog>
-
-            <AnimatePresence mode="popLayout">
-              {isLoading ? (
-                <div className="grid gap-4 sm:gap-6">
-                  {[...Array(3)].map((_, i) => (
-                    <div key={i} className="loading-cosmic h-48 rounded-lg"></div>
-                  ))}
-                </div>
-              ) : (
-                <div className="grid gap-4 sm:gap-6">
-                  {filteredAndSortedResearch().map((item: any, index) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.4, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
-                      layout
-                    >
-                      <Card className="cosmic-card overflow-hidden">
-                        <CardHeader className="pb-3">
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-2">
-                                <motion.div
-                                  whileHover={{ rotate: 360 }}
-                                  transition={{ duration: 0.6 }}
-                                >
-                                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                                </motion.div>
-                                <CardTitle className="cosmic-text-gradient text-xl truncate">{item.title}</CardTitle>
-                              </div>
-                              <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
-                                <span className="font-mono text-xs">{item.id}</span>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  onClick={() => copyToClipboard(item.id)}
-                                  className="h-6 w-6 hover:bg-white/10"
-                                  data-testid={`button-copy-${item.id}`}
-                                >
-                                  {copiedId === item.id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                                </Button>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {item.published && (
-                                <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0" data-testid={`badge-published-${item.id}`}>
-                                  Published
-                                </Badge>
-                              )}
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleEdit(item)}
-                                className="hover:bg-purple-500/20 hover:text-purple-300 h-9 w-9"
-                                data-testid={`button-edit-${item.id}`}
-                              >
-                                <Edit className="w-4 h-4" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleDelete(item.id)}
-                                className="hover:bg-red-500/20 hover:text-red-300 h-9 w-9"
-                                data-testid={`button-delete-${item.id}`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <p className="text-gray-300 dark:text-gray-400 text-sm leading-relaxed">{item.description}</p>
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                            {item.year && (
-                              <div className="flex items-center gap-2 text-gray-400">
-                                <span className="font-semibold">Year:</span>
-                                <span>{item.year}</span>
-                              </div>
-                            )}
-                            {item.authors && (
-                              <div className="flex items-center gap-2 text-gray-400">
-                                <span className="font-semibold">Authors:</span>
-                                <span className="truncate">{item.authors}</span>
-                              </div>
-                            )}
-                            {item.institution && (
-                              <div className="flex items-center gap-2 text-gray-400 sm:col-span-2">
-                                <span className="font-semibold">Institution:</span>
-                                <span className="truncate">{item.institution}</span>
-                              </div>
-                            )}
-                          </div>
-
-                          {item.tags && item.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                              {item.tags.map((tag: string, tagIndex: number) => (
-                                <Badge key={tagIndex} className="bg-gradient-to-r from-purple-600/40 to-blue-600/40 text-white border border-purple-500/30" data-testid={`badge-tag-${item.id}-${tagIndex}`}>
-                                  {tag}
-                                </Badge>
-                              ))}
-                            </div>
-                          )}
-
-                          {item.nasaOsdrLinks && item.nasaOsdrLinks.length > 0 && (
-                            <div className="space-y-2">
-                              <p className="text-sm font-semibold text-gray-400">NASA OSDR Links:</p>
-                              {item.nasaOsdrLinks.map((link: string, linkIndex: number) => (
-                                <a
-                                  key={linkIndex}
-                                  href={link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="block text-blue-400 hover:text-blue-300 text-sm truncate transition-colors"
-                                  data-testid={`link-osdr-${item.id}-${linkIndex}`}
-                                >
-                                  {link}
-                                </a>
-                              ))}
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-            </AnimatePresence>
-          </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         )}
 
         {activeTab === "assistant" && (
