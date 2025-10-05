@@ -33,7 +33,6 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
 
   return (
     <Card className="glass border-0 overflow-hidden">
-      {/* Cover Image */}
       <div 
         className="h-32 bg-gradient-to-r from-primary/20 to-blue-500/20 relative"
         style={{
@@ -46,7 +45,6 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
       </div>
 
       <CardContent className="relative pb-6">
-        {/* Profile Picture */}
         <div className="flex items-start justify-between -mt-16 mb-4">
           <Avatar className="h-24 w-24 border-4 border-background shadow-lg">
             <AvatarImage src={user.profilePicture} alt={displayName} />
@@ -56,7 +54,6 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
           </Avatar>
         </div>
 
-        {/* User Info */}
         <div className="space-y-4">
           <div>
             <h1 className="text-2xl font-bold">{displayName}</h1>

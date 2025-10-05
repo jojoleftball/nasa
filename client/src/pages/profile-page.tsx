@@ -27,7 +27,6 @@ export default function ProfilePage() {
       <div className="stars"></div>
       
       <div className="container mx-auto px-6 py-8 relative z-10">
-        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/dashboard">
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
@@ -39,7 +38,6 @@ export default function ProfilePage() {
         </div>
 
         <div className="max-w-4xl mx-auto space-y-8">
-          {/* Profile Header */}
           <ProfileHeader user={{
             ...user,
             firstName: user.firstName || undefined,
@@ -52,7 +50,6 @@ export default function ProfilePage() {
             createdAt: user.createdAt || new Date().toISOString()
           }} />
 
-          {/* Profile Management Tabs */}
           <Card className="glass border-0">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <CardHeader>

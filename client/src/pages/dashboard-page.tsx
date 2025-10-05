@@ -17,6 +17,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Link } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardPage() {
   const { user, logoutMutation } = useAuth();
@@ -79,17 +80,32 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="cosmic-bg min-h-screen relative">
+    <div className="cosmic-bg min-h-screen relative overflow-hidden">
       <div className="stars"></div>
       
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
+      <motion.header 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40"
+      >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <motion.div 
+              className="flex items-center space-x-4"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
               <Logo size="md" textClassName="text-2xl font-bold" showText={true} />
-            </div>
+            </motion.div>
             
-            <div className="flex items-center space-x-4">
+            <motion.div 
+              className="flex items-center space-x-4"
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
               <ThemeToggle />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -123,16 +139,32 @@ export default function DashboardPage() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       <div className="container mx-auto px-6 py-8 relative z-10">
-        <SearchFilters onSearch={handleSearch} />
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <SearchFilters onSearch={handleSearch} />
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 mt-8">
-          <div className="lg:col-span-7">
+        <motion.div 
+          className="grid grid-cols-1 lg:grid-cols-10 gap-8 mt-8"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.div 
+            className="lg:col-span-7"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
             <ResearchResults 
               query={searchQuery} 
               filters={filters} 
@@ -140,85 +172,91 @@ export default function DashboardPage() {
               showInterestBased={showInterestBased}
               userInterests={user?.interests || []}
             />
-          </div>
+          </motion.div>
           
-          <div className="lg:col-span-3">
+          <motion.div 
+            className="lg:col-span-3"
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
             <VisualizationSidebar />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {showGuide && (
-          <Card className="glass rounded-xl mt-8 border-0">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle>Getting Started Guide</CardTitle>
-                  <p className="text-muted-foreground text-sm">
-                    Learn how to navigate and use Biogalactic effectively
-                  </p>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowGuide(false)}
-                  data-testid="button-dismiss-guide"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
-                    <span className="text-primary text-sm">1</span>
+        <AnimatePresence>
+          {showGuide && (
+            <motion.div
+              initial={{ y: 20, opacity: 0, scale: 0.95 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: -20, opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Card className="glass rounded-xl mt-8 border-0">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle>Getting Started Guide</CardTitle>
+                      <p className="text-muted-foreground text-sm">
+                        Learn how to navigate and use Biogalactic effectively
+                      </p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowGuide(false)}
+                      data-testid="button-dismiss-guide"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <div>
-                    <h4 className="font-medium text-sm">Search & Filter</h4>
-                    <p className="text-xs text-muted-foreground">
-                      Use the search bar and filters to find relevant studies
-                    </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[
+                      { num: 1, title: "Search & Filter", desc: "Use the search bar and filters to find relevant studies" },
+                      { num: 2, title: "Visualizations", desc: "Explore data through interactive charts and statistics" },
+                      { num: 3, title: "AI Assistant", desc: `Ask ${user?.chatbotName || "Ria"} questions about space biology research` }
+                    ].map((step, idx) => (
+                      <motion.div 
+                        key={step.num}
+                        className="flex items-start space-x-3"
+                        initial={{ y: 10, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 0.6 + idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                          <span className="text-primary text-sm">{step.num}</span>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-sm">{step.title}</h4>
+                          <p className="text-xs text-muted-foreground">{step.desc}</p>
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
-                    <span className="text-primary text-sm">2</span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-sm">Visualizations</h4>
-                    <p className="text-xs text-muted-foreground">
-                      Explore data through interactive charts and statistics
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
-                    <span className="text-primary text-sm">3</span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-sm">AI Assistant</h4>
-                    <p className="text-xs text-muted-foreground">
-                      Ask {user?.chatbotName || "Ria"} questions about space biology research
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      <footer className="border-t border-border bg-card/30 backdrop-blur-sm mt-16 relative z-10">
+      <motion.footer 
+        className="border-t border-border bg-card/30 backdrop-blur-sm mt-16 relative z-10"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="container mx-auto px-6 py-8">
           <p className="text-center text-muted-foreground">
             © Biogalactic Team — NASA Data Used With Permission
           </p>
         </div>
-      </footer>
+      </motion.footer>
 
       <Chatbot />
 
-      {/* Rename Chatbot Dialog */}
       <Dialog open={showRenameDialog} onOpenChange={setShowRenameDialog}>
         <DialogContent className="glass border-border">
           <DialogHeader>

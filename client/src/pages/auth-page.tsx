@@ -71,8 +71,6 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      // Redirect new users to interests page if they haven't set any interests
-      // Otherwise redirect to dashboard for existing users
       if (!user.interests || user.interests.length === 0) {
         setLocation("/interests");
       } else {
@@ -116,10 +114,8 @@ export default function AuthPage() {
       <div className="stars"></div>
       
       <div className="min-h-screen flex relative z-10">
-        {/* Left Side - Branding and Features */}
         <div className="hidden lg:flex lg:w-1/2 flex-col justify-center p-12">
           <div className="max-w-lg">
-            {/* Project Branding */}
             <div className="mb-12">
               <div className="mb-6">
                 <Logo size="xl" textClassName="text-5xl font-bold" showText={true} />
@@ -133,7 +129,6 @@ export default function AuthPage() {
               </p>
             </div>
 
-            {/* Features Grid */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-foreground mb-4">Platform Features</h3>
               <div className="grid grid-cols-1 gap-4">
@@ -154,7 +149,6 @@ export default function AuthPage() {
               </div>
             </div>
 
-            {/* Stats */}
             <div className="mt-12 grid grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">2,847+</div>
@@ -172,10 +166,8 @@ export default function AuthPage() {
           </div>
         </div>
 
-        {/* Right Side - Auth Forms */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-4">
           <div className="w-full max-w-md">
-            {/* Mobile Branding */}
             <div className="flex flex-col items-center mb-8 lg:hidden">
               <Logo size="lg" textClassName="text-4xl font-bold" showText={true} />
               <p className="text-muted-foreground mt-4">
@@ -342,7 +334,6 @@ export default function AuthPage() {
                   </TabsContent>
                 </Tabs>
 
-                {/* Security & Trust Indicators */}
                 <div className="mt-6 pt-6 border-t border-border">
                   <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                     <Shield className="h-3 w-3" />
@@ -352,7 +343,6 @@ export default function AuthPage() {
               </CardContent>
             </Card>
 
-            {/* Footer */}
             <div className="mt-8 text-center">
               <p className="text-xs text-muted-foreground">
                 © 2025 Biogalactic Team. Built with data from NASA's Open Science Data Repository (OSDR).

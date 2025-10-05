@@ -215,11 +215,9 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
   return (
     <div className="space-y-4">
-      {/* Main Search Bar */}
       <Card className="glass border-0">
         <CardContent className="p-6">
           <div className="flex flex-col lg:flex-row gap-4">
-            {/* Search Input */}
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -234,7 +232,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
               </div>
             </div>
 
-            {/* Basic Filters Row */}
             <div className="flex flex-col sm:flex-row gap-3">
               <Select value={filters.yearRange} onValueChange={(value) => setFilters({ ...filters, yearRange: value })}>
                 <SelectTrigger className="w-40" data-testid="select-year-range">
@@ -292,7 +289,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
         </CardContent>
       </Card>
 
-      {/* Active Filters */}
       {activeFilters.length > 0 && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
@@ -341,7 +337,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
         </motion.div>
       )}
 
-      {/* Advanced Filters Panel */}
       <AnimatePresence>
         {showAdvanced && (
           <motion.div
@@ -367,7 +362,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Research Areas */}
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Research Areas</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -391,7 +385,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
                 <Separator />
 
-                {/* Organisms */}
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Model Organisms</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -415,7 +408,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
                 <Separator />
 
-                {/* Experiment Types */}
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Experiment Types</Label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -439,7 +431,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
                 <Separator />
 
-                {/* Missions */}
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Space Missions</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -463,7 +454,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
                 <Separator />
 
-                {/* Additional Options */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Publication Status */}
                   <div className="space-y-3">
@@ -485,7 +475,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                     </Select>
                   </div>
 
-                  {/* Custom Date Range */}
                   <div className="space-y-3">
                     <Label className="text-sm font-medium">Custom Date Range</Label>
                     <div className="grid grid-cols-2 gap-2">
@@ -510,7 +499,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                     </div>
                   </div>
 
-                  {/* Secondary Sort */}
                   <div className="space-y-3">
                     <Label className="text-sm font-medium">Secondary Sort</Label>
                     <Select 
@@ -531,7 +519,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex justify-between pt-4">
                   <Button variant="outline" onClick={clearAllFilters} data-testid="button-reset-filters">
                     Reset All Filters

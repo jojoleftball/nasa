@@ -54,7 +54,6 @@ export default function LandingPage() {
   return (
     <CosmicPageWrapper>
       <div className="min-h-screen relative z-10">
-        {/* Hero Section */}
         <div className="container mx-auto px-6 py-16">
           <StaggeredContainer className="text-center mb-16">
             <AnimatedDiv variants={fadeInUp} delay={0.2} className="flex items-center justify-center mb-6">
@@ -102,7 +101,6 @@ export default function LandingPage() {
           </StaggeredContainer>
 
 
-          {/* Features Grid */}
           <AnimatedDiv variants={fadeInUp} delay={0.2} className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-12 cosmic-text-gradient">
               Platform Features
@@ -161,7 +159,6 @@ export default function LandingPage() {
             </StaggeredContainer>
           </AnimatedDiv>
 
-          {/* Stats Section */}
           <AnimatedDiv variants={slideInLeft} delay={0.3} className="mb-16">
             <AnimatedCard className="glass border-0 max-w-4xl mx-auto cosmic-border">
               <CardContent className="p-8">
@@ -228,7 +225,6 @@ export default function LandingPage() {
           </AnimatedDiv>
         </div>
 
-        {/* Footer */}
         <footer className="border-t border-border bg-card/30 backdrop-blur-sm">
           <div className="container mx-auto px-6 py-8">
             <div className="text-center">
