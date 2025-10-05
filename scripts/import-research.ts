@@ -58,7 +58,66 @@ function parseResearchFile(filePath: string): ResearchEntry[] {
       }
     }
     
-    // Add mission to tags if it exists and is not "N/A"
+    if (mission && !mission.includes('N/A') && !mission.includes('Ground-based')) {
+      const missionTag = mission.replace(/\(.*?\)/g, '').trim();
+      if (missionTag && !tags.includes(missionTag)) {
+        tags.push(missionTag);
+      }
+    }
+    
+    entries.push({
+      title,
+      description,
+      year,
+      authors,
+      institution,
+      mission,
+      osdStudyNumber,
+      tags,
+      nasaOsdrLinks,
+      published: true
+    });
+  }
+  
+  return entries;
+}
+
+function parseCompressedResearchFile(filePath: string): ResearchEntry[] {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const entries: ResearchEntry[] = [];
+  
+  const sections = content.split(/\n\d+\.\s/);
+  
+  for (let i = 1; i < sections.length; i++) {
+    const section = sections[i].trim();
+    
+    const titleMatch = section.match(/^([^\n]+)/);
+    const title = titleMatch ? titleMatch[1].trim() : '';
+    
+    const descMatch = section.match(/Description:\s*([^Y]+?)(?:Year:|$)/);
+    const description = descMatch ? descMatch[1].trim() : '';
+    
+    const yearMatch = section.match(/Year:\s*(\d{4})/);
+    const year = yearMatch ? yearMatch[1] : '';
+    
+    const authorsMatch = section.match(/(?:Authors\/Scientists|Authors):\s*([^I]+?)(?:Institution:|$)/);
+    const authors = authorsMatch ? authorsMatch[1].trim() : '';
+    
+    const institutionMatch = section.match(/Institution:\s*([^M]+?)(?:Mission:|$)/);
+    const institution = institutionMatch ? institutionMatch[1].trim() : '';
+    
+    const missionMatch = section.match(/Mission:\s*([^O]+?)(?:OSD number:|$)/);
+    const mission = missionMatch ? missionMatch[1].trim() : '';
+    
+    const osdMatch = section.match(/OSD number:\s*([^T]+?)(?:Tags:|$)/);
+    const osdStudyNumber = osdMatch ? osdMatch[1].trim() : '';
+    
+    const tagsMatch = section.match(/Tags:\s*([^O]+?)(?:OSD link:|$)/);
+    const tags = tagsMatch ? tagsMatch[1].split(',').map(t => t.trim()).filter(t => t.length > 0) : [];
+    
+    const linkMatch = section.match(/OSD link:\s*(https?:\/\/[^\s]+)/);
+    const nasaOsdrLinks = linkMatch ? [linkMatch[1].trim()] : [];
+    
     if (mission && !mission.includes('N/A') && !mission.includes('Ground-based')) {
       const missionTag = mission.replace(/\(.*?\)/g, '').trim();
       if (missionTag && !tags.includes(missionTag)) {
@@ -84,15 +143,36 @@ function parseResearchFile(filePath: string): ResearchEntry[] {
 }
 
 async function importResearch() {
-  const geneticsPath = path.join(process.cwd(), 'genetics.txt');
+  const files = [
+    { path: 'humanheath.txt', parser: parseResearchFile },
+    { path: 'microbiology.txt', parser: parseResearchFile },
+    { path: 'molecular.txt', parser: parseCompressedResearchFile },
+    { path: 'physiology.txt', parser: parseResearchFile },
+    { path: 'Radiation-studies.txt', parser: parseResearchFile },
+    { path: 'cellbiology.txt', parser: parseResearchFile }
+  ];
   
-  const geneticsEntries = parseResearchFile(geneticsPath);
+  const allEntries: ResearchEntry[] = [];
   
-  const allEntries = [...geneticsEntries];
+  for (const file of files) {
+    const filePath = path.join(process.cwd(), file.path);
+    
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Warning: ${file.path} not found, skipping...`);
+      continue;
+    }
+    
+    try {
+      const entries = file.parser(filePath);
+      allEntries.push(...entries);
+      console.log(`✓ Parsed ${entries.length} entries from ${file.path}`);
+    } catch (error) {
+      console.error(`✗ Error parsing ${file.path}:`, error);
+    }
+  }
   
-  console.log(`Found ${allEntries.length} research entries to import`);
+  console.log(`\nTotal: ${allEntries.length} research entries to import`);
   
-  // Output as JSON for import
   fs.writeFileSync(
     path.join(process.cwd(), 'research-import.json'),
     JSON.stringify(allEntries, null, 2)
