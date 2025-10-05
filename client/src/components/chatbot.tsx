@@ -354,13 +354,13 @@ export function Chatbot() {
       
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full glow pulse-glow relative"
+        className="w-14 h-14 rounded-full pulse-glow relative bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-500 hover:via-blue-500 hover:to-indigo-500 text-white border-0 shadow-xl"
         data-testid="button-chat-toggle"
       >
         <Bot className="h-6 w-6" />
         <Badge 
           variant="destructive" 
-          className="absolute -top-1 -right-1 w-6 h-6 text-xs p-0 flex items-center justify-center"
+          className="absolute -top-1 -right-1 w-6 h-6 text-xs p-0 flex items-center justify-center bg-gradient-to-r from-pink-500 to-rose-500 border-0"
         >
           AI
         </Badge>

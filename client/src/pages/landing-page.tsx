@@ -81,7 +81,7 @@ export default function LandingPage() {
             <AnimatedDiv variants={fadeInUp} delay={0.8} className="flex gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="glow-hover cosmic-glow px-8 py-3 text-lg" 
+                className="glow-hover cosmic-glow px-8 py-3 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white border-0" 
                 onClick={() => setLocation("/auth")}
                 data-testid="button-sign-in"
               >
@@ -91,7 +91,7 @@ export default function LandingPage() {
               <Button 
                 size="lg" 
                 variant="secondary" 
-                className="glow-hover shimmer-effect px-8 py-3 text-lg"
+                className="glow-hover shimmer-effect px-8 py-3 text-lg bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white border-0"
                 onClick={() => setLocation("/auth")}
                 data-testid="button-sign-up"
               >
@@ -213,7 +213,7 @@ export default function LandingPage() {
                   <FloatingElement>
                     <Button 
                       size="lg" 
-                      className="glow-hover cosmic-glow shimmer-effect" 
+                      className="glow-hover cosmic-glow shimmer-effect bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-0" 
                       onClick={() => setLocation("/auth")}
                     >
                       Join Our Mission

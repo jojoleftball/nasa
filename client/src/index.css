@@ -610,6 +610,54 @@ html[class*="light"] {
   transform: translateY(0) scale(0.98);
 }
 
+.glow-hover {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.glow-hover::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--primary) / 0.4), transparent);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.glow-hover:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.glow-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 12px 40px hsl(var(--primary) / 0.5),
+    0 6px 20px hsl(var(--galaxy-core) / 0.3);
+}
+
+.pulse-glow {
+  animation: pulse-glow-animation 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-animation {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.4),
+      0 0 40px hsl(var(--galaxy-core) / 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px hsl(var(--primary) / 0.6),
+      0 0 60px hsl(var(--galaxy-core) / 0.5);
+  }
+}
+
 .loading-cosmic {
   position: relative;
   background: hsl(var(--muted) / 0.3);
