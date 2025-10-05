@@ -823,6 +823,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/research/:id", isAuthenticated, async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      if (id.startsWith('admin-')) {
+        const actualId = id.replace('admin-', '');
+        const research = await storage.getAdminResearch(actualId);
+        
+        if (!research) {
+          return res.status(404).json({ message: "Research not found" });
+        }
+        
+        const transformedResearch = transformAdminResearchToStudyFormat(research);
+        return res.json(transformedResearch);
+      }
+      
+      const study = await nasaOSDRService.getStudyMetadata(id);
+      
+      if (!study) {
+        return res.status(404).json({ message: "Research not found" });
+      }
+      
+      res.json(study);
+    } catch (error) {
+      console.error("Get research error:", error);
+      res.status(500).json({ message: "Failed to fetch research" });
+    }
+  });
+
+  app.post("/api/suggestions", isAuthenticated, async (req, res) => {
+    try {
+      const { researchId, type, message } = req.body;
+      
+      if (!researchId || !type || !message) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      const suggestion = await storage.createResearchSuggestion({
+        researchId,
+        userId: req.user!.id,
+        type,
+        message
+      });
+      
+      res.json(suggestion);
+    } catch (error) {
+      console.error("Create suggestion error:", error);
+      res.status(500).json({ message: "Failed to create suggestion" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
