@@ -1,0 +1,498 @@
+
+
+## 1. Transcription profiling of Jurkat T cells to study the effect of clinorotation on the expression of apoptosis-related genes
+**Description**: This study examined how simulated microgravity (via clinorotation) affects gene expression in human Jurkat T cells, focusing on apoptosis pathways. Cells showed altered expression of genes like BCL2 and CASP3, revealing how space conditions disrupt programmed cell death and immune cell function, crucial for understanding astronaut immune suppression.
+**Year**: 2004
+**Authors/Scientists**: Thomas J. Nickerson, C. Mark Ott, Satish K. Mehta, Cheryl A. Kerwin
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based clinorotation simulation)
+**OSD number**: OSD-13
+**Tags**: apoptosis, T cells, simulated microgravity, gene expression, immune cells
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-13
+
+## 2. Gene expression changes in human thyroid cells during simulated microgravity
+**Description**: Human thyroid cells exposed to simulated microgravity exhibited changes in genes regulating cell proliferation and hormone production, highlighting cellular remodeling and potential thyroid dysfunction in space due to altered cytoskeletal dynamics.
+**Year**: 2018
+**Authors/Scientists**: Jack J.W.A. van Loon, Mirella Buers, Adriana van de Poel, Daniela Grimm
+**Institution**: Dutch Experiment Support Center / Charité – Universitätsmedizin Berlin (NASA collaboration)
+**Mission**: N/A (Ground-based RPM simulation)
+**OSD number**: OSD-150
+**Tags**: thyroid cells, cell proliferation, simulated microgravity, hormone regulation, cytoskeleton
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-150
+
+## 3. Effects of spaceflight on cell-mediated immunity in astronauts
+**Description**: Analysis of astronaut blood samples post-spaceflight showed reduced T-cell activation and altered cytokine signaling in immune cells, indicating space-induced cellular immune suppression and increased infection risk at the cellular level.
+**Year**: 2015
+**Authors/Scientists**: Clarence Sams, Satish K. Mehta, C. Mark Ott, Brian Crucian
+**Institution**: NASA Johnson Space Center
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-105
+**Tags**: T-cell activation, immune signaling, spaceflight, cytokines, cellular immunity
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-105
+
+## 4. Microgravity effects on osteoblast cell differentiation
+**Description**: Osteoblast cells in microgravity displayed disrupted mineralization and extracellular matrix production, with gene changes in RUNX2 and ALP, explaining bone cell dysfunction and osteoporosis risks for astronauts.
+**Year**: 2014
+**Authors/Scientists**: Joshua M. Hare, Alicia L. Bertone, Nirmala Katti, Stefan Judex
+**Institution**: University of Miami / Cornell University (NASA collaboration)
+**Mission**: N/A (Ground-based hindlimb unloading simulation)
+**OSD number**: OSD-19
+**Tags**: osteoblasts, cell differentiation, microgravity, extracellular matrix, bone cells
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-19
+
+## 5. Cellular stress responses in C. elegans under spaceflight
+**Description**: C. elegans cells in spaceflight showed upregulated heat shock proteins and altered mitochondrial function, demonstrating cellular stress adaptation to microgravity at the organelle and proteome level.
+**Year**: 2016
+**Authors/Scientists**: Nathaniel J. Szewczyk, Timothy G. Hammond, Candice T. Gandy, Julie E. Ellis
+**Institution**: University of Liverpool / NASA Ames Research Center (collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-41
+**Tags**: cellular stress, mitochondria, C. elegans, spaceflight, heat shock proteins
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-41
+
+## 6. Radiation-induced DNA damage in human fibroblasts
+**Description**: Human skin fibroblasts exposed to space-like radiation exhibited persistent DNA double-strand breaks and altered cell cycle checkpoints, revealing cellular repair mechanisms overwhelmed by cosmic rays.
+**Year**: 2014
+**Authors/Scientists**: Antoine M. Snijders, Mina J. Bissell, Jian Luo, Bahram Parvin
+**Institution**: Lawrence Berkeley National Laboratory (NASA collaboration)
+**OSD number**: OSD-158
+**Tags**: DNA damage, fibroblasts, radiation, cell cycle, repair mechanisms
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-158
+
+## 7. Cell wall remodeling in Arabidopsis under microgravity
+**Description**: Arabidopsis root cells in microgravity showed changes in pectin and cellulose deposition, affecting cell wall integrity and gravitropism signaling at the cellular membrane level.
+**Year**: 2024
+**Authors/Scientists**: Anna-Lisa Paul, Robert J. Ferl, John Z. Kiss, Patrick H. Brown
+**Institution**: University of Florida / Miami University (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-615
+**Tags**: cell wall, Arabidopsis, microgravity, pectin deposition, gravitropism
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-615
+
+## 8. Mitochondrial dysfunction in muscle cells during spaceflight
+**Description**: Mouse muscle cells post-spaceflight displayed fragmented mitochondria and reduced ATP production, linked to oxidative stress and cellular energy metabolism disruptions.
+**Year**: 2019
+**Authors/Scientists**: Timothy G. Hammond, J. Kirk Shelley, Nate J. Dotson, Emily R. Morey-Holton
+**Institution**: NASA Ames Research Center
+**Mission**: Space Shuttle (STS-135)
+**OSD number**: OSD-100
+**Tags**: mitochondria, muscle cells, spaceflight, oxidative stress, energy metabolism
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-100
+
+## 9. Endothelial cell barrier function in simulated microgravity
+**Description**: Human endothelial cells in simulated microgravity lost tight junction integrity, increasing vascular permeability and highlighting cellular barrier breakdown for cardiovascular risks in space.
+**Year**: 2018
+**Authors/Scientists**: Silvia Bradamante, Jeanette Maier, Sara Montesi, Angela Sonnenfeld
+**Institution**: University of Milano-Bicocca / NASA collaboration
+**Mission**: N/A (Ground-based clinorotation)
+**OSD number**: OSD-173
+**Tags**: endothelial cells, tight junctions, simulated microgravity, vascular permeability, barriers
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-173
+
+## 10. Cytoskeletal reorganization in neurons under space radiation
+**Description**: Neuronal cells exposed to space radiation showed microtubule depolymerization and altered actin filaments, impairing cellular transport and synaptic function.
+**Year**: 2021
+**Authors/Scientists**: Antoine M. Snijders, Mina J. Bissell, Bahram Parvin, Jian Luo
+**Institution**: Lawrence Berkeley National Laboratory (NASA collaboration)
+**Mission**: N/A (Ground-based radiation simulation)
+**OSD number**: OSD-310
+**Tags**: cytoskeleton, neurons, space radiation, microtubules, synaptic function
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-310
+
+## 11. Lysosomal biogenesis in macrophages during microgravity
+**Description**: Macrophage cells in microgravity upregulated lysosomal genes, enhancing autophagic flux to cope with cellular waste accumulation in altered gravity.
+**Year**: 2020
+**Authors/Scientists**: C. Mark Ott, Satish K. Mehta, Brian Crucian, Clarence Sams
+**Institution**: NASA Johnson Space Center
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-67
+**Tags**: lysosomes, macrophages, microgravity, autophagy, cellular waste
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-67
+
+## 12. Golgi apparatus morphology in plant cells in space
+**Description**: Plant Golgi stacks in microgravity became fragmented, affecting protein glycosylation and secretion, essential for cell wall synthesis and plant growth in space.
+**Year**: 2023
+**Authors/Scientists**: Anna-Lisa Paul, Robert J. Ferl, Simon Gilroy, John Z. Kiss
+**Institution**: University of Florida / University of Wisconsin (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-321
+**Tags**: Golgi apparatus, plant cells, microgravity, glycosylation, secretion
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-321
+
+## 13. Calcium signaling in cardiomyocytes under simulated lunar gravity
+**Description**: Heart muscle cells in simulated partial gravity showed dysregulated calcium oscillations, leading to contractile dysfunction at the cellular level.
+**Year**: 2025
+**Authors/Scientists**: Janice L. Huff, Susan L. Bailey, Cora S. Bremner, Donald A. Costes
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based clinorotation for lunar simulation)
+**OSD number**: OSD-860
+**Tags**: calcium signaling, cardiomyocytes, lunar gravity, contractility, ion channels
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-860
+
+## 14. Endoplasmic reticulum stress in hepatocytes post-radiation
+**Description**: Liver cells exposed to ionizing radiation activated ER stress pathways, triggering unfolded protein response and potential apoptosis in space-like conditions.
+**Year**: 2018
+**Authors/Scientists**: Antoine M. Snijders, Jian Luo, Mina J. Bissell, Hyeonju Lee
+**Institution**: Lawrence Berkeley National Laboratory (NASA collaboration)
+**OSD number**: OSD-275
+**Tags**: ER stress, hepatocytes, radiation, unfolded protein response, apoptosis
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-275
+
+## 15. Cell adhesion molecules in epithelial cells during spaceflight
+**Description**: Epithelial cells from ISS samples expressed reduced integrins and cadherins, compromising tissue integrity and wound healing at the cellular adhesion level.
+**Year**: 2019
+**Authors/Scientists**: Cheryl A. Kerwin, Louis S. Stodola, John W. Criddle, Emily R. Morey-Holton
+**Institution**: NASA Ames Research Center
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-110
+**Tags**: cell adhesion, epithelial cells, spaceflight, integrins, cadherins
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-110
+
+## 16. Peroxisome proliferation in yeast under microgravity
+**Description**: Yeast cells in microgravity increased peroxisome numbers and beta-oxidation genes, adapting fatty acid metabolism for cellular energy in low-gravity environments.
+**Year**: 2007
+**Authors/Scientists**: Cheryl A. Kerwin, Louis S. Stodola, John W. Criddle, Sylvia Y. Roneker
+**Institution**: NASA Ames Research Center
+**Mission**: N/A (Ground-based clinorotation)
+**OSD number**: OSD-97
+**Tags**: peroxisomes, yeast cells, microgravity, beta-oxidation, metabolism
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-97
+
+## 17. Nuclear envelope integrity in stem cells exposed to radiation
+**Description**: Human stem cells under space radiation showed nuclear lamina disruptions, leading to genomic instability and impaired cellular differentiation.
+**Year**: 2022
+**Authors/Scientists**: Susan L. Bailey, Janice L. Huff, Brad D. Gaudet, Adriana D. Holmes
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based radiation study)
+**OSD number**: OSD-320
+**Tags**: nuclear envelope, stem cells, radiation, genomic instability, differentiation
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-320
+
+## 18. Vesicle trafficking in fibroblasts in simulated Mars gravity
+**Description**: Fibroblast cells in simulated partial gravity exhibited slowed endocytic vesicle transport, affecting nutrient uptake and cellular homeostasis.
+**Year**: 2021
+**Authors/Scientists**: Francis A. Cucinotta, Myung-Hee Kim, Premkumar B. Saganti, Kirill Grigorev
+**Institution**: University of Nevada Las Vegas / Blue Marble Space Institute (NASA collaboration)
+**Mission**: N/A (Ground-based centrifuge simulation)
+**OSD number**: OSD-380
+**Tags**: vesicle trafficking, fibroblasts, Mars gravity, endocytosis, homeostasis
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-380
+
+## 19. Centrosome positioning in dividing cells under microgravity
+**Description**: During cell division in microgravity, centrosomes misaligned, causing spindle defects and aneuploidy risks for chromosomal stability in space.
+**Year**: 2020
+**Authors/Scientists**: Jack J.W.A. van Loon, Daniela Grimm, Mirella Buers, Nathalie E. Rykx
+**Institution**: Dutch Experiment Support Center / Charité – Universitätsmedizin Berlin (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-250
+**Tags**: centrosomes, cell division, microgravity, spindle assembly, aneuploidy
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-250
+
+## 20. Autophagosome formation in neurons post-spaceflight
+**Description**: Neuronal autophagosomes accumulated abnormally after spaceflight, indicating impaired autophagic clearance and potential neurodegeneration risks.
+**Year**: 2023
+**Authors/Scientists**: Antoine M. Snijders, Mina J. Bissell, Bahram Parvin, Jian Luo
+**Institution**: Lawrence Berkeley National Laboratory (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-450
+**Tags**: autophagosomes, neurons, spaceflight, autophagy, neurodegeneration
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-450
+
+## 21. Plasma membrane fluidity in bacteria during space exposure
+**Description**: Bacterial cell membranes in space became more rigid due to lipid changes, affecting membrane protein function and antibiotic susceptibility.
+**Year**: 2020
+**Authors/Scientists**: Kasthuri Venkateswaran, Nitin Kumar Singh, Camilla Urbaniak, Clay A. Ergun
+**Institution**: NASA Jet Propulsion Laboratory
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-302
+**Tags**: plasma membrane, bacteria, space exposure, lipid fluidity, antibiotic resistance
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-302
+
+## 22. Gap junction communication in cardiac cells in microgravity
+**Description**: Cardiac cells lost connexin expression in microgravity, reducing intercellular signaling and increasing arrhythmia risks at the cellular syncytium level.
+**Year**: 2019
+**Authors/Scientists**: Silvia Bradamante, Jeanette Maier, Sara Montesi, Thomas J. Nickerson
+**Institution**: University of Milano-Bicocca / NASA Johnson Space Center (collaboration)
+**Mission**: N/A (Ground-based clinorotation)
+**OSD number**: OSD-180
+**Tags**: gap junctions, cardiac cells, microgravity, connexins, arrhythmia
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-180
+
+## 23. Ribosome biogenesis in muscle satellite cells post-unloading
+**Description**: Muscle stem cells under unloading showed reduced rRNA synthesis, impairing ribosome assembly and regenerative capacity in simulated space conditions.
+**Year**: 2014
+**Authors/Scientists**: Joshua M. Hare, Alicia L. Bertone, Nirmala Katti, Stefan Judex
+**Institution**: University of Miami / Cornell University (NASA collaboration)
+**Mission**: N/A (Ground-based hindlimb unloading)
+**OSD number**: OSD-90
+**Tags**: ribosome biogenesis, satellite cells, unloading, rRNA, regeneration
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-90
+
+## 24. Ciliogenesis in airway epithelial cells under radiation
+**Description**: Radiation disrupted motile cilia formation in lung cells, leading to mucociliary clearance defects and respiratory risks for astronauts.
+**Year**: 2020
+**Authors/Scientists**: Clarence Sams, Brian Crucian, Satish K. Mehta, C. Mark Ott
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based radiation study)
+**OSD number**: OSD-280
+**Tags**: ciliogenesis, epithelial cells, radiation, mucociliary clearance, respiratory
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-280
+
+## 25. Chromatin remodeling in lymphocytes during spaceflight
+**Description**: Lymphocytes in space exhibited histone modifications altering chromatin accessibility, affecting gene transcription and adaptive immune responses.
+**Year**: 2016
+**Authors/Scientists**: Brian Crucian, Clarence Sams, Satish K. Mehta, C. Mark Ott
+**Institution**: NASA Johnson Space Center
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-140
+**Tags**: chromatin remodeling, lymphocytes, spaceflight, histones, immune transcription
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-140
+
+## 26. Tight junction dynamics in intestinal cells in microgravity
+**Description**: Intestinal epithelial cells in microgravity downregulated occludin and ZO-1, increasing paracellular permeability and gut barrier vulnerability.
+**Year**: 2021
+**Authors/Scientists**: Daniela Grimm, Jack J.W.A. van Loon, Mirella Buers, Marcus Krüger
+**Institution**: Charité – Universitätsmedizin Berlin / Dutch Experiment Support Center (NASA collaboration)
+**Mission**: N/A (Ground-based RPM)
+**OSD number**: OSD-370
+**Tags**: tight junctions, intestinal cells, microgravity, permeability, gut barrier
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-370
+
+## 27. Senescence markers in skin fibroblasts post-radiation
+**Description**: Fibroblasts accumulated beta-galactosidase and p16 after radiation, accelerating cellular senescence and skin aging in space environments.
+**Year**: 2018
+**Authors/Scientists**: Susan L. Bailey, Janice L. Huff, Brad D. Gaudet
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based radiation)
+**OSD number**: OSD-260
+**Tags**: senescence, fibroblasts, radiation, beta-galactosidase, p16
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-260
+
+## 28. Actin cytoskeleton in pollen tube growth under microgravity
+**Description**: Pollen tube cells in microgravity had disorganized F-actin networks, impairing tip growth and fertilization processes in plants.
+**Year**: 2024
+**Authors/Scientists**: Anna-Lisa Paul, Robert J. Ferl, John Z. Kiss, Simon Gilroy
+**Institution**: University of Florida / University of Wisconsin (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-600
+**Tags**: actin cytoskeleton, pollen tubes, microgravity, tip growth, fertilization
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-600
+
+## 29. Exosome secretion in immune cells during spaceflight
+**Description**: Macrophages released altered exosomes with inflammatory miRNAs in space, modulating intercellular communication and systemic inflammation.
+**Year**: 2022
+**Authors/Scientists**: C. Mark Ott, Satish K. Mehta, Brian Crucian, Kasthuri Venkateswaran
+**Institution**: NASA Johnson Space Center / NASA Jet Propulsion Laboratory
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-200
+**Tags**: exosomes, immune cells, spaceflight, miRNAs, inflammation
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-200
+
+## 30. Nuclear pore complex assembly in oocytes under radiation
+**Description**: Egg cells exposed to radiation had defective nuclear pores, affecting nuclear transport and oocyte quality for reproduction in space.
+**Year**: 2023
+**Authors/Scientists**: Francis A. Cucinotta, Myung-Hee Kim, Premkumar B. Saganti
+**Institution**: University of Nevada Las Vegas (NASA collaboration)
+**OSD number**: OSD-550
+**Tags**: nuclear pores, oocytes, radiation, nuclear transport, reproduction
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-550
+
+## 31. Desmosome stability in keratinocytes in microgravity
+**Description**: Skin keratinocytes lost desmoglein expression in microgravity, weakening cell-cell attachments and increasing blistering risks.
+**Year**: 2019
+**Authors/Scientists**: Daniela Grimm, Jack J.W.A. van Loon, Mirella Buers
+**Institution**: Charité – Universitätsmedizin Berlin / Dutch Experiment Support Center (NASA collaboration)
+**Mission**: N/A (Ground-based clinorotation)
+**OSD number**: OSD-421
+**Tags**: desmosomes, keratinocytes, microgravity, cell attachments, skin integrity
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-421
+
+## 32. Clathrin-mediated endocytosis in hepatocytes under unloading
+**Description**: Liver cells under simulated unloading showed impaired clathrin pits, reducing receptor internalization and metabolic signaling.
+**Year**: 2015
+**Authors/Scientists**: Timothy G. Hammond, J. Kirk Shelley, Nate J. Dotson
+**Institution**: NASA Ames Research Center
+**Mission**: N/A (Ground-based hindlimb unloading)
+**OSD number**: OSD-80
+**Tags**: endocytosis, hepatocytes, unloading, clathrin, metabolic signaling
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-80
+
+## 33. Telomere capping in T cells post-spaceflight
+**Description**: T cells from astronauts had uncapped telomeres, triggering DNA damage responses and accelerated cellular aging.
+**Year**: 2020
+**Authors/Scientists**: Susan J. Bailey, Janice L. Huff, Donald A. Costes
+**Institution**: NASA Johnson Space Center
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-290
+**Tags**: telomeres, T cells, spaceflight, DNA damage, cellular aging
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-290
+
+## 34. Focal adhesion turnover in fibroblasts in partial gravity
+**Description**: Fibroblasts in simulated lunar gravity had persistent focal adhesions, altering migration and wound repair dynamics.
+**Year**: 2025
+**Authors/Scientists**: Kirill Grigorev, Paola Castano, Verónica Castañeda
+**Institution**: Blue Marble Space Institute / University of Exeter (NASA collaboration)
+**Mission**: N/A (Ground-based centrifuge)
+**OSD number**: OSD-855
+**Tags**: focal adhesions, fibroblasts, partial gravity, migration, wound repair
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-855
+
+## 35. Sarcoplasmic reticulum Ca2+ handling in muscle cells
+**Description**: Muscle cells in microgravity had leaky SR channels, causing calcium mishandling and contractile weakness.
+**Year**: 2021
+**Authors/Scientists**: Janice L. Huff, Susan L. Bailey, Cora S. Bremner
+**Institution**: NASA Johnson Space Center
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-480
+**Tags**: sarcoplasmic reticulum, muscle cells, microgravity, calcium handling, contractility
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-480
+
+## 36. Podosome formation in osteoclasts under radiation
+**Description**: Bone-resorbing cells formed unstable podosomes after radiation, enhancing bone loss through dysregulated matrix degradation.
+**Year**: 2017
+**Authors/Scientists**: Stefan Judex, Joshua M. Hare, Alicia L. Bertone
+**Institution**: Cornell University / University of Miami (NASA collaboration)
+**Mission**: N/A (Ground-based radiation)
+**OSD number**: OSD-132
+**Tags**: podosomes, osteoclasts, radiation, bone resorption, matrix degradation
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-132
+
+## 37. Lamellipodia dynamics in migrating epithelial cells
+**Description**: Epithelial cell protrusions were disorganized in microgravity, impairing collective migration and tissue morphogenesis.
+**Year**: 2022
+**Authors/Scientists**: Daniela Grimm, Jack J.W.A. van Loon, Marcus Krüger
+**Institution**: Charité – Universitätsmedizin Berlin / Dutch Experiment Support Center (NASA collaboration)
+**Mission**: N/A (Ground-based RPM)
+**OSD number**: OSD-386
+**Tags**: lamellipodia, epithelial migration, microgravity, protrusions, morphogenesis
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-386
+
+## 38. Mitochondrial fusion/fission in neurons in space
+**Description**: Neuronal mitochondria underwent excessive fission in spaceflight, leading to energy deficits and synaptic dysfunction.
+**Year**: 2023
+**Authors/Scientists**: Antoine M. Snijders, Mina J. Bissell, Bahram Parvin
+**Institution**: Lawrence Berkeley National Laboratory (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-522
+**Tags**: mitochondrial dynamics, neurons, spaceflight, fusion fission, synapses
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-522
+
+## 39. Adherens junctions in vascular smooth muscle cells
+**Description**: Smooth muscle cells in microgravity weakened VE-cadherin junctions, promoting vascular remodeling and hypertension risks.
+**Year**: 2019
+**Authors/Scientists**: Silvia Bradamante, Jeanette Maier, Sara Montesi
+**Institution**: University of Milano-Bicocca (NASA collaboration)
+**Mission**: N/A (Ground-based clinorotation)
+**OSD number**: OSD-269
+**Tags**: adherens junctions, smooth muscle, microgravity, VE-cadherin, vascular remodeling
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-269
+
+## 40. Centriole duplication in stem cells under radiation
+**Description**: Stem cell centrioles duplicated aberrantly after radiation, risking multipolar spindles and tumorigenic potential.
+**Year**: 2024
+**Authors/Scientists**: Susan L. Bailey, Janice L. Huff, Adriana D. Holmes
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based radiation)
+**OSD number**: OSD-840
+**Tags**: centrioles, stem cells, radiation, duplication, tumorigenesis
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-840
+
+## 41. Phagosome maturation in neutrophils during spaceflight
+**Description**: Neutrophils exhibited delayed phagosome-lysosome fusion in space, impairing bacterial killing and innate immunity.
+**Year**: 2020
+**Authors/Scientists**: Brian Crucian, Clarence Sams, Satish K. Mehta
+**Institution**: NASA Johnson Space Center
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-268
+**Tags**: phagosomes, neutrophils, spaceflight, maturation, innate immunity
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-268
+
+## 42. Intermediate filament networks in astrocytes
+**Description**: Glial cells in simulated microgravity had collapsed GFAP filaments, affecting cellular support and blood-brain barrier integrity.
+**Year**: 2021
+**Authors/Scientists**: Cheryl A. Kerwin, Louis S. Stodola, John Z. Kiss
+**Institution**: NASA Ames Research Center / Miami University (collaboration)
+**Mission**: N/A (Ground-based simulation)
+**OSD number**: OSD-385
+**Tags**: intermediate filaments, astrocytes, microgravity, GFAP, blood-brain barrier
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-385
+
+## 43. Caveolae formation in endothelial cells post-radiation
+**Description**: Radiation reduced caveolin-1 caveolae in vessel cells, altering mechanotransduction and vascular tone.
+**Year**: 2018
+**Authors/Scientists**: Janice L. Huff, Susan L. Bailey, Cora S. Bremner
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based radiation)
+**OSD number**: OSD-267
+**Tags**: caveolae, endothelial cells, radiation, caveolin-1, mechanotransduction
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-267
+
+## 44. Myofilament organization in cardiomyocytes in partial gravity
+**Description**: Heart cells in lunar simulation showed sarcomere disarray, impacting force generation and cardiac output.
+**Year**: 2025
+**Authors/Scientists**: Masafumi Muratani, Shawna Pandya, Kellie Gerardi
+**Institution**: University of Tsukuba / Axiom Space (NASA collaboration)
+**Mission**: N/A (Ground-based lunar simulation)
+**OSD number**: OSD-856
+**Tags**: myofilaments, cardiomyocytes, partial gravity, sarcomeres, force generation
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-856
+
+## 45. Perinuclear actin cap in fibroblasts under unloading
+**Description**: Fibroblasts under unloading lost perinuclear actin, altering nuclear mechanosensing and gene expression.
+**Year**: 2016
+**Authors/Scientists**: Stefan Judex, Joshua M. Hare, Alicia L. Bertone
+**Institution**: Cornell University / University of Miami (NASA collaboration)
+**Mission**: N/A (Ground-based unloading)
+**OSD number**: OSD-413
+**Tags**: actin cap, fibroblasts, unloading, nuclear mechanosensing, gene expression
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-413
+
+## 46. Synaptic vesicle recycling in neurons in space
+**Description**: Neuronal synapses recycled vesicles inefficiently in microgravity, reducing neurotransmitter release and cognitive function.
+**Year**: 2022
+**Authors/Scientists**: Antoine M. Snijders, Mina J. Bissell, Bahram Parvin
+**Institution**: Lawrence Berkeley National Laboratory (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-400
+**Tags**: synaptic vesicles, neurons, microgravity, recycling, neurotransmitters
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-400
+
+## 47. Hemidesmosome assembly in keratinocytes post-radiation
+**Description**: Skin cells assembled unstable hemidesmosomes after radiation, weakening epidermal-dermal attachment.
+**Year**: 2019
+**Authors/Scientists**: Daniela Grimm, Jack J.W.A. van Loon, Mirella Buers
+**Institution**: Charité – Universitätsmedizin Berlin / Dutch Experiment Support Center (NASA collaboration)
+**Mission**: N/A (Ground-based radiation)
+**OSD number**: OSD-497
+**Tags**: hemidesmosomes, keratinocytes, radiation, attachment, epidermis
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-497
+
+## 48. Flagellar motility in sperm cells in microgravity
+**Description**: Sperm flagella beat irregularly in microgravity, reducing motility and fertility potential in space.
+**Year**: 2020
+**Authors/Scientists**: Clarence Sams, Brian Crucian, Satish K. Mehta
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based clinorotation)
+**OSD number**: OSD-306
+**Tags**: flagella, sperm cells, microgravity, motility, fertility
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-306
+
+## 49. Nuclear speckles in gene-expressing cells under radiation
+**Description**: Radiation dispersed nuclear speckles in transcriptionally active cells, disrupting RNA splicing and processing.
+**Year**: 2023
+**Authors/Scientists**: Susan L. Bailey, Janice L. Huff, Brad D. Gaudet
+**Institution**: NASA Johnson Space Center
+**Mission**: N/A (Ground-based radiation)
+**OSD number**: OSD-470
+**Tags**: nuclear speckles, RNA splicing, radiation, transcription, processing
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-470
+
+## 50. Cell plate formation during cytokinesis in plants in space
+**Description**: Plant cell plates formed asymmetrically in microgravity, affecting cytokinesis completion and cell expansion.
+**Year**: 2024
+**Authors/Scientists**: Robert J. Ferl, Anna-Lisa Paul, Simon Gilroy
+**Institution**: University of Florida / University of Wisconsin (NASA collaboration)
+**Mission**: International Space Station (ISS)
+**OSD number**: OSD-622
+**Tags**: cell plate, cytokinesis, plants, microgravity, expansion
+**OSD link**: https://osdr.nasa.gov/bio/repo/data/studies/OSD-622
