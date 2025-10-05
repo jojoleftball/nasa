@@ -12,7 +12,7 @@ const chartConfig = {
     color: "hsl(var(--primary))",
   },
   studies: {
-    label: "Studies", 
+    label: "Studies",
     color: "hsl(var(--secondary))",
   },
   nasa: {
