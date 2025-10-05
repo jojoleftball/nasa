@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { apiRequest } from "@/lib/queryClient";
 import { ExternalLink, Heart, BookOpen, Star, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 
 interface ResearchResultsProps {
   query: string;
@@ -123,91 +124,104 @@ export function ResearchResults({ query, filters, sortOptions, showInterestBased
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className={`glass border-0 hover:shadow-lg transition-all duration-300 ${study.isAdminCreated ? 'cosmic-border cosmic-glow' : ''}`}>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <CardTitle className="text-lg">{study.title}</CardTitle>
-                      {study.isAdminCreated && (
-                        <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0">
-                          <Star className="w-3 h-3 mr-1" />
-                          Featured
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                      <span>{study.year}</span>
-                      <span>•</span>
-                      <span>{study.institution}</span>
-                      {study.isAdminCreated && (
-                        <>
-                          <span>•</span>
-                          <span className="flex items-center gap-1 text-purple-400">
-                            <Sparkles className="w-3 h-3" />
-                            Curated by Experts
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      {study.authors?.join(", ")}
-                    </div>
-                  </div>
-                  <Button variant="ghost" size="sm" data-testid={`button-favorite-${study.id}`}>
-                    <Heart className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  {study.abstract}
-                </p>
-
-                <div className="space-y-3">
-                  <div className="flex flex-wrap gap-2">
-                    {study.tags?.map((tag: string, tagIndex: number) => (
-                      <Badge 
-                        key={tagIndex} 
-                        variant="secondary" 
-                        className={`text-xs ${study.isAdminCreated ? 'bg-purple-600/30 text-purple-300' : ''}`}
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  {study.nasaOsdrLinks && study.nasaOsdrLinks.length > 0 && (
-                    <div className="text-sm">
-                      <p className="text-muted-foreground mb-1">NASA OSDR Links:</p>
-                      <div className="space-y-1">
-                        {study.nasaOsdrLinks.map((link: string, linkIndex: number) => (
-                          <a
-                            key={linkIndex}
-                            href={link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-400 hover:text-blue-300 hover:underline block text-xs"
-                          >
-                            {link}
-                          </a>
-                        ))}
+            <Link href={`/research/${study.id}`}>
+              <Card className={`glass border-0 hover:shadow-lg transition-all duration-300 cursor-pointer ${study.isAdminCreated ? 'cosmic-border cosmic-glow' : ''}`} data-testid={`card-research-${study.id}`}>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <CardTitle className="text-lg">{study.title}</CardTitle>
+                        {study.isAdminCreated && (
+                          <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0">
+                            <Star className="w-3 h-3 mr-1" />
+                            Featured
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                        <span>{study.year}</span>
+                        <span>•</span>
+                        <span>{study.institution}</span>
+                        {study.isAdminCreated && (
+                          <>
+                            <span>•</span>
+                            <span className="flex items-center gap-1 text-purple-400">
+                              <Sparkles className="w-3 h-3" />
+                              Curated by Experts
+                            </span>
+                          </>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        {study.authors?.join(", ")}
                       </div>
                     </div>
-                  )}
-
-                  <div className="flex items-center justify-end">
-                    <Button variant="outline" size="sm" asChild>
-                      <a href={study.url} target="_blank" rel="noopener noreferrer" data-testid={`button-view-${study.id}`}>
-                        <ExternalLink className="h-3 w-3 mr-1" />
-                        View Study
-                      </a>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      data-testid={`button-favorite-${study.id}`}
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <Heart className="h-4 w-4" />
                     </Button>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardHeader>
+
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                    {study.abstract}
+                  </p>
+
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap gap-2">
+                      {study.tags?.map((tag: string, tagIndex: number) => (
+                        <Badge 
+                          key={tagIndex} 
+                          variant="secondary" 
+                          className={`text-xs ${study.isAdminCreated ? 'bg-purple-600/30 text-purple-300' : ''}`}
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    {study.nasaOsdrLinks && study.nasaOsdrLinks.length > 0 && (
+                      <div className="text-sm">
+                        <p className="text-muted-foreground mb-1">NASA OSDR Links:</p>
+                        <div className="space-y-1">
+                          {study.nasaOsdrLinks.map((link: string, linkIndex: number) => (
+                            <a
+                              key={linkIndex}
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-400 hover:text-blue-300 hover:underline block text-xs"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {link}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-end">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        asChild
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      >
+                        <a href={study.url} target="_blank" rel="noopener noreferrer" data-testid={`button-view-${study.id}`}>
+                          <ExternalLink className="h-3 w-3 mr-1" />
+                          View Study
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           </motion.div>
         ))}
       </div>

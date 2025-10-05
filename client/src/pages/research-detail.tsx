@@ -20,7 +20,7 @@ export default function ResearchDetailPage() {
   const [suggestionType, setSuggestionType] = useState("suggest");
   const [message, setMessage] = useState("");
 
-  const { data: research, isLoading } = useQuery({
+  const { data: research, isLoading } = useQuery<any>({
     queryKey: ["/api/research", researchId],
     enabled: !!researchId,
   });
