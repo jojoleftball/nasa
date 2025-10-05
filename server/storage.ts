@@ -5,6 +5,7 @@ import {
   chatSessions,
   admins,
   adminResearch,
+  researchSuggestions,
   type User, 
   type InsertUser, 
   type UpdateUser,
@@ -17,7 +18,9 @@ import {
   type InsertAdmin,
   type AdminResearch,
   type InsertAdminResearch,
-  type UpdateAdminResearch
+  type UpdateAdminResearch,
+  type ResearchSuggestion,
+  type InsertResearchSuggestion
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -72,6 +75,9 @@ export interface IStorage {
   getAllAdminResearch(publishedOnly?: boolean): Promise<AdminResearch[]>;
   updateAdminResearch(id: string, updates: UpdateAdminResearch): Promise<AdminResearch>;
   deleteAdminResearch(id: string): Promise<void>;
+  
+  createResearchSuggestion(suggestion: InsertResearchSuggestion): Promise<ResearchSuggestion>;
+  getAllResearchSuggestions(): Promise<ResearchSuggestion[]>;
   
   sessionStore: session.Store;
 }
@@ -313,6 +319,18 @@ export class DatabaseStorage implements IStorage {
 
   async deleteAdminResearch(id: string): Promise<void> {
     await db.delete(adminResearch).where(eq(adminResearch.id, id));
+  }
+
+  async createResearchSuggestion(suggestion: InsertResearchSuggestion): Promise<ResearchSuggestion> {
+    const [newSuggestion] = await db
+      .insert(researchSuggestions)
+      .values(suggestion)
+      .returning();
+    return newSuggestion;
+  }
+
+  async getAllResearchSuggestions(): Promise<ResearchSuggestion[]> {
+    return await db.select().from(researchSuggestions);
   }
 }
 
