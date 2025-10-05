@@ -21,7 +21,7 @@ export default function ResearchDetailPage() {
   const [message, setMessage] = useState("");
 
   const { data: research, isLoading } = useQuery<any>({
-    queryKey: ["/api/research", researchId],
+    queryKey: [`/api/research/${researchId}`],
     enabled: !!researchId,
   });
 

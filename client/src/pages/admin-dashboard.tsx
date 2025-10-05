@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun, Search, Filter, Copy, Check, Menu, FileText, LayoutDashboard, ChevronLeft, Sparkles, Star } from "lucide-react";
+import { Plus, Edit, Trash2, LogOut, Bot, X, Moon, Sun, Search, Filter, Copy, Check, Menu, FileText, LayoutDashboard, ChevronLeft, Sparkles, Star, MessageSquare } from "lucide-react";
 import { useLocation } from "wouter";
 import { AdminAssistant } from "@/components/admin-assistant";
 import { Logo } from "@/components/ui/logo";
@@ -391,6 +391,20 @@ export default function AdminDashboardPage() {
               <Bot className="w-4 h-4 flex-shrink-0" />
               {!sidebarCollapsed && <span className="font-medium">AI Assistant</span>}
             </Button>
+            
+            <Button
+              onClick={() => setActiveTab("suggestions")}
+              variant={activeTab === "suggestions" ? "secondary" : "ghost"}
+              className={`w-full justify-start gap-3 transition-all duration-300 rounded-lg ${
+                activeTab === "suggestions" 
+                  ? "cosmic-glow-gentle bg-gradient-to-r from-purple-600/30 to-blue-600/30 dark:from-purple-600/30 dark:to-blue-600/30" 
+                  : "hover:bg-white/10 dark:hover:bg-white/10"
+              }`}
+              data-testid="nav-suggestions"
+            >
+              <MessageSquare className="w-4 h-4 flex-shrink-0" />
+              {!sidebarCollapsed && <span className="font-medium">Suggestions</span>}
+            </Button>
           </nav>
         </ScrollArea>
 
@@ -438,11 +452,11 @@ export default function AdminDashboardPage() {
                 <Sparkles className="w-8 h-8 text-purple-400" />
               </motion.div>
               <h1 className="text-3xl sm:text-5xl font-bold cosmic-text-gradient">
-                {activeTab === "research-list" ? "Research List" : activeTab === "add-research" ? "Add Research" : "AI Assistant"}
+                {activeTab === "research-list" ? "Research List" : activeTab === "add-research" ? "Add Research" : activeTab === "suggestions" ? "User Suggestions" : "AI Assistant"}
               </h1>
             </div>
             <p className="text-gray-400 dark:text-gray-400 text-base sm:text-lg ml-11">
-              {activeTab === "research-list" ? "View and manage your space research content" : activeTab === "add-research" ? "Add new research or edit existing entries" : "Get AI-powered assistance for content management"}
+              {activeTab === "research-list" ? "View and manage your space research content" : activeTab === "add-research" ? "Add new research or edit existing entries" : activeTab === "suggestions" ? "View user feedback and suggestions for research entries" : "Get AI-powered assistance for content management"}
             </p>
           </motion.div>
 
@@ -886,8 +900,101 @@ export default function AdminDashboardPage() {
             <AdminAssistant />
           </motion.div>
         )}
+
+        {activeTab === "suggestions" && (
+          <SuggestionsTab />
+        )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function SuggestionsTab() {
+  const { data: suggestions = [], isLoading } = useQuery<any[]>({
+    queryKey: ["/api/admin/suggestions"],
+  });
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <Card key={i} className="cosmic-card animate-pulse">
+            <CardHeader>
+              <div className="h-4 bg-muted rounded w-3/4"></div>
+              <div className="h-3 bg-muted rounded w-1/2"></div>
+            </CardHeader>
+            <CardContent>
+              <div className="h-20 bg-muted rounded"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (suggestions.length === 0) {
+    return (
+      <Card className="cosmic-card">
+        <CardContent className="p-8 text-center">
+          <MessageSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <h3 className="text-lg font-medium mb-2">No Suggestions Yet</h3>
+          <p className="text-muted-foreground">
+            User suggestions and reports will appear here when they're submitted.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {suggestions.map((suggestion: any) => (
+        <motion.div
+          key={suggestion.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card className="cosmic-card">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <CardTitle className="text-lg mb-2">
+                    <Badge 
+                      className={suggestion.type === 'suggest' 
+                        ? 'bg-blue-600/30 text-blue-300 mr-2' 
+                        : 'bg-red-600/30 text-red-300 mr-2'
+                      }
+                    >
+                      {suggestion.type === 'suggest' ? 'Suggestion' : 'Report'}
+                    </Badge>
+                    Research ID: {suggestion.researchId}
+                  </CardTitle>
+                  <CardDescription>
+                    User ID: {suggestion.userId} • {new Date(suggestion.createdAt).toLocaleString()}
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    navigator.clipboard.writeText(suggestion.researchId);
+                  }}
+                  data-testid={`button-copy-research-${suggestion.id}`}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground whitespace-pre-wrap" data-testid={`text-message-${suggestion.id}`}>
+                {suggestion.message}
+              </p>
+            </CardContent>
+          </Card>
+        </motion.div>
+      ))}
     </div>
   );
 }

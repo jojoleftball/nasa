@@ -93,4 +93,14 @@ export function setupAdminRoutes(app: Express) {
       res.status(500).json({ message: "Internal server error" });
     }
   });
+
+  app.get("/api/admin/suggestions", requireAdminAuth, async (req, res) => {
+    try {
+      const suggestions = await storage.getAllResearchSuggestions();
+      res.json(suggestions);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
 }
