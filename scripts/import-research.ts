@@ -147,8 +147,8 @@ async function importResearch() {
     { path: 'humanheath.txt', parser: parseResearchFile },
     { path: 'microbiology.txt', parser: parseResearchFile },
     { path: 'molecular.txt', parser: parseCompressedResearchFile },
-    { path: 'physiology.txt', parser: parseResearchFile },
-    { path: 'Radiation-studies.txt', parser: parseResearchFile },
+    { path: 'spacemedicine.txt', parser: parseResearchFile },
+    { path: 'microgravity.txt', parser: parseResearchFile },
     { path: 'cellbiology.txt', parser: parseResearchFile }
   ];
   
@@ -165,9 +165,9 @@ async function importResearch() {
     try {
       const entries = file.parser(filePath);
       allEntries.push(...entries);
-      console.log(`✓ Parsed ${entries.length} entries from ${file.path}`);
+      console.log(`Parsed ${entries.length} entries from ${file.path}`);
     } catch (error) {
-      console.error(`✗ Error parsing ${file.path}:`, error);
+      console.error(`Error parsing ${file.path}:`, error);
     }
   }
   
