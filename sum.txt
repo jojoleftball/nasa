@@ -1,0 +1,21 @@
+
+BIOGALACTIC - Space Biology Research Platform
+
+Biogalactic is a full-stack web application that provides AI-powered access to NASA's Open Science Data Repository (OSDR). Built with React/TypeScript frontend and Express.js backend, it enables researchers and students to explore 300+ space biology studies through an intuitive cosmic-themed interface.
+
+KEY FEATURES:
+- AI Research Assistant "Ria" powered by Google Gemini for interpreting research data
+- Advanced search with filters (organism, experiment type, mission, year, tissue type)
+- Real-time data visualization showing research trends and statistics
+- Direct integration with NASA OSDR API for authentic research papers
+- Admin panel for curating featured research entries
+- User authentication with personalized interests and favorites
+- Chat history persistence and research pathway recommendations
+
+TECH STACK:
+Frontend: React 18, TypeScript, Vite, TailwindCSS, shadcn/ui, Framer Motion
+Backend: Express.js, PostgreSQL (Neon), Drizzle ORM
+AI: Google Gemini API
+Auth: Passport.js with session-based authentication
+
+The platform combines real NASA data with admin-curated content, offering researchers a powerful tool for discovering and understanding space biology studies through intelligent search and AI-assisted analysis.
