@@ -198,7 +198,6 @@ export default function LandingPage() {
             </AnimatedCard>
           </AnimatedDiv>
 
-          {}
           <AnimatedDiv variants={slideInRight} delay={0.4} className="text-center">
             <AnimatedCard className="glass border-0 max-w-4xl mx-auto cosmic-border shimmer-effect">
               <CardContent className="p-8">

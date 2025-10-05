@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Bot, Loader2 } from "lucide-react";
+import { Send, Bot, Loader2, Sparkles, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
   role: "user" | "assistant";
@@ -68,73 +69,104 @@ export function AdminAssistant() {
   }
 
   return (
-    <Card className="glass border-0 h-[calc(100vh-16rem)]">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-white dark:text-gray-100">
-          <Bot className="w-5 h-5 text-purple-400 dark:text-purple-500" />
+    <Card className="cosmic-card border-0 h-[calc(100vh-16rem)] overflow-hidden">
+      <CardHeader className="border-b border-white/10 dark:border-white/10 pb-4">
+        <CardTitle className="flex items-center gap-3 cosmic-text-gradient text-2xl font-bold">
+          <motion.div
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+          >
+            <Bot className="w-6 h-6 text-purple-400" />
+          </motion.div>
           Admin AI Assistant
         </CardTitle>
-        <CardDescription className="text-gray-300 dark:text-gray-400">
-          Get help with research content creation and management
+        <CardDescription className="text-gray-300 dark:text-gray-400 text-base">
+          Get intelligent help with research content creation and management
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col h-[calc(100%-8rem)]">
-        <ScrollArea className="flex-1 pr-4 mb-4">
+      <CardContent className="flex flex-col h-[calc(100%-10rem)] p-6">
+        <ScrollArea className="flex-1 pr-4 mb-6">
           <div className="space-y-4">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                data-testid={`message-${index}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-lg p-4 ${
-                    msg.role === "user"
-                      ? "bg-purple-600/50 dark:bg-purple-700/50 text-white"
-                      : "bg-white/10 dark:bg-gray-700/50 text-gray-100 dark:text-gray-200"
-                  }`}
+            <AnimatePresence mode="popLayout">
+              {messages.map((msg, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                  data-testid={`message-${index}`}
                 >
-                  <div className="text-sm font-medium mb-1">
-                    {msg.role === "user" ? "You" : "AI Assistant"}
+                  <div
+                    className={`max-w-[85%] rounded-xl p-4 ${
+                      msg.role === "user"
+                        ? "bg-gradient-to-br from-purple-600/60 to-blue-600/60 text-white backdrop-blur-sm"
+                        : "glass text-gray-100 dark:text-gray-200"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 text-sm font-semibold mb-2">
+                      {msg.role === "user" ? (
+                        <>
+                          <User className="w-4 h-4" />
+                          You
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4 text-purple-400" />
+                          AI Assistant
+                        </>
+                      )}
+                    </div>
+                    <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
                   </div>
-                  <div className="text-sm whitespace-pre-wrap">{msg.content}</div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              ))}
+            </AnimatePresence>
             {chatMutation.isPending && (
-              <div className="flex justify-start">
-                <div className="bg-white/10 dark:bg-gray-700/50 rounded-lg p-4 max-w-[80%]">
-                  <div className="flex items-center gap-2 text-gray-300 dark:text-gray-400">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className="text-sm">Thinking...</span>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex justify-start"
+              >
+                <div className="glass rounded-xl p-4 max-w-[85%]">
+                  <div className="flex items-center gap-3 text-gray-300 dark:text-gray-400">
+                    <Loader2 className="w-5 h-5 animate-spin text-purple-400" />
+                    <span className="text-sm font-medium">Thinking...</span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
         </ScrollArea>
 
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form onSubmit={handleSubmit} className="flex gap-3">
           <Input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Ask for help with research content..."
-            className="flex-1 bg-white/10 dark:bg-gray-700/50 border-purple-500/30 dark:border-gray-600 text-white dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
+            className="flex-1 glass border-0 text-white placeholder:text-gray-400 h-12 text-base focus:ring-2 focus:ring-purple-500/50 transition-all"
             disabled={chatMutation.isPending}
             data-testid="input-message"
           />
-          <Button
-            type="submit"
-            className="bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white"
-            disabled={chatMutation.isPending || !message.trim()}
-            data-testid="button-send"
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
           >
-            {chatMutation.isPending ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Send className="w-4 h-4" />
-            )}
-          </Button>
+            <Button
+              type="submit"
+              className="glow-button text-white h-12 w-12 p-0"
+              disabled={chatMutation.isPending || !message.trim()}
+              data-testid="button-send"
+            >
+              {chatMutation.isPending ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Send className="w-5 h-5" />
+              )}
+            </Button>
+          </motion.div>
         </form>
       </CardContent>
     </Card>
