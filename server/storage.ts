@@ -78,6 +78,7 @@ export interface IStorage {
   
   createResearchSuggestion(suggestion: InsertResearchSuggestion): Promise<ResearchSuggestion>;
   getAllResearchSuggestions(): Promise<ResearchSuggestion[]>;
+  deleteResearchSuggestion(id: string): Promise<void>;
   
   sessionStore: session.Store;
 }
@@ -331,6 +332,10 @@ export class DatabaseStorage implements IStorage {
 
   async getAllResearchSuggestions(): Promise<ResearchSuggestion[]> {
     return await db.select().from(researchSuggestions);
+  }
+
+  async deleteResearchSuggestion(id: string): Promise<void> {
+    await db.delete(researchSuggestions).where(eq(researchSuggestions.id, id));
   }
 }
 
